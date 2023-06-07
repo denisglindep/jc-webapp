@@ -1,7 +1,11 @@
 <template>
-  <MainSlider />
+  <HeroSection />
+  <EventsListSection sectionTitle="This Weekend" />
+  <EventsListSection sectionTitle="Upcoming Events" />
+  <EventsListSection sectionTitle="See All Soon Events" />
 </template>
 
 <script setup>
-import MainSlider from '@/components/screens/Home/MainSlider.vue';
+import HeroSection from '@/components/screens/Home/HeroSection.vue';
+import EventsListSection from '@/components/screens/Home/EventsListSection.vue';
 </script>

@@ -1,6 +1,6 @@
 <template>
   <section class="bg-gray-900 text-white">
-    <div class="container mx-auto px-4 py-52 sm:px-6 lg:px-8">
+    <div class="mx-auto px-4 py-52 sm:px-6 lg:px-8">
       <div class="text-center">
         <h1 class="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
           Explore what’s on in JACC
@@ -9,10 +9,8 @@
           That space we put information about Jacc here we can put information about Jacc. Here we
           can put nformation about Jacc
         </p>
-        <button class="btn btn-primary">Get Started</button>
+        <button class="btn btn-accent">Get Started</button>
       </div>
     </div>
   </section>
 </template>
-
-<script></script>
