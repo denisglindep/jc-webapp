@@ -8,17 +8,17 @@
       <Card
         imageSrc="https://source.unsplash.com/random/300x200"
         title="Card Title"
-        description="Card Description"
+        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
       />
       <Card
         imageSrc="https://source.unsplash.com/random/300x200"
         title="Card Title"
-        description="Card Description"
+        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
       />
       <Card
         imageSrc="https://source.unsplash.com/random/300x200"
         title="Card Title"
-        description="Card Description"
+        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
       />
     </article>
   </section>
