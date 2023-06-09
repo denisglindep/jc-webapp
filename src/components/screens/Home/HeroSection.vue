@@ -1,6 +1,6 @@
 <template>
   <section class="bg-transparent">
-    <div class="mx-auto px-4 py-52 sm:px-6 lg:px-8">
+    <div class="mx-auto px-4 py-72 sm:px-6 lg:px-8">
       <div class="text-center">
         <h1 class="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
           Explore what’s on in JACC

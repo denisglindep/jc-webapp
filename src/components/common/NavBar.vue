@@ -3,7 +3,9 @@
     <div class="container mx-auto">
       <nav class="flex h-20 items-center justify-between">
         <div class="flex">
-          <router-link to="/home" class="w-1/2"> <img :src="logo" /></router-link>
+          <router-link to="/home" class="w-1/2">
+            <LogoIcon />
+          </router-link>
         </div>
         <div class="flex items-center gap-14">
           <router-link to="/about" class="rounded-md p-2 hover:bg-gray-100">About Us</router-link>
@@ -17,5 +19,6 @@
 </template>
 
 <script setup>
-import logo from '@/assets/logo.svg';
+import LogoIcon from '../Icons/LogoIcon.vue';
+LogoIcon;
 </script>

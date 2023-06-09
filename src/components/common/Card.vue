@@ -5,7 +5,8 @@
       <h3 class="card-title">{{ title }}</h3>
       <p class="card-description text-slate-500 dark:opacity-80">{{ description }}</p>
       <div class="flex gap-4 text-slate-500 dark:opacity-80">
-        <img :src="dateIcon" /> <span class="space-x-1">June 10th, 2023</span>
+        <DateIcon />
+        <span class="space-x-1">June 10th, 2023</span>
       </div>
     </div>
     <button class="btn btn-accent w-full text-white" @click="performAction">View</button>
@@ -14,7 +15,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import dateIcon from '@/assets/dateIcon.svg';
+import DateIcon from '../Icons/DateIcon.vue';
 defineProps({
   imageSrc: {
     type: String,
