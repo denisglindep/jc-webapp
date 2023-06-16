@@ -1,6 +1,8 @@
+@import url('./assets/font/stylesheet.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @layer components {
   .btn {
@@ -9,5 +11,11 @@
 
   .btn-accent {
     @apply bg-accent hover:bg-accent/10;
+  }
+}
+
+@layer base {
+  html {
+    font-family: 'PF Din Text Universal';
   }
 }
