@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import AboutUs from '../views/AboutUs.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
 
 const router = createRouter({
@@ -10,7 +11,7 @@ const router = createRouter({
       component: DefaultLayout,
       children: [
         {
-          path: '/home',
+          path: '/',
           name: 'home',
           component: HomeView
         },
@@ -20,11 +21,16 @@ const router = createRouter({
           // route level code-splitting
           // this generates a separate chunk (About.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
-          component: () => import('../views/AboutUs.vue')
+          component: AboutUs
         }
       ]
-    }
-  ]
+    },
+    // catch all routes that are not defined and redirect to the root
+    { path: '/:pathMatch(.*)*', redirect: '/' }
+  ],
+  scrollBehavior() {
+    return { top: 0 };
+  }
 });
 
 export default router;

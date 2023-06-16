@@ -1,13 +1,21 @@
 <template>
-  <footer class="pb-4">
+  <footer class="pb-4 dark:bg-slate-500">
     <div class="container mx-auto flex gap-20 py-14">
       <div><LogoIcon /></div>
       <div class="grow">
         <ul class="flex gap-24">
-          <li>About Us</li>
-          <li>Contact Us</li>
-          <li>Login</li>
-          <li>Sign Up</li>
+          <li>
+            <router-link to="/about">About Us </router-link>
+          </li>
+          <li>
+            <router-link to="/contact">Contact Us</router-link>
+          </li>
+          <li>
+            <router-link to="/login">Login</router-link>
+          </li>
+          <li>
+            <router-link to="/signup">Sign Up</router-link>
+          </li>
         </ul>
       </div>
       <div class="flex flex-col gap-5 text-sm">
@@ -17,14 +25,22 @@
           <p>Arabian Gulf St, Kuwait - Get Directions</p>
         </div>
         <div class="flex items-center gap-5">
-          <InstagramIcon />
-          <FacebookIcon />
-          <TwitchIcon />
-          <YoutubeIcon />
+          <a href="#">
+            <InstagramIcon />
+          </a>
+          <a href="#">
+            <FacebookIcon />
+          </a>
+          <a href="#">
+            <TwitchIcon />
+          </a>
+          <a href="#">
+            <YoutubeIcon />
+          </a>
         </div>
       </div>
     </div>
-    <div class="line-before container mx-auto mt-20 flex justify-between text-sm">
+    <div class="line-before container mx-auto flex justify-between text-sm">
       <h5 class="font-bold">Terms & Conditions</h5>
       <h5>© 2017 Sheikh Jaber Al-Ahmed Cultural Centre. All Rights Reserved.</h5>
     </div>

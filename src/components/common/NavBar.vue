@@ -3,7 +3,7 @@
     <div class="container mx-auto">
       <nav class="flex h-20 items-center justify-between">
         <div class="flex">
-          <router-link to="/home" class="w-1/2">
+          <router-link to="/" class="w-1/2">
             <LogoIcon />
           </router-link>
         </div>

@@ -1,8 +1,12 @@
 <template>
-  <section class="mt-20 bg-gradient-to-r from-slate-400 from-0% to-slate-500 to-100% p-36">
+  <section
+    class="bg-gradient-to-r from-slate-400 from-0% to-slate-500 to-100% p-36 dark:from-slate-800 dark:to-slate-900"
+  >
     <div class="flex items-end gap-20">
       <div class="flex flex-col gap-8">
-        <p class="line-after text-base text-slate-600">REGISTER YOUR INTEREST HERE</p>
+        <p class="line-after text-base text-slate-600 dark:text-white/50">
+          REGISTER YOUR INTEREST HERE
+        </p>
         <p class="text-4xl text-white">
           To ensure you are kept up to date with our latest news, upcoming events and more, please
           register your interest below
