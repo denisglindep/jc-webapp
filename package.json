@@ -10,8 +10,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueuse/core": "^10.2.0",
     "mande": "^2.0.6",
     "pinia": "^2.0.36",
+    "swiper": "^9.4.1",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },

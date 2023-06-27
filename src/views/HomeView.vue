@@ -1,6 +1,6 @@
 <template>
   <HeroSection />
-  <div class="container mx-auto">
+  <div class="container mx-auto my-20 flex flex-col gap-20">
     <EventsListSection sectionTitle="This Weekend" />
     <EventsListSection sectionTitle="Upcoming Events" />
     <EventsListSection sectionTitle="See All Soon Events" />

@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-20">
+  <section>
     <div class="mb-10 flex justify-between font-medium">
       <h3 class="text-3xl">{{ sectionTitle }}</h3>
       <a href="#" class="text-base text-accent underline">See all</a>

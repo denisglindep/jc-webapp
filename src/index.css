@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
   .btn {
     @apply rounded-md p-4 text-sm font-medium;
