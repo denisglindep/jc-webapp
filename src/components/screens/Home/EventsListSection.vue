@@ -4,31 +4,31 @@
       <h3 class="text-3xl">{{ sectionTitle }}</h3>
       <a href="#" class="text-base text-accent underline">See all</a>
     </div>
-    <article class="flex justify-center gap-8">
+    <article class="grid-flow-cols grid grid-cols-3 gap-4">
       <Card
-        imageSrc="https://source.unsplash.com/random/300x200"
-        title="Card Title"
-        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
-      />
-      <Card
-        imageSrc="https://source.unsplash.com/random/300x200"
-        title="Card Title"
-        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
-      />
-      <Card
-        imageSrc="https://source.unsplash.com/random/300x200"
-        title="Card Title"
-        description="Returning to Australia for the first time in five years, virtuoso bassist and Kendrick Lamar collaborator Thundercat brings his impossibly funky grooves to the Sydney Opera House for his Vivid LIVE debut."
-      />
+        v-for="event in events"
+        :key="event.id"
+        :imageSrc="event.cover_image"
+        :title="event.name_en"
+        :description="event.short_description_en"
+      >
+        <div class="flex gap-2 text-slate-500 dark:opacity-80">
+          <DateIcon /> {{ event.date_time }}
+        </div>
+      </Card>
     </article>
   </section>
 </template>
 
 <script setup>
 import Card from '@/components/common/Card.vue';
-import { defineProps } from 'vue';
+import DateIcon from '@/components/Icons/DateIcon.vue';
 
 defineProps({
+  events: {
+    type: Array,
+    required: false
+  },
   sectionTitle: {
     type: String,
     required: true

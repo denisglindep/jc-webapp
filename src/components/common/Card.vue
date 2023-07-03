@@ -1,22 +1,21 @@
 <template>
-  <div class="card">
-    <img :src="imageSrc" alt="Card Image" class="card-image" />
-    <div class="card-content">
-      <h3 class="card-title">{{ title }}</h3>
-      <p class="card-description text-slate-500 dark:opacity-80">{{ description }}</p>
-      <div class="flex gap-4 text-slate-500 dark:opacity-80">
-        <DateIcon />
-        <span class="space-x-1">June 10th, 2023</span>
+  <div class="flex flex-col gap-4 rounded-3xl bg-slate-300 p-6 dark:bg-slate-800">
+    <img :src="imageSrc" alt="Card Image" class="h-80 rounded-2xl object-cover" />
+    <div class="flex grow flex-col justify-between gap-2">
+      <h3 class="text-2xl font-bold">{{ title }}</h3>
+      <div class="max-h-20 text-base font-normal text-slate-500 dark:opacity-80 md:overflow-auto">
+        <p>{{ truncatedDescription }}</p>
       </div>
+
+      <slot />
     </div>
     <button class="btn btn-accent w-full text-white" @click="performAction">View</button>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import DateIcon from '../Icons/DateIcon.vue';
-defineProps({
+import { computed } from 'vue';
+const props = defineProps({
   imageSrc: {
     type: String,
     required: false
@@ -30,30 +29,17 @@ defineProps({
     required: true
   }
 });
+
+const truncatedDescription = computed(() => {
+  const maxLength = 200; // Set the maximum length for truncated description
+  if (props.description.length <= maxLength) {
+    return props.description;
+  }
+  return props.description.slice(0, maxLength) + '...';
+});
+
 function performAction() {
   // Code to perform the action when the button is clicked
   console.log('Action performed!');
 }
 </script>
-
-<style scoped>
-.card {
-  @apply w-auto max-w-lg rounded-3xl bg-slate-300 p-6 dark:bg-slate-800;
-}
-
-.card-image {
-  @apply h-80 w-full rounded-2xl object-cover;
-}
-
-.card-content {
-  @apply my-4;
-}
-
-.card-title {
-  @apply text-2xl font-bold;
-}
-
-.card-description {
-  @apply my-4 text-base font-normal;
-}
-</style>

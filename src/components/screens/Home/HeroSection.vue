@@ -10,7 +10,7 @@
         nextEl: '.swiper-button-next'
       }"
     >
-      <swiper-slide v-for="event in events.today" :key="event.id" :virtualIndex="event.id">
+      <swiper-slide v-for="event in today" :key="event.id" :virtualIndex="event.id">
         <HeroSectionCard :eventInfo="event" />
       </swiper-slide>
       <div class="swiper-nav-container container left-0 right-0 mx-auto">
@@ -22,14 +22,15 @@
 </template>
 
 <script setup>
-import { useEvents } from '@/stores/events';
 import { storeToRefs } from 'pinia';
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { useEvents } from '@/stores/events';
 
 import HeroSectionCard from './HeroSectionCard.vue';
 
-const { events, loading } = storeToRefs(useEvents());
+const events = useEvents();
+const { today, loading } = storeToRefs(events);
 </script>
 
 <style scoped>
@@ -42,19 +43,15 @@ const { events, loading } = storeToRefs(useEvents());
   @apply absolute top-1/2 flex w-full justify-between;
 }
 
-.swiper-button-prev {
-  &:after {
+.swiper-button-prev:after {
     content: '<';
     font-size: 3rem;
     font-family: unset;
-  }
 }
-.swiper-button-next {
-  &:after {
+.swiper-button-next:after {
     content: '>';
     font-size: 3rem;
     font-family: unset;
-  }
 }
 
 .swiper-button-prev,

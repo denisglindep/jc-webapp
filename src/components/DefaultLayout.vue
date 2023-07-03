@@ -20,6 +20,8 @@ import { onMounted } from 'vue';
 const events = useEvents();
 
 onMounted(() => {
+  events.getUpcomingEvents();
+  events.getAllEventsByPage();
   events.getTodayEvents();
 });
 </script>
