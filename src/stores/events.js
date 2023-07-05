@@ -11,12 +11,11 @@ export const useEvents = defineStore('events', {
     all: [],
     upcomings: [],
     today: [],
-    loading: false
+    loading: true
   }),
   actions: {
     getAllEventsByPage: async function (page = 0) {
       try {
-        this.loading = true;
         const allEventsByPage = await getAllEventsByPage(page);
         this.all = allEventsByPage.list;
       } catch (error) {
@@ -27,7 +26,6 @@ export const useEvents = defineStore('events', {
     },
     getAllEvents: async function () {
       try {
-        this.loading = true;
         const allEvents = await getAllEvents();
         this.all = allEvents.list;
       } catch (error) {
@@ -38,7 +36,6 @@ export const useEvents = defineStore('events', {
     },
     getUpcomingEvents: async function () {
       try {
-        this.loading = true;
         const upcomingEvents = await getUpcomingEvents();
         this.upcomings = upcomingEvents;
       } catch (error) {
@@ -49,7 +46,6 @@ export const useEvents = defineStore('events', {
     },
     getTodayEvents: async function () {
       try {
-        this.loading = true;
         const todayEvents = await getTodayEvents();
         this.today = todayEvents;
       } catch (error) {

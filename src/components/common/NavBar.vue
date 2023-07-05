@@ -1,21 +1,21 @@
 <template>
-  <header class="sticky top-0 bg-slate-50 text-black dark:bg-slate-900 dark:text-white">
-    <div class="container mx-auto">
-      <nav class="flex h-20 items-center justify-between">
-        <div class="flex">
-          <router-link to="/" class="w-full">
-            <LogoIcon />
-          </router-link>
-        </div>
-        <div class="flex items-center gap-14">
-          <router-link to="/about" class="rounded-md p-2 hover:bg-gray-100">About Us</router-link>
-          <router-link to="/about" class="rounded-md p-2 hover:bg-gray-100">Contact Us</router-link>
-          <router-link to="/about" class="rounded-md p-2 hover:bg-gray-100">Login</router-link>
-          <router-link to="/signup" class="btn btn-accent text-white">Sign Up</router-link>
-        </div>
-      </nav>
-    </div>
-  </header>
+  <v-app-bar>
+    <v-container>
+      <v-row justify="space-between" align="center">
+        <v-col cols="auto">
+          <router-link to="/"> <LogoIcon /> </router-link>
+        </v-col>
+        <v-col cols="auto">
+          <nav>
+            <router-link class="mx-4" to="/about">About Us</router-link>
+            <router-link class="mx-4" to="/about">Contact Us</router-link>
+            <router-link class="mx-4" to="/about">Login</router-link>
+            <router-link class="mx-4" to="/signup">Sign Up</router-link>
+          </nav>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app-bar>
 </template>
 
 <script setup>
