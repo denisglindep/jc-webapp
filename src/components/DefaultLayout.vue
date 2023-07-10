@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <NavBar />
-    <v-main>
+    <v-main class="bg-background">
       <router-view />
     </v-main>
     <!-- <SubscribeToNewsSection /> -->

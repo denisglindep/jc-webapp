@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar>
+  <v-app-bar class="bg-background">
     <v-container>
       <v-row justify="space-between" align="center">
         <v-col cols="auto">

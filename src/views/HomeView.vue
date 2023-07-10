@@ -1,10 +1,12 @@
 <template>
   <HeroSection />
-  <div class="container mx-auto my-20 flex flex-col gap-20">
-    <EventsListSection sectionTitle="Upcoming Events" :events="firstUpcomings" />
-    <EventsListSection sectionTitle="Coming Soon Events" :events="firstUpcomings" />
-    <ContactUsSection />
-  </div>
+  <v-container>
+    <div class="d-flex flex-column" style="gap: 5rem">
+      <EventsListSection sectionTitle="Upcoming Events" :events="firstUpcomings" />
+      <EventsListSection sectionTitle="Coming Soon Events" :events="firstUpcomings" />
+      <ContactUsSection />
+    </div>
+  </v-container>
 </template>
 
 <script setup>
