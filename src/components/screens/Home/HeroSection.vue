@@ -6,7 +6,7 @@
     <v-carousel v-else hide-delimiters height="100%">
       <v-carousel-item v-for="event in today" :key="event.id" cover :src="event.cover_image">
         <div class="d-flex fill-height justify-center align-end">
-          <v-btn size="large" class="mb-16"> View event </v-btn>
+          <v-btn size="x-large" class="mb-16"> View event </v-btn>
         </div>
       </v-carousel-item>
     </v-carousel>

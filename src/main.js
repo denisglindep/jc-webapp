@@ -27,7 +27,8 @@ app.use(
             'on-primary': '#FFFC',
             accent: '#8F0808',
             background: '#E2E8F0',
-            grey: colors.grey.darken1
+            grey: colors.grey.darken1,
+            deepgrey: '#475569'
           }
         },
         dark: {
@@ -37,7 +38,8 @@ app.use(
             'on-primary': '#FFFC',
             accent: '#8F0808',
             background: '#0F172A',
-            grey: colors.grey.lighten1
+            grey: colors.grey.lighten1,
+            deepgrey: '#475569'
           }
         }
       }

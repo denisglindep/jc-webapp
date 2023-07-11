@@ -1,8 +1,16 @@
 <template>
-  <section class="container mx-auto my-20">
-    <AboutUsSection />
-    <ContactUsSection />
-  </section>
+  <v-container class="my-8">
+    <v-row>
+      <v-col>
+        <AboutUsSection />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <ContactUsSection />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script setup>
 import AboutUsSection from '@/components/screens/AboutUs/AboutUsSection.vue';
