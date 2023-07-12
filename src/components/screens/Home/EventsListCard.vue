@@ -1,6 +1,6 @@
 <template>
-  <v-card height="550" class="d-flex flex-column justify-space-between">
-    <v-img :src="event.cover_image" cover height="250" class="align-end flex-grow-0" />
+  <v-card height="100%" class="d-flex flex-column">
+    <v-img :src="event.cover_image" cover max-height="250" class="align-end flex-grow-1" />
     <div class="d-flex flex-column justify-space-between flex-grow-1">
       <v-card-title class="text-bold"> {{ event.name_en }}</v-card-title>
       <v-card-text class="text-grey">{{ truncatedDescription }}</v-card-text>

@@ -29,7 +29,6 @@ const isDarkMode = ref(prefersDark);
 
 // check if dark mode is enabled and change theme
 watchEffect(() => {
-  console.log('watch effect');
   theme.global.name.value = isDarkMode.value ? 'dark' : 'light';
 });
 
