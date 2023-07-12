@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h3 class="mb-12 text-center text-5xl font-bold">About Us</h3>
-    <div class="flex flex-col gap-8 text-2xl">
+    <h4 class="my-12 text-center text-h4 font-weight-bold">About Us</h4>
+    <div class="d-flex flex-column fs-3 lh-base" style="gap: 2rem">
       <p>
         Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis
         deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt

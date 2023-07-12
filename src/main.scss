@@ -1,0 +1,6 @@
+@use 'vuetify' with (
+  $utilities: false,
+  $color-pack: false
+);
+
+@import url('./assets/font/stylesheet.css');

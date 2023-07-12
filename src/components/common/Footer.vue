@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="250">
+  <v-footer>
     <v-container>
       <v-row class="justify-center justify-sm-space-between" align="center">
         <v-col cols="auto">
@@ -7,16 +7,16 @@
         </v-col>
         <v-col cols="auto" class="d-none d-md-flex">
           <div :class="[isDarkMode ? 'text-white' : 'text-black']">
-            <v-btn ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
               >About Us</v-btn
             >
-            <v-btn ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
               >Contact Us</v-btn
             >
-            <v-btn ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
               >Login</v-btn
             >
-            <v-btn ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
               >Sign Up</v-btn
             >
           </div>
@@ -87,7 +87,9 @@
       <v-divider class="my-8" />
       <v-row>
         <v-col cols="12" no-gutters>
-          <div class="d-flex justify-space-between">
+          <div
+            class="d-flex flex-column flex-md-row align-center justify-center justify-md-space-between text-center text-md-start"
+          >
             <h5 class="font-bold">Terms & Conditions</h5>
             <h5>© {{ currentYear }} Sheikh Jaber Al-Ahmed Cultural Centre. All Rights Reserved.</h5>
           </div>

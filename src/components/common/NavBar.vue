@@ -7,16 +7,16 @@
         </v-col>
         <v-col cols="auto">
           <nav :class="[isDarkMode ? 'text-white' : 'text-black']">
-            <v-btn color="inherit" variant="plain" ripple="false" class="mx-4" to="/about"
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
               >About Us</v-btn
             >
-            <v-btn color="inherit" variant="plain" ripple="false" class="mx-4" to="/about"
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
               >Contact Us</v-btn
             >
-            <v-btn color="inherit" variant="plain" ripple="false" class="mx-4" to="/about"
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
               >Login</v-btn
             >
-            <v-btn color="inherit" variant="plain" ripple="false" class="mx-4" to="/signup"
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signup"
               >Sign Up</v-btn
             >
           </nav>
