@@ -1,13 +1,13 @@
 <template>
   <section>
-    <div class="d-flex flex-column flex-md-row justify-space-between">
-      <h3>{{ sectionTitle }}</h3>
-      <div>
-        <a href="#">See all</a>
-      </div>
-    </div>
     <v-container tag="article" class="px-0">
       <v-row>
+        <v-col cols="12" class="d-flex flex-column flex-md-row justify-space-between">
+          <h3>{{ sectionTitle }}</h3>
+          <div>
+            <v-btn size="small" tag="a" variant="plain" :ripple="false" href="#">See all</v-btn>
+          </div>
+        </v-col>
         <v-col v-for="event in events" :key="event.id" cols="12" sm="12" lg="4">
           <EventsListCard :event="event" />
         </v-col>

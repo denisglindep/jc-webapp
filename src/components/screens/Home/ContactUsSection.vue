@@ -6,7 +6,7 @@
       veritatis ad, rem beatae quaerat, aperiam ex numquam eius esse repudiandae? Magni doloremque
       corporis voluptates harum natus.
     </div>
-    <v-btn class="w-25 mx-auto">Contact Us</v-btn>
+    <v-btn class="mx-auto" size="x-large">Contact Us</v-btn>
   </section>
 </template>
 

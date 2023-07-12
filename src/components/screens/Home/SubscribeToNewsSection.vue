@@ -17,7 +17,7 @@
           </div>
         </v-col>
         <v-col cols="12" md="6" lg="4">
-          <v-form @submit.prevent="submit" class="d-flex align-center bg-white pa-2">
+          <v-form @submit.prevent="submit" class="d-flex align-center rounded bg-white pa-2">
             <v-container class="pa-0">
               <v-row no-gutters>
                 <v-col cols="6">
