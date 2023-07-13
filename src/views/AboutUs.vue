@@ -1,5 +1,5 @@
 <template>
-  <v-container class="my-8">
+  <v-container class="my-4 my-md-8">
     <v-row>
       <v-col>
         <AboutUsSection />
