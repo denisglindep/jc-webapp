@@ -10,13 +10,19 @@
       </v-card-subtitle>
     </div>
     <v-card-actions class="py-6">
-      <v-btn size="x-large" variant="elevated" block>View Event</v-btn>
+      <v-btn size="x-large" variant="elevated" @click="goToEvent(event.id)" block>View Event</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+function goToEvent(id) {
+  router.push({ name: 'event-details', params: { id } });
+}
 
 const props = defineProps({
   event: {

@@ -2,8 +2,10 @@
   <v-layout class="h-screen">
     <NavBar />
     <v-main class="d-flex flex-column">
-      <div class="bg-background">
-        <router-view />
+      <div class="bg-background d-flex flex-column flex-grow-1">
+        <div class="flex-grow-1">
+          <router-view />
+        </div>
         <SubscribeToNewsSection />
         <Footer />
       </div>

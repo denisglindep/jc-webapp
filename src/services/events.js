@@ -42,4 +42,19 @@ async function getTodayEvents() {
   }
 }
 
-export { getAllEventsByPage, getUpcomingEvents, getEventsGenresList, getAllEvents, getTodayEvents };
+async function getEventDetails(id) {
+  try {
+    return await eventsApi.get(`/api/events/${id}`);
+  } catch (error) {
+    console.log("Can't fetch event details", error);
+  }
+}
+
+export {
+  getAllEventsByPage,
+  getUpcomingEvents,
+  getEventsGenresList,
+  getAllEvents,
+  getTodayEvents,
+  getEventDetails
+};

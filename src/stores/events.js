@@ -3,7 +3,8 @@ import {
   getAllEventsByPage,
   getAllEvents,
   getUpcomingEvents,
-  getTodayEvents
+  getTodayEvents,
+  getEventDetails
 } from '../services/events';
 
 export const useEvents = defineStore('events', {
@@ -11,6 +12,7 @@ export const useEvents = defineStore('events', {
     all: [],
     upcomings: [],
     today: [],
+    eventDetails: {},
     loading: true
   }),
   actions: {
@@ -50,6 +52,16 @@ export const useEvents = defineStore('events', {
         this.today = todayEvents;
       } catch (error) {
         console.log('Error during fetch today events', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    getEventDetails: async function (id) {
+      try {
+        const eventDetails = await getEventDetails(id);
+        this.eventDetails = eventDetails;
+      } catch (error) {
+        console.log('Error during fetch event details', error);
       } finally {
         this.loading = false;
       }
