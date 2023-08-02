@@ -10,13 +10,13 @@
             <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
               >About Us</v-btn
             >
-            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/contact" variant="plain" color="inherit" class="mx-2"
               >Contact Us</v-btn
             >
-            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/signin" variant="plain" color="inherit" class="mx-2"
               >Login</v-btn
             >
-            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
+            <v-btn :ripple="false" to="/signup" variant="plain" color="inherit" class="mx-2"
               >Sign Up</v-btn
             >
           </div>

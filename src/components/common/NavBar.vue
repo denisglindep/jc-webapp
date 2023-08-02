@@ -3,7 +3,9 @@
     <v-container class="py-4">
       <v-row justify="space-between" align="center">
         <v-col cols="auto">
-          <router-link to="/"> <LogoIcon /> </router-link>
+          <router-link to="/">
+            <LogoIcon />
+          </router-link>
         </v-col>
         <v-col cols="auto">
           <nav :class="[isDarkMode ? 'text-white' : 'text-black']" class="d-none d-md-flex">
@@ -72,11 +74,11 @@ const items = reactive([
   },
   {
     title: 'Login',
-    to: '/login',
+    to: '/signin',
     icon: 'mdi-account'
   },
   {
-    title: 'Buzz',
+    title: 'Sign Up',
     to: '/signup',
     icon: 'mdi-account'
   }

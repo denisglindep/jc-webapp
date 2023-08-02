@@ -2,14 +2,14 @@
   <v-container
     tag="section"
     fluid
-    :class="[isDark ? 'section-bg-dark' : 'section-bg-light']"
+    :class="[isDarkMode ? 'section-bg-dark' : 'section-bg-light']"
     class="d-flex justify-center align-center"
   >
     <v-container class="py-16">
       <v-row align="center">
         <v-col cols="12" md="6" lg="8">
           <div class="d-flex flex-column">
-            <p class="text-deepgrey">REGISTER YOUR INTEREST HERE <span class="line-after" /></p>
+            <p :class="[isDarkMode ? 'text-grey' : 'text-deepgrey']">REGISTER YOUR INTEREST HERE <span class="line-after" /></p>
             <h3 class="text-white">
               To ensure you are kept up to date with our latest news, upcoming events and more,
               please register your interest below
@@ -47,15 +47,10 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate';
-import { ref } from 'vue';
-import { watchEffect } from 'vue';
 import { useTheme } from 'vuetify';
+import { computed } from 'vue';
 const theme = useTheme();
-const isDark = ref(false);
-
-watchEffect(() => {
-  isDark.value = theme.global.name.value === 'dark';
-});
+const isDarkMode = computed(() => theme.current.value.dark);
 
 const { handleSubmit } = useForm({
   validationSchema: {

@@ -32,6 +32,6 @@ function goToEvent(id) {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 95vh;
+  height: calc(100vh - 64px);
 }
 </style>

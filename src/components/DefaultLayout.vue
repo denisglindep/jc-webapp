@@ -14,9 +14,9 @@
 </template>
 
 <script setup>
-import NavBar from './common/NavBar.vue';
-import Footer from './common/Footer.vue';
-import SubscribeToNewsSection from './screens/Home/SubscribeToNewsSection.vue';
+import NavBar from '@/components/common/NavBar.vue';
+import Footer from '@/components/common/Footer.vue';
+import SubscribeToNewsSection from '@/components/screens/Home/SubscribeToNewsSection.vue';
 
 import { useEvents } from '@/stores/events';
 import { onMounted, ref } from 'vue';

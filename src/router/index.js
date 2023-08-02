@@ -33,11 +33,26 @@ const router = createRouter({
           path: '/events/:id',
           name: 'event-details',
           component: () => import('../views/EventDetails.vue')
+        },
+        {
+          path: '/signin',
+          name: 'signin',
+          component: () => import('../views/SignIn.vue')
+        },
+        {
+          path: '/forgot-password',
+          name: 'forgot-password',
+          component: () => import('../views/ForgotPassword.vue')
+        },
+        {
+          path: '/signup',
+          name: 'signup',
+          component: () => import('../views/SignUp.vue')
         }
       ]
     },
-    // catch all routes that are not defined and redirect to the root
-    { path: '/:pathMatch(.*)*', redirect: '/' }
+    // catch all routes that are not defined and redirect to the Not Found page
+    { path: '/:pathMatch(.*)*', component: () => import('../views/404.vue') }
   ],
   scrollBehavior() {
     return { top: 0 };

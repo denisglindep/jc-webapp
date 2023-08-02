@@ -231,7 +231,7 @@ onMounted(() => {
 
 <style scoped>
 .section-container {
-  height: 65vh;
+  height: 65dvh;
 }
 
 .backdrop-container {

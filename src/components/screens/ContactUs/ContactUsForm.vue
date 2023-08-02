@@ -22,6 +22,7 @@
     />
 
     <v-textarea
+      rows="3"
       clearable
       v-model="message.value.value"
       :error-messages="message.errorMessage.value"
