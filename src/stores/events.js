@@ -68,6 +68,7 @@ export const useEvents = defineStore('events', {
     }
   },
   getters: {
-    firstUpcomings: (state) => state.upcomings.filter((el, index) => index < 3)
+    firstUpcomings: (state) => state.upcomings.filter((_, index) => index < 3),
+    getSuggestedEvents: (state) => (eventId) => state.all.filter((el) => el?.genre?.id === eventId)
   }
 });

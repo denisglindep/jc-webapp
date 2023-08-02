@@ -2,8 +2,8 @@
   <section>
     <v-container tag="article" class="px-0">
       <v-row>
-        <v-col cols="12" class="d-flex justify-space-between">
-          <h3>{{ sectionTitle }}</h3>
+        <v-col cols="12" class="d-flex justify-space-between align-center">
+          <h3 :class="titleStyles.classes" :style="titleStyles.styles">{{ sectionTitle }}</h3>
           <div>
             <v-btn size="small" tag="a" variant="plain" :ripple="false" href="#">See all</v-btn>
           </div>
@@ -29,6 +29,14 @@ defineProps({
   sectionTitle: {
     type: String,
     required: true
+  },
+  titleStyles: {
+    type: Object,
+    required: false,
+    default: () => ({
+      styles: {},
+      classes: 'font-weight-medium'
+    })
   }
 });
 </script>

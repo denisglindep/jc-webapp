@@ -11,7 +11,7 @@
 import { storeToRefs } from 'pinia';
 
 import HeroSection from '@/components/screens/Home/HeroSection.vue';
-import EventsListSection from '@/components/screens/Home/EventsListSection.vue';
+import EventsListSection from '@/components/common/EventsListSection.vue';
 import ContactUsSection from '@/components/screens/Home/ContactUsSection.vue';
 
 import { useEvents } from '@/stores/events';
