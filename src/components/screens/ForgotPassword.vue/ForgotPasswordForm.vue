@@ -9,13 +9,12 @@
       <v-card-subtitle>No worries, we'll send you reset instructions.</v-card-subtitle>
     </v-card-text>
 
-    <form @submit="submit">
+    <v-form @submit="submit">
       <v-text-field
+        v-bind="email"
         class="mb-2"
         clearable
         density="compact"
-        v-model="email.value.value"
-        :error-messages="email.errorMessage.value"
         label="Email"
         prepend-inner-icon="mdi-email-outline"
       />
@@ -23,7 +22,7 @@
       <v-btn block size="x-large" class="my-2" type="submit" :disabled="!isValid">
         Reset Password
       </v-btn>
-    </form>
+    </v-form>
 
     <v-card-text class="text-center" :class="[isDarkMode ? 'text-grey' : 'text-primary']">
       <v-btn
@@ -40,32 +39,28 @@
 </template>
 <script setup>
 import { computed } from 'vue';
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
+import { object, string } from 'yup';
 import { useTheme } from 'vuetify';
 
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
 
-const { handleSubmit, errors } = useForm({
-  validationSchema: {
-    email(value) {
-      // if the field is empty
-      if (!value) {
-        return 'This field is required';
-      }
-      // if the field is not a valid email
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return 'This field must be a valid email';
-      }
-      // All is good
-      return true;
-    }
+const schema = object({
+  email: string().required().email()
+});
+
+const { handleSubmit, defineComponentBinds, errors } = useForm({
+  validationSchema: schema
+});
+
+const vuetifyConfig = (state) => ({
+  props: {
+    'error-messages': state.errors
   }
 });
 
-const email = useField('email');
-
+const email = defineComponentBinds('email', vuetifyConfig);
 const isValid = computed(() => Object.keys(errors?.value).length === 0);
 
 const submit = handleSubmit((values) => {

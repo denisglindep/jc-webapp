@@ -9,7 +9,9 @@
       <v-row align="center">
         <v-col cols="12" md="6" lg="8">
           <div class="d-flex flex-column">
-            <p :class="[isDarkMode ? 'text-grey' : 'text-deepgrey']">REGISTER YOUR INTEREST HERE <span class="line-after" /></p>
+            <p :class="[isDarkMode ? 'text-grey' : 'text-deepgrey']">
+              REGISTER YOUR INTEREST HERE <span class="line-after" />
+            </p>
             <h3 class="text-white">
               To ensure you are kept up to date with our latest news, upcoming events and more,
               please register your interest below
@@ -22,8 +24,7 @@
               <v-row no-gutters>
                 <v-col cols="6">
                   <v-text-field
-                    v-model="email.value.value"
-                    :error-messages="email.errorMessage.value"
+                    v-bind="email"
                     placeholder="johndoe@gmail.com"
                     hide-details="true"
                     label="Enter Email"
@@ -46,43 +47,35 @@
 </template>
 
 <script setup>
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import { useTheme } from 'vuetify';
+import { object, string } from 'yup';
 import { computed } from 'vue';
+
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
 
-const { handleSubmit } = useForm({
-  validationSchema: {
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-      // if (!value) return 'E-mail is required.';
+const schema = object({
+  email: string().required().email()
+});
 
-      return 'Must be a valid e-mail.';
-    }
+const { handleSubmit, defineComponentBinds } = useForm({
+  validationSchema: schema
+});
+
+const vuetifyConfig = (state) => ({
+  props: {
+    'error-messages': state.errors
   }
 });
-const email = useField('email');
+
+const email = defineComponentBinds('email', vuetifyConfig);
 const submit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2));
 });
 </script>
 
 <style>
-/* .custom-append .v-input__details {
-  color: #fff;
-}
-
-.custom-append .v-input__details .v-messages {
-  color: inherit;
-}
-.custom-append .v-input__control {
-  background: #fff;
-}
-.custom-append > .v-input__control > .v-field--appended {
-  margin: 0;
-  padding: 0;
-} */
 .section-spacing {
   padding: 6rem 0;
 }

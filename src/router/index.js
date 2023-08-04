@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue';
 import AboutUs from '../views/AboutUs.vue';
 import ContactUs from '../views/ContactUs.vue';
 import DefaultLayout from '../components/DefaultLayout.vue';
+import SignIn from '../views/SignIn.vue';
+import SignUp from '../views/SignUp.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,17 +40,17 @@ const router = createRouter({
         {
           path: '/signin',
           name: 'signin',
-          component: () => import('../views/SignIn.vue')
+          component: SignIn
         },
         {
           path: '/forgot-password',
           name: 'forgot-password',
-          component: () => import('../views/ForgotPassword.vue')
+          component: ForgotPassword
         },
         {
           path: '/signup',
           name: 'signup',
-          component: () => import('../views/SignUp.vue')
+          component: SignUp
         }
       ]
     },
