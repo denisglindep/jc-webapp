@@ -66,6 +66,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuth();
   const isUserAuthenticated = authStore.getUserInfo?.isAuthenticated;
+  const isAuthRoute = to.name === 'signin' || to.name === 'signup' || to.name === 'forgot-password';
+
+  if (isUserAuthenticated && isAuthRoute) {
+    next('/');
+  }
 
   if (to.meta.auth) {
     if (isUserAuthenticated) {
