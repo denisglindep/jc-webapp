@@ -1,5 +1,15 @@
 <template>
   <v-card class="mx-auto px-10 d-flex flex-column" rounded="xl">
+    <v-alert
+      v-if="errors.apiError"
+      rounded="lg"
+      class="mt-2"
+      type="error"
+      elevation="2"
+      density="compact"
+      closable
+      :text="errors.apiError"
+    />
     <v-img class="mx-auto my-8">
       <router-link to="/">
         <LogoIcon />
@@ -59,9 +69,13 @@ import { computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { useTheme } from 'vuetify';
 import { object, string } from 'yup';
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/stores/auth';
 import LogoIcon from '../../Icons/LogoIcon.vue';
 
 const visible = ref(false);
+const authStore = useAuth();
+const router = useRouter();
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
 
@@ -70,7 +84,7 @@ const schema = object({
   password: string().required()
 });
 
-const { defineComponentBinds, handleSubmit, errors } = useForm({
+const { defineComponentBinds, handleSubmit, setErrors, errors } = useForm({
   validationSchema: schema
 });
 
@@ -83,7 +97,22 @@ const email = defineComponentBinds('email', vuetifyConfig);
 const password = defineComponentBinds('password', vuetifyConfig);
 const isValid = computed(() => Object.keys(errors?.value).length === 0);
 
-const submit = handleSubmit((values) => {
-  alert(JSON.stringify(values, null, 2));
+const submit = handleSubmit(async (values) => {
+  try {
+    const data = {
+      username: values?.email,
+      password: values?.password,
+      type: 'USER'
+    };
+    await authStore.signInUser(data);
+    if (router?.currentRoute?.value?.redirectedFrom) {
+      router.push(router?.currentRoute?.value?.redirectedFrom?.fullPath);
+    } else {
+      router.push('/');
+    }
+  } catch (error) {
+    setErrors({ apiError: error?.message });
+    setTimeout(() => setErrors({ apiError: null }), 5000);
+  }
 });
 </script>

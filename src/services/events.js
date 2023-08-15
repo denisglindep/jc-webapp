@@ -1,10 +1,15 @@
-import { mande } from 'mande';
-
-export const eventsApi = mande('https://tickets.jacc-kw.org');
+import axios from 'axios';
+// import { mande } from 'mande';
+export const eventsApi = axios.create({
+  baseURL: `${import.meta.env.VITE_API_URL_DEV}/api/events`
+});
 
 async function getAllEventsByPage(page = 0) {
   try {
-    return await eventsApi.get(`/api/events/all/${page}`);
+    const response = await eventsApi.get(
+      `${import.meta.env.VITE_API_URL_DEV}/api/events/all/${page}`
+    );
+    return response.data;
   } catch (error) {
     console.log("Can't fetch events by page", error);
   }
@@ -12,7 +17,8 @@ async function getAllEventsByPage(page = 0) {
 
 async function getAllEvents() {
   try {
-    return await eventsApi.get(`/api/events/all`);
+    const response = await eventsApi.get(`${import.meta.env.VITE_API_URL_DEV}/api/events/all`);
+    return response.data;
   } catch (error) {
     console.log("Can't fetch all events", error);
   }
@@ -20,7 +26,10 @@ async function getAllEvents() {
 
 async function getUpcomingEvents() {
   try {
-    return await eventsApi.get('api/events/upcomings');
+    const response = await eventsApi.get(
+      `${import.meta.env.VITE_API_URL_DEV}/api/events/upcomings`
+    );
+    return response.data;
   } catch (error) {
     console.log("Can't fetch coming soon events", error);
   }
@@ -28,7 +37,10 @@ async function getUpcomingEvents() {
 
 async function getEventsGenresList() {
   try {
-    return await eventsApi.get('/api/events/genre/list');
+    const response = await eventsApi.get(
+      `${import.meta.env.VITE_API_URL_DEV}/api/events/genre/list`
+    );
+    return response.data;
   } catch (error) {
     console.log("Can't fetch genres list", error);
   }
@@ -36,7 +48,8 @@ async function getEventsGenresList() {
 
 async function getTodayEvents() {
   try {
-    return await eventsApi.get('/api/events/today');
+    const response = await eventsApi.get(`${import.meta.env.VITE_API_URL_DEV}/api/events/today`);
+    return response.data;
   } catch (error) {
     console.log("Can't fetch today events", error);
   }
@@ -44,7 +57,8 @@ async function getTodayEvents() {
 
 async function getEventDetails(id) {
   try {
-    return await eventsApi.get(`/api/events/${id}`);
+    const response = await eventsApi.get(`${import.meta.env.VITE_API_URL_DEV}/api/events/${id}`);
+    return response.data;
   } catch (error) {
     console.log("Can't fetch event details", error);
   }

@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import EventsListSection from '@/components/common/EventsListSection.vue';
@@ -224,9 +224,7 @@ const isAnyTimeSoldOut = computed(() => {
 
 const suggestedEvents = computed(() => getSuggestedEvents?.value(eventDetails?.value?.genre?.id));
 
-onMounted(() => {
-  eventsStore.getEventDetails(router.params.id);
-});
+eventsStore.getEventDetails(router.params.id);
 </script>
 
 <style scoped>

@@ -1,69 +1,40 @@
 <template>
-  <form @submit.prevent="submit">
-    <v-text-field
-      clearable
-      v-model="name.value.value"
-      :error-messages="name.errorMessage.value"
-      label="Name"
-    />
-
-    <v-text-field
-      clearable
-      v-model="phone.value.value"
-      :error-messages="phone.errorMessage.value"
-      label="Phone Number"
-    />
-
-    <v-text-field
-      clearable
-      v-model="email.value.value"
-      :error-messages="email.errorMessage.value"
-      label="E-mail"
-    />
-
-    <v-textarea
-      rows="3"
-      clearable
-      v-model="message.value.value"
-      :error-messages="message.errorMessage.value"
-      label="Text here"
-    />
-
+  <div>123</div>
+  <v-form @submit.prevent="submit">
+    <v-text-field v-bind="name" clearable label="Name" />
+    <v-text-field v-bind="phone" clearable label="Phone Number" />
+    <v-text-field v-bind="email" clearable label="E-mail" />
+    <v-textarea v-bind="message" rows="3" clearable label="Text here" />
     <v-btn block size="x-large" class="my-2" type="submit">Send message</v-btn>
-  </form>
+  </v-form>
 </template>
 <script setup>
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
+import { object, string } from 'yup';
 
-const { handleSubmit } = useForm({
-  validationSchema: {
-    name(value) {
-      if (value?.length >= 2) return true;
+const schema = object({
+  firstName: string().required().label('Name'),
+  email: string().email().required().label('E-mail'),
+  phone: string()
+    .matches(/^\d{6,15}$/, 'Invalid phone number format.')
+    .required('Phone number is required')
+    .label('Phone'),
+  message: string().required().label('Message')
+});
 
-      return 'Name needs to be at least 2 characters.';
-    },
-    phone(value) {
-      if (value?.length > 9 && /[0-9-]+/.test(value)) return true;
-
-      return 'Phone number needs to be at least 9 digits.';
-    },
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-      return 'Must be a valid e-mail.';
-    },
-    message(value) {
-      // message is required and should not be empty
-      if (value?.length > 0) return true;
-
-      return 'Message is required.';
-    }
+const vuetifyConfig = (state) => ({
+  props: {
+    'error-messages': state.errors
   }
 });
-const name = useField('name');
-const phone = useField('phone');
-const email = useField('email');
-const message = useField('message');
+
+const { handleSubmit, defineComponentBinds } = useForm({
+  validationSchema: schema
+});
+const name = defineComponentBinds('name', vuetifyConfig);
+const phone = defineComponentBinds('phone', vuetifyConfig);
+const email = defineComponentBinds('email', vuetifyConfig);
+const message = defineComponentBinds('message', vuetifyConfig);
 
 const submit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2));

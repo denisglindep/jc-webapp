@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuth } from '@/stores/auth.js';
 import HomeView from '../views/HomeView.vue';
 import AboutUs from '../views/AboutUs.vue';
 import ContactUs from '../views/ContactUs.vue';
@@ -59,6 +60,21 @@ const router = createRouter({
   ],
   scrollBehavior() {
     return { top: 0 };
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuth();
+  const isUserAuthenticated = authStore.getUserInfo?.isAuthenticated;
+
+  if (to.meta.auth) {
+    if (isUserAuthenticated) {
+      next();
+    } else {
+      next('/signin');
+    }
+  } else {
+    next();
   }
 });
 

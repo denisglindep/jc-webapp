@@ -10,6 +10,9 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import colors from 'vuetify/lib/util/colors';
 
+import VueTelInput from 'vue-tel-input';
+import 'vue-tel-input/vue-tel-input.css';
+
 import App from './App.vue';
 import router from './router';
 const app = createApp(App);
@@ -57,5 +60,7 @@ app.use(
   })
 );
 app.use(router);
+
+app.use(VueTelInput)
 
 app.mount('#app');

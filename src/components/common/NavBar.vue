@@ -9,16 +9,33 @@
         </v-col>
         <v-col cols="auto">
           <nav :class="[isDarkMode ? 'text-white' : 'text-black']" class="d-none d-md-flex">
-            <v-btn
-              color="inherit"
-              variant="plain"
-              :ripple="false"
-              class="mx-4"
-              v-for="(item, index) in items"
-              :to="item.to"
-              :key="index"
-              >{{ item.title }}</v-btn
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
+              >About Us</v-btn
             >
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
+              >Contact Us</v-btn
+            >
+            <template v-if="!isAuthenticated">
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signin"
+                >Login</v-btn
+              >
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signup"
+                >Sign Up</v-btn
+              >
+            </template>
+            <template v-else>
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
+                >Profile</v-btn
+              >
+              <v-btn
+                color="inherit"
+                variant="plain"
+                :ripple="false"
+                class="mx-4"
+                @click="logUserOut"
+                >Logout</v-btn
+              >
+            </template>
           </nav>
           <v-app-bar-nav-icon
             variant="text"
@@ -60,7 +77,15 @@
 import { computed, ref, reactive } from 'vue';
 import LogoIcon from '../Icons/LogoIcon.vue';
 import { useTheme } from 'vuetify';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+import { useAuth } from '../../stores/auth';
+
 const drawer = ref(false);
+const authStore = useAuth();
+const authState = storeToRefs(authStore);
+const router = useRouter();
+
 const items = reactive([
   {
     title: 'About Us',
@@ -85,4 +110,15 @@ const items = reactive([
 ]);
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
+const isAuthenticated = computed(() => authState?.user?.value?.isAuthenticated);
+
+async function logUserOut() {
+  try {
+    await authStore.logOutUser();
+    authStore.$reset();
+    router.push('/');
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
