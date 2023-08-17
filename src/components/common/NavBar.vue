@@ -104,9 +104,14 @@
           color="inherit"
           :link="true"
           :active="true"
-          @click="logUserOut"
           prepend-icon="mdi-logout"
-        />
+        >
+          <ConfirmModal
+            title="Are you sure you want to log out of the platform?"
+            @action-success="logUserOut"
+            :showDialog="true"
+          />
+        </v-list-item>
       </template>
     </v-list>
   </v-navigation-drawer>
@@ -119,6 +124,7 @@ import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useAuth } from '../../stores/auth';
 import Profile from './Profile.vue';
+import ConfirmModal from './ConfirmModal.vue';
 import LogoIcon from '../Icons/LogoIcon.vue';
 
 const drawer = ref(false);

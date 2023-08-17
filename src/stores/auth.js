@@ -1,5 +1,13 @@
 import { defineStore } from 'pinia';
-import { signIn, signUp, logOut, getMyAccInfo, getUserInfo } from '../services/auth';
+import {
+  signIn,
+  signUp,
+  logOut,
+  getMyAccInfo,
+  getUserInfo,
+  verifyEmail,
+  verifyMobile
+} from '../services/auth';
 
 export const useAuth = defineStore('auth', {
   state: () => ({
@@ -29,7 +37,9 @@ export const useAuth = defineStore('auth', {
         };
         localStorage.setItem('userobj', JSON.stringify(this.user.data));
       } catch (error) {
-        throw error.message;
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
       }
     },
     signInUser: async function (data) {
@@ -51,12 +61,8 @@ export const useAuth = defineStore('auth', {
         };
         localStorage.setItem('userobj', JSON.stringify(this.user.data));
       } catch (error) {
-        if (error?.response) {
-          throw new Error(JSON.stringify(error?.response?.data?.message));
-        } else if (error?.request) {
-          throw new Error(error);
-        } else {
-          console.log('SignIn Error: ', error?.message);
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
         }
       }
     },
@@ -86,6 +92,26 @@ export const useAuth = defineStore('auth', {
         localStorage.removeItem('userobj');
       } catch (error) {
         console.log(error);
+      }
+    },
+    checkIfEmailIsAvailable: async function (emailInput) {
+      try {
+        const response = await verifyEmail(emailInput);
+        return response;
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
+      }
+    },
+    checkIfMobileIsAvailable: async function (emailInput) {
+      try {
+        const response = await verifyMobile(emailInput);
+        return response;
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
       }
     }
   },

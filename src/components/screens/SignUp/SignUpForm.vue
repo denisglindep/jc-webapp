@@ -26,7 +26,6 @@
       <v-text-field v-bind="lastName" class="mb-2" clearable density="compact" label="Last name" />
       <v-text-field
         v-bind="email"
-        :rules="[validateEmail]"
         class="mb-2"
         clearable
         density="compact"
@@ -61,15 +60,8 @@
           :items="allCountries"
           required
           label="Select Country"
-          :rules="[validatePhone]"
         />
-        <v-text-field
-          v-bind="phone"
-          :rules="[validatePhone]"
-          class="w-75"
-          clearable
-          label="Phone number"
-        />
+        <v-text-field v-bind="phone" class="w-75" clearable label="Phone number" />
       </div>
       <v-btn
         block
@@ -97,24 +89,14 @@
 </template>
 <script setup>
 import { computed, ref } from 'vue';
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import { useTheme } from 'vuetify';
 import { object, string, ref as yupRef } from 'yup';
-import { verifyEmail, verifyMobile } from '@/services/auth';
 import { useDebounceFn } from '@vueuse/core';
 import { useAuth } from '@/stores/auth.js';
 import { useRouter } from 'vue-router';
 import LogoIcon from '../../Icons/LogoIcon.vue';
 import allCountries from '@/utils/allCountries.js';
-
-const debouncedEmailVerification = useDebounceFn(
-  async (typedEmail) => await verifyEmail(typedEmail),
-  500
-);
-const debouncedPhoneVerification = useDebounceFn(
-  async (typedEmail) => await verifyMobile(typedEmail),
-  500
-);
 
 const visible = ref(false);
 
@@ -127,8 +109,11 @@ const isDarkMode = computed(() => theme.current.value.dark);
 const schema = object({
   firstName: string().required().label('First name'),
   lastName: string().required().label('Last name'),
-  email: string().email().required().label('E-mail'),
-  // password should have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character
+  email: string()
+    .email()
+    .required()
+    .label('E-mail')
+    .test('email', 'This Email is Already Registered', (value) => validateEmail(value)),
   password: string()
     .min(8)
     .matches(
@@ -145,35 +130,37 @@ const schema = object({
     .matches(/^\d{6,15}$/, 'Invalid phone number format.')
     .required('Phone number is required')
     .label('Phone')
+    .test('phone', 'This Phone is Already Registered', (value) => validatePhone(value))
 });
 
-const {
-  defineComponentBinds,
-  handleSubmit,
-  errors,
-  setFieldError,
-  setErrors,
-  isSubmitting,
-  values,
-  meta
-} = useForm({
-  initialValues: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    countryCode: allCountries?.[0]?.value,
-    phone: ''
-  },
-  validationSchema: schema
-});
+const { defineComponentBinds, handleSubmit, errors, setFieldError, setErrors, isSubmitting, meta } =
+  useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      countryCode: allCountries?.[0]?.value,
+      phone: ''
+    },
+    validationSchema: schema
+  });
 
 const vuetifyConfig = (state) => ({
   props: {
     'error-messages': state.errors
   }
 });
+
+const debouncedEmailVerification = useDebounceFn(
+  async (typedEmail) => await authStore.checkIfEmailIsAvailable(typedEmail),
+  500
+);
+const debouncedPhoneVerification = useDebounceFn(
+  async (typedEmail) => await authStore.checkIfMobileIsAvailable(typedEmail),
+  500
+);
 
 const firstName = defineComponentBinds('firstName', vuetifyConfig);
 const lastName = defineComponentBinds('lastName', vuetifyConfig);
@@ -184,40 +171,32 @@ const phone = defineComponentBinds('phone', vuetifyConfig);
 const countryCode = defineComponentBinds('countryCode', vuetifyConfig);
 const isValid = computed(() => meta?.value?.valid && !meta?.value?.pending);
 
-const phoneField = useField('phone');
-
-const validateEmail = async () => {
-  if (values?.email?.length > 0 && !isSubmitting?.value) {
+const validateEmail = async (value) => {
+  if (value?.length > 0) {
     try {
       await debouncedEmailVerification({
-        email: email?.value?.modelValue
+        email: value
       });
       return true;
     } catch (error) {
-      setFieldError('email', error?.body?.message);
+      setFieldError('email', error?.message);
+      return false;
     }
   }
-  return false;
 };
 
-const validatePhone = async () => {
-  if (
-    phoneField?.value?.value.length > 0 &&
-    !phoneField?.meta?.pending &&
-    phoneField?.meta?.valid &&
-    phoneField?.meta?.dirty
-  ) {
+const validatePhone = async (validatePhone) => {
+  if (validatePhone.length > 0) {
     try {
       await debouncedPhoneVerification({
-        phone: `+${countryCode?.value?.modelValue}${phone?.value?.modelValue}`
+        phone: `+${countryCode?.value?.modelValue}${validatePhone}`
       });
       return true;
     } catch (error) {
-      debugger
-      setFieldError('phone', error?.body?.message);
+      setFieldError('phone', error?.message);
+      return false;
     }
   }
-  return false;
 };
 
 const submit = handleSubmit(
@@ -235,7 +214,7 @@ const submit = handleSubmit(
       await authStore.signUpUser(data);
       router.push('/');
     } catch (error) {
-      setErrors({ apiError: error?.body?.message });
+      setErrors({ apiError: error?.message });
       setTimeout(() => setErrors({ apiError: null }), 5000);
     }
   }

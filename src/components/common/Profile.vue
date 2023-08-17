@@ -14,23 +14,22 @@
           <p class="text-caption mt-1">
             {{ user.email }}
           </p>
-          <v-divider class="my-3" />
-          <v-btn rounded variant="text" color="inherit" :ripple="false" class="mx-4" to="/profile">
-            Profile
-          </v-btn>
-          <v-divider class="my-3" />
-          <v-btn
-            rounded
-            variant="text"
-            color="inherit"
-            :ripple="false"
-            class="mx-4"
-            @click="logUserOut"
-          >
-            Logout
-          </v-btn>
         </div>
       </v-card-text>
+      <v-divider class="my-3" />
+      <v-card-actions class="d-flex flex-column">
+        <v-btn block variant="text" :rounded="false" color="inherit" to="/profile" class="ma-0">
+          Profile
+        </v-btn>
+        <v-divider class="my-2" />
+        <v-btn block variant="text" :rounded="false" color="inherit" class="ma-0">
+          Logout
+          <ConfirmModal
+            title="Are you sure you want to log out of the platform?"
+            @action-success="logUserOut"
+          />
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-menu>
 </template>
@@ -40,6 +39,7 @@ import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import ConfirmModal from './ConfirmModal.vue';
 
 const router = useRouter();
 const auth = useAuth();
@@ -55,7 +55,7 @@ const user = reactive({
 
 async function logUserOut() {
   try {
-    await authStore.logOutUser();
+    await auth.logOutUser();
     authStore.$reset();
     router.push('/');
   } catch (error) {
