@@ -8,11 +8,14 @@
           </router-link>
         </v-col>
         <v-col cols="auto">
-          <nav :class="[isDarkMode ? 'text-white' : 'text-black']" class="d-none d-md-flex">
+          <nav
+            :class="[isDarkMode ? 'text-white' : 'text-black']"
+            class="d-none d-md-flex align-center"
+          >
             <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
               >About Us</v-btn
             >
-            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/contact"
               >Contact Us</v-btn
             >
             <template v-if="!isAuthenticated">
@@ -24,17 +27,7 @@
               >
             </template>
             <template v-else>
-              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
-                >Profile</v-btn
-              >
-              <v-btn
-                color="inherit"
-                variant="plain"
-                :ripple="false"
-                class="mx-4"
-                @click="logUserOut"
-                >Logout</v-btn
-              >
+              <Profile />
             </template>
           </nav>
           <v-app-bar-nav-icon
@@ -56,58 +49,82 @@
     class="bg-background"
     style="height: max-content"
   >
-    <v-list class="bg-background">
+    <v-list class="nav-list" @click.stop="drawer = false">
       <v-list-item
-        v-for="(item, i) in items"
+        title="About Us"
         variant="plain"
         color="inherit"
-        :linls="true"
+        :link="true"
         :active="true"
-        :key="i"
-        :value="item"
-        :title="item.title"
-        :prepend-icon="item.icon"
-        :to="item.to"
+        to="/about"
+        prepend-icon="mdi-information-outline"
       />
+      <v-list-item
+        title="Contact Us"
+        variant="plain"
+        color="inherit"
+        :link="true"
+        :active="true"
+        to="/contact"
+        prepend-icon="mdi-account-box-outline"
+      />
+      <template v-if="!isAuthenticated">
+        <v-list-item
+          title="Login"
+          variant="plain"
+          color="inherit"
+          :link="true"
+          :active="true"
+          to="/signin"
+          prepend-icon="mdi-login"
+        />
+        <v-list-item
+          title="Sign Up"
+          variant="plain"
+          color="inherit"
+          :link="true"
+          :active="true"
+          to="/signup"
+          prepend-icon="mdi-account-plus-outline"
+        />
+      </template>
+      <template v-else>
+        <v-list-item
+          title="Profile"
+          variant="plain"
+          color="inherit"
+          :link="true"
+          :active="true"
+          to="/profile"
+          prepend-icon="mdi-account"
+        />
+        <v-list-item
+          title="Logout"
+          variant="plain"
+          color="inherit"
+          :link="true"
+          :active="true"
+          @click="logUserOut"
+          prepend-icon="mdi-logout"
+        />
+      </template>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue';
-import LogoIcon from '../Icons/LogoIcon.vue';
+import { computed, ref } from 'vue';
 import { useTheme } from 'vuetify';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useAuth } from '../../stores/auth';
+import Profile from './Profile.vue';
+import LogoIcon from '../Icons/LogoIcon.vue';
 
 const drawer = ref(false);
 const authStore = useAuth();
 const authState = storeToRefs(authStore);
 const router = useRouter();
-
-const items = reactive([
-  {
-    title: 'About Us',
-    to: '/about',
-    icon: 'mdi-account'
-  },
-  {
-    title: 'Contact Us',
-    to: '/contact',
-    icon: 'mdi-account'
-  },
-  {
-    title: 'Login',
-    to: '/signin',
-    icon: 'mdi-account'
-  },
-  {
-    title: 'Sign Up',
-    to: '/signup',
-    icon: 'mdi-account'
-  }
-]);
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
 const isAuthenticated = computed(() => authState?.user?.value?.isAuthenticated);

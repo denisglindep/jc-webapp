@@ -70,7 +70,7 @@ export const useAuth = defineStore('auth', {
     },
     getLoggedUserInfo: async function () {
       try {
-        const response = await getUserInfo(this.user?.data?.id);
+        const response = await getUserInfo(this?.user?.data?.id);
         if (!response.session_active) {
           localStorage.removeItem('userobj');
           this.$reset();

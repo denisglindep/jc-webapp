@@ -1,5 +1,4 @@
 <template>
-  <div>123</div>
   <v-form @submit.prevent="submit">
     <v-text-field v-bind="name" clearable label="Name" />
     <v-text-field v-bind="phone" clearable label="Phone Number" />
