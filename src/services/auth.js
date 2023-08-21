@@ -55,3 +55,8 @@ export async function getUserInfo(id) {
   const response = await authApi.get(`/${id}`);
   return response?.data;
 }
+
+export async function forgotPassword(data) {
+  const response = await authApi.post(`/forgot-password`, data, { withCredentials: true });
+  return response?.data;
+}

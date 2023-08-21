@@ -3,7 +3,7 @@ import {
   signIn,
   signUp,
   logOut,
-  getMyAccInfo,
+  forgotPassword,
   getUserInfo,
   verifyEmail,
   verifyMobile
@@ -66,14 +66,6 @@ export const useAuth = defineStore('auth', {
         }
       }
     },
-    checkUser: async function () {
-      try {
-        await getMyAccInfo();
-        // this.user.isAuthenticated = true;
-      } catch (error) {
-        console.log(error);
-      }
-    },
     getLoggedUserInfo: async function () {
       try {
         const response = await getUserInfo(this?.user?.data?.id);
@@ -107,6 +99,16 @@ export const useAuth = defineStore('auth', {
     checkIfMobileIsAvailable: async function (emailInput) {
       try {
         const response = await verifyMobile(emailInput);
+        return response;
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
+      }
+    },
+    sendForgotPassword: async function (data) {
+      try {
+        const response = await forgotPassword(data);
         return response;
       } catch (error) {
         if (error?.response?.data?.message) {
