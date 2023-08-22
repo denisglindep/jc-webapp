@@ -13,6 +13,7 @@ export const useEvents = defineStore('events', {
     upcomings: [],
     today: [],
     eventDetails: {},
+    comingSoon: [],
     loading: true
   }),
   actions: {
@@ -20,6 +21,7 @@ export const useEvents = defineStore('events', {
       try {
         const allEventsByPage = await getAllEventsByPage(page);
         this.all = allEventsByPage.list;
+        return allEventsByPage;
       } catch (error) {
         console.log('Error during fetch all events by page', error);
       } finally {
@@ -30,6 +32,7 @@ export const useEvents = defineStore('events', {
       try {
         const allEvents = await getAllEvents();
         this.all = allEvents.list;
+        return allEvents;
       } catch (error) {
         console.log('Error during fetch all events', error);
       } finally {
@@ -40,6 +43,7 @@ export const useEvents = defineStore('events', {
       try {
         const upcomingEvents = await getUpcomingEvents();
         this.upcomings = upcomingEvents;
+        return upcomingEvents;
       } catch (error) {
         console.log('Error during fetch upcoming events', error);
       } finally {
@@ -50,8 +54,20 @@ export const useEvents = defineStore('events', {
       try {
         const todayEvents = await getTodayEvents();
         this.today = todayEvents;
+        return todayEvents;
       } catch (error) {
         console.log('Error during fetch today events', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    getComingSoonEvents: async function (page = 0) {
+      try {
+        const comingSoonEvents = await getUpcomingEvents(page);
+        this.comingSoon = comingSoonEvents;
+        return comingSoonEvents;
+      } catch (error) {
+        console.log('Error during fetch coming soon events', error);
       } finally {
         this.loading = false;
       }

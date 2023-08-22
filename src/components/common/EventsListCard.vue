@@ -1,15 +1,15 @@
 <template>
   <v-card height="100%" class="d-flex flex-column">
     <v-img :src="event.cover_image" cover max-height="250" class="align-end flex-grow-1" />
-    <div class="d-flex flex-column justify-space-between flex-grow-1">
+    <v-card-item class="d-flex flex-column justify-space-between flex-grow-1">
       <v-card-title class="text-bold"> {{ event.name_en }}</v-card-title>
-      <v-card-text class="text-grey">{{ truncatedDescription }}</v-card-text>
-      <v-card-subtitle>
-        <v-icon size="small" icon="mdi-calendar-month-outline" />
-        {{ event.date_time }}
-      </v-card-subtitle>
-    </div>
-    <v-card-actions class="py-6">
+      <v-card-text class="px-0 text-grey">{{ truncatedDescription }}</v-card-text>
+    </v-card-item>
+    <v-card-subtitle v-if="event.date_time">
+      <v-icon size="small" icon="mdi-calendar-month-outline" />
+      {{ event.date_time }}
+    </v-card-subtitle>
+    <v-card-actions>
       <v-btn size="x-large" variant="elevated" @click="goToEvent(event.id)" block>View Event</v-btn>
     </v-card-actions>
   </v-card>

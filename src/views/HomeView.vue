@@ -1,8 +1,16 @@
 <template>
   <HeroSection />
-  <v-container tag="section" class="d-flex flex-column my-8" style="gap: 2rem">
-    <EventsListSection sectionTitle="Upcoming Events" :events="firstUpcomings" />
-    <EventsListSection sectionTitle="Coming Soon Events" :events="firstUpcomings" />
+  <v-container tag="section" class="d-flex flex-column my-8" style="gap: 4rem">
+    <EventsListSection
+      sectionTitle="Upcoming Events"
+      :events="firstUpcomings"
+      eventType="upcoming"
+    />
+    <EventsListSection
+      sectionTitle="Coming Soon Events"
+      :events="firstUpcomings"
+      eventType="coming-soon"
+    />
     <ContactUsSection />
   </v-container>
 </template>

@@ -167,6 +167,7 @@
                 }
               }"
               sectionTitle="You may also like"
+              eventType="suggested"
               :events="suggestedEvents"
             />
           </div>

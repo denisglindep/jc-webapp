@@ -21,6 +21,11 @@ const router = createRouter({
           component: HomeView
         },
         {
+          path: '/see-all/:eventType/:page?',
+          name: 'see-all',
+          component: () => import('../views/SeeAll.vue')
+        },
+        {
           path: '/about',
           name: 'about',
           // route level code-splitting
