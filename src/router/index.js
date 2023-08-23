@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuth } from '@/stores/auth.js';
+import { getUserTokenInfo } from '@/services/auth.js';
 import HomeView from '../views/HomeView.vue';
 import AboutUs from '../views/AboutUs.vue';
 import ContactUs from '../views/ContactUs.vue';
@@ -65,6 +66,12 @@ const router = createRouter({
           meta: {
             auth: true
           }
+        },
+        {
+          path: '/reset-password/:token',
+          name: 'reset-password',
+          component: () => import('../views/ResetPassword.vue'),
+          props: true
         }
       ]
     },
@@ -76,10 +83,22 @@ const router = createRouter({
   }
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuth();
   const isUserAuthenticated = authStore.getUserInfo?.isAuthenticated;
   const isAuthRoute = to.name === 'signin' || to.name === 'signup' || to.name === 'forgot-password';
+
+  if (to.name === 'reset-password') {
+    try {
+      const tokenId = to.params.token;
+      const userInfo = await getUserTokenInfo(tokenId);
+      to.params = { ...to.params, ...userInfo };
+      return next();
+    } catch (error) {
+      console.log('error', error);
+      next('/');
+    }
+  }
 
   if (isUserAuthenticated && isAuthRoute) {
     next('/');

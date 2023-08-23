@@ -56,7 +56,7 @@ const user = reactive({
 async function logUserOut() {
   try {
     await auth.logOutUser();
-    authStore.$reset();
+    auth.$reset();
     router.push('/');
   } catch (error) {
     console.log(error);

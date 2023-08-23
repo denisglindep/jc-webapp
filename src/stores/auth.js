@@ -6,7 +6,8 @@ import {
   forgotPassword,
   getUserInfo,
   verifyEmail,
-  verifyMobile
+  verifyMobile,
+  resetPassword
 } from '../services/auth';
 
 export const useAuth = defineStore('auth', {
@@ -55,7 +56,8 @@ export const useAuth = defineStore('auth', {
             userStatus: userData.user_status,
             userType: userData.user_type,
             isMobileVerified: userData.is_mobile_verified,
-            isEmailVerified: userData.is_email_verified
+            isEmailVerified: userData.is_email_verified,
+            session_id: userData.session_id
           },
           isAuthenticated: true
         };
@@ -71,7 +73,6 @@ export const useAuth = defineStore('auth', {
         const response = await getUserInfo(this?.user?.data?.id);
         if (!response.session_active) {
           localStorage.removeItem('userobj');
-          this.$reset();
         }
         return false;
       } catch (error) {
@@ -110,6 +111,15 @@ export const useAuth = defineStore('auth', {
       try {
         const response = await forgotPassword(data);
         return response;
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
+      }
+    },
+    resetPassword: async function (data) {
+      try {
+        await resetPassword(data);
       } catch (error) {
         if (error?.response?.data?.message) {
           throw new Error(error?.response?.data?.message);

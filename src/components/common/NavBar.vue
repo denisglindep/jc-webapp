@@ -128,8 +128,8 @@ import ConfirmModal from './ConfirmModal.vue';
 import LogoIcon from '../Icons/LogoIcon.vue';
 
 const drawer = ref(false);
-const authStore = useAuth();
-const authState = storeToRefs(authStore);
+const auth = useAuth();
+const authState = storeToRefs(auth);
 const router = useRouter();
 const theme = useTheme();
 const isDarkMode = computed(() => theme.current.value.dark);
@@ -137,8 +137,8 @@ const isAuthenticated = computed(() => authState?.user?.value?.isAuthenticated);
 
 async function logUserOut() {
   try {
-    await authStore.logOutUser();
-    authStore.$reset();
+    await auth.logOutUser();
+    authState.$reset();
     router.push('/');
   } catch (error) {
     console.log(error);

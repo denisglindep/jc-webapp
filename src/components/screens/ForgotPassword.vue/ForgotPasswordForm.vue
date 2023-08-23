@@ -54,9 +54,12 @@
         </v-btn>
       </v-card-text>
     </v-form>
-    <v-dialog v-model="showEmailSentDialog" width="auto" max-width="50%" class="text-center">
-      <v-card class="px-4 py-2">
-        <v-card-title>Link sent successfully! <v-icon icon="mdi-success-outlined" /></v-card-title>
+    <v-dialog v-model="showEmailSentDialog" width="auto" max-width="50%">
+      <v-card class="px-4 py-2 text-center">
+        <v-card-title>
+          Link sent successfully!
+          <v-icon icon="mdi-check-circle-outline" size="sm" color="success" />
+        </v-card-title>
         <v-card-subtitle>We had sent reset password link to your email.</v-card-subtitle>
         <v-card-actions class="d-flex">
           <v-btn
