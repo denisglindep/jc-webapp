@@ -4,13 +4,12 @@ import {
   signUp,
   logOut,
   forgotPassword,
-  getUserInfo,
+  resetPassword,
   verifyEmail,
-  verifyMobile,
-  resetPassword
+  verifyMobile
 } from '../services/auth';
 
-export const useAuth = defineStore('auth', {
+export default defineStore('auth', {
   state: () => ({
     user: {
       data: JSON.parse(localStorage.getItem('userobj')),
@@ -66,17 +65,6 @@ export const useAuth = defineStore('auth', {
         if (error?.response?.data?.message) {
           throw new Error(error?.response?.data?.message);
         }
-      }
-    },
-    getLoggedUserInfo: async function () {
-      try {
-        const response = await getUserInfo(this?.user?.data?.id);
-        if (!response.session_active) {
-          localStorage.removeItem('userobj');
-        }
-        return false;
-      } catch (error) {
-        console.log(error);
       }
     },
     logOutUser: async function () {

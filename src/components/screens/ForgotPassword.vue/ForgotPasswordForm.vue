@@ -83,7 +83,7 @@ import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { useTheme } from 'vuetify';
 import { useRouter } from 'vue-router';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/stores';
 
 const showEmailSentDialog = ref(false);
 

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useAuth } from '@/stores/auth.js';
+import { useAuth } from '@/stores';
 import { getUserTokenInfo } from '@/services/auth.js';
 import HomeView from '../views/HomeView.vue';
 import AboutUs from '../views/AboutUs.vue';
@@ -15,9 +15,10 @@ const router = createRouter({
     {
       path: '/',
       component: DefaultLayout,
+      redirect: { name: 'home' },
       children: [
         {
-          path: '/',
+          path: '/home',
           name: 'home',
           component: HomeView
         },
@@ -70,6 +71,17 @@ const router = createRouter({
         {
           path: '/reset-password/:token',
           name: 'reset-password',
+          beforeEnter: async (to, _, next) => {
+            try {
+              const tokenId = to.params.token;
+              const userInfo = await getUserTokenInfo(tokenId);
+              to.params = { ...to.params, ...userInfo };
+              return next();
+            } catch (error) {
+              console.log('error', error);
+              next('/');
+            }
+          },
           component: () => import('../views/ResetPassword.vue'),
           props: true
         }
@@ -83,36 +95,26 @@ const router = createRouter({
   }
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _, next) => {
   const authStore = useAuth();
   const isUserAuthenticated = authStore.getUserInfo?.isAuthenticated;
   const isAuthRoute = to.name === 'signin' || to.name === 'signup' || to.name === 'forgot-password';
 
-  if (to.name === 'reset-password') {
-    try {
-      const tokenId = to.params.token;
-      const userInfo = await getUserTokenInfo(tokenId);
-      to.params = { ...to.params, ...userInfo };
-      return next();
-    } catch (error) {
-      console.log('error', error);
-      next('/');
-    }
+  if (isUserAuthenticated && to.query.redirect && to.meta.auth) {
+    return next(to.query.redirect);
   }
 
   if (isUserAuthenticated && isAuthRoute) {
-    next('/');
+    return next('/');
   }
 
-  if (to.meta.auth) {
-    if (isUserAuthenticated) {
-      next();
-    } else {
-      next('/signin');
-    }
-  } else {
-    next();
+  if (to.meta.auth && !isUserAuthenticated) {
+    return next({
+      name: 'signin',
+      query: { redirect: to.fullPath }
+    });
   }
+  next();
 });
 
 export default router;

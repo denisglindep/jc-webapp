@@ -122,7 +122,7 @@ import { computed, ref } from 'vue';
 import { useTheme } from 'vuetify';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
-import { useAuth } from '../../stores/auth';
+import { useAuth } from '../../stores';
 import Profile from './Profile.vue';
 import ConfirmModal from './ConfirmModal.vue';
 import LogoIcon from '../Icons/LogoIcon.vue';

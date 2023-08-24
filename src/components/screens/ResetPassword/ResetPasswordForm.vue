@@ -68,7 +68,7 @@
 import { ref } from 'vue';
 import { object, string, ref as yupRef } from 'yup';
 import { useForm } from 'vee-validate';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/stores';
 import { useRouter } from 'vue-router';
 
 const passwordReseted = ref(false);

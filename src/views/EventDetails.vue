@@ -182,7 +182,7 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import EventsListSection from '@/components/common/EventsListSection.vue';
-import { useEvents } from '@/stores/events.js';
+import { useEvents } from '@/stores';
 
 const selectedTimeId = ref(null);
 const router = useRoute();

@@ -1,10 +1,10 @@
 <template>
-  <v-container class="my-4 my-md-8">
-    <h4 class="my-6 my-md-12 text-center text-h4 font-weight-bold">All {{ eventType }} events</h4>
+  <v-container class="py-16">
+    <h4 class="text-center text-h4 font-weight-bold">All {{ eventType }} events</h4>
     <div v-if="events.loading" class="d-flex fill-height justify-center align-center">
       <v-progress-circular indeterminate color="primary" />
     </div>
-    <v-row v-else>
+    <v-row v-else class="mt-10">
       <v-col v-for="event in eventsList" :key="event.id" xs="12" sm="12" md="6" lg="4">
         <EventsListCard :event="event" />
       </v-col>
@@ -14,7 +14,7 @@
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useEvents } from '@/stores/events';
+import { useEvents } from '@/stores';
 import { useRouter } from 'vue-router';
 
 import EventsListCard from '@/components/common/EventsListCard.vue';

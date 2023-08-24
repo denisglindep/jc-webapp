@@ -93,7 +93,7 @@ import { useForm } from 'vee-validate';
 import { useTheme } from 'vuetify';
 import { object, string, ref as yupRef } from 'yup';
 import { useDebounceFn } from '@vueuse/core';
-import { useAuth } from '@/stores/auth.js';
+import { useAuth } from '@/stores';
 import { useRouter } from 'vue-router';
 import LogoIcon from '../../Icons/LogoIcon.vue';
 import allCountries from '@/utils/allCountries.js';

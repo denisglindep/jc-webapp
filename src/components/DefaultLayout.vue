@@ -13,16 +13,16 @@
 
 <script setup>
 import { onMounted, ref, watchEffect } from 'vue';
-import { useEvents } from '@/stores/events';
 import { useTheme } from 'vuetify';
 import { useMediaQuery } from '@vueuse/core';
-import { useAuth } from '@/stores/auth';
+import { useAuth, useEvents, useProfile } from '@/stores';
 import Footer from '@/components/common/Footer.vue';
 import SubscribeToNewsSection from '@/components/screens/Home/SubscribeToNewsSection.vue';
 import NavBar from '@/components/common/NavBar.vue';
 
 const events = useEvents();
 const auth = useAuth();
+const profile = useProfile();
 const theme = useTheme();
 const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
 const isDarkMode = ref(prefersDark);
@@ -35,7 +35,7 @@ watchEffect(() => {
 onMounted(() => {
   const isLogged = auth?.user?.isAuthenticated;
   if (isLogged) {
-    auth.getLoggedUserInfo();
+    profile.getLoggedUserInfo();
   }
   events.getUpcomingEvents();
   events.getAllEventsByPage();

@@ -7,7 +7,7 @@ import {
   getEventDetails
 } from '../services/events';
 
-export const useEvents = defineStore('events', {
+export default defineStore('events', {
   state: () => ({
     all: [],
     upcomings: [],

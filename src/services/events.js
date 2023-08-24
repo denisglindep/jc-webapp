@@ -1,7 +1,4 @@
-import axios from 'axios';
-export const eventsApi = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL_DEV}/api/events`
-});
+import { eventsApi } from './instances';
 
 export async function getAllEventsByPage(page = 0) {
   try {

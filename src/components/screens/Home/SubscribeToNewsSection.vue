@@ -3,9 +3,9 @@
     tag="section"
     fluid
     :class="[isDarkMode ? 'section-bg-dark' : 'section-bg-light']"
-    class="d-flex justify-center align-center"
+    class="d-flex justify-center align-center py-16"
   >
-    <v-container class="py-16">
+    <v-container>
       <v-row align="center">
         <v-col cols="12" md="6" lg="8">
           <div class="d-flex flex-column">
@@ -20,25 +20,23 @@
         </v-col>
         <v-col cols="12" md="6" lg="4">
           <v-form @submit.prevent="submit" class="d-flex align-center rounded bg-white pa-2">
-            <v-container class="pa-0">
-              <v-row no-gutters>
-                <v-col cols="6">
-                  <v-text-field
-                    v-bind="email"
-                    placeholder="johndoe@gmail.com"
-                    hide-details="true"
-                    label="Enter Email"
-                    clearable
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="6">
-                  <v-btn height="100%" block rounded="sm" type="submit" size="x-large"
-                    >Subscribe</v-btn
-                  >
-                </v-col>
-              </v-row>
-            </v-container>
+            <v-row no-gutters>
+              <v-col cols="6">
+                <v-text-field
+                  v-bind="email"
+                  placeholder="johndoe@gmail.com"
+                  hide-details="true"
+                  label="Enter Email"
+                  clearable
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-btn height="100%" block rounded="sm" type="submit" size="x-large"
+                  >Subscribe</v-btn
+                >
+              </v-col>
+            </v-row>
           </v-form>
         </v-col>
       </v-row>

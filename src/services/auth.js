@@ -1,9 +1,4 @@
-import axios from 'axios';
-
-const authApi = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL_DEV}/api/users`
-});
-authApi.defaults.withCredentials = true;
+import { authApi, defaultApi } from './instances';
 
 // set the default headers for AUTH API in case if page was refreshed
 authApi.defaults.headers.common['x-sessionid'] = JSON.parse(
@@ -33,7 +28,7 @@ export async function signIn(data) {
 }
 
 export async function logOut() {
-  const response = await axios.post(`${import.meta.env.VITE_API_URL_DEV}/api/logout/`, null, {
+  const response = await defaultApi.post(`/api/logout/`, null, {
     headers: {
       'x-sessionid': authApi.defaults.headers.common['x-sessionid']
     }
@@ -57,16 +52,6 @@ export async function verifyMobile(mobilePhoneData) {
     formData.append(prop, mobilePhoneData[prop]);
   }
   const response = await authApi.post('/phoneverification', formData);
-  return response?.data;
-}
-
-export async function getMyAccInfo() {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL_DEV}/my-account/`);
-  return response;
-}
-
-export async function getUserInfo(id) {
-  const response = await authApi.get(`/${id}`, { withCredentials: true });
   return response?.data;
 }
 

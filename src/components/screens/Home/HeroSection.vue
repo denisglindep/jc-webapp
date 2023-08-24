@@ -15,7 +15,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useEvents } from '@/stores/events';
+import { useEvents } from '@/stores';
 
 const events = useEvents();
 const { today, loading } = storeToRefs(events);

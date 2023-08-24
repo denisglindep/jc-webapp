@@ -70,7 +70,7 @@ import { useForm } from 'vee-validate';
 import { useTheme } from 'vuetify';
 import { object, string } from 'yup';
 import { useRouter } from 'vue-router';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/stores';
 import LogoIcon from '../../Icons/LogoIcon.vue';
 
 const visible = ref(false);
@@ -105,11 +105,7 @@ const submit = handleSubmit(async (values) => {
       type: 'USER'
     };
     await authStore.signInUser(data);
-    if (router?.currentRoute?.value?.redirectedFrom) {
-      router.push(router?.currentRoute?.value?.redirectedFrom?.fullPath);
-    } else {
-      router.push('/');
-    }
+    router.push('/');
   } catch (error) {
     setErrors({ apiError: error?.message });
     setTimeout(() => setErrors({ apiError: null }), 5000);

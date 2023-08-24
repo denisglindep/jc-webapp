@@ -37,7 +37,7 @@
 <script setup>
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/stores';
 import { storeToRefs } from 'pinia';
 import ConfirmModal from './ConfirmModal.vue';
 
