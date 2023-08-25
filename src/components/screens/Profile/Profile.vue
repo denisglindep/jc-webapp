@@ -20,6 +20,15 @@
           @click="$emit('selectedItem', item)"
         />
       </v-col>
+      <v-col cols="12" sm="6" offset="6">
+        <v-btn block size="large" variant="tonal" color="primary" rounded="lg">
+          Logout
+          <ConfirmModal
+            title="Are you sure you want to log out of the platform?"
+            @action-success="logUserOut"
+          />
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -28,8 +37,9 @@
 import { ref, computed } from 'vue';
 import { useAuth } from '@/stores';
 import { storeToRefs } from 'pinia';
-
+import { useRouter } from 'vue-router';
 import ProfileAvatar from './ProfileAvatar.vue';
+import ConfirmModal from '../../common/ConfirmModal.vue';
 
 defineEmits(['selectedItem']);
 
@@ -64,6 +74,7 @@ const settings = ref([
   }
 ]);
 
+const router = useRouter();
 const auth = useAuth();
 const authStore = storeToRefs(auth);
 const userData = authStore?.getUserInfo?.value?.data;
@@ -73,4 +84,14 @@ const user = computed(() => ({
   initials: `${firstName[0]}${lastName[0]}`,
   fullName: `${firstName} ${lastName}`
 }));
+
+async function logUserOut() {
+  try {
+    await auth.logOutUser();
+    auth.$reset();
+    router.push('/');
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>

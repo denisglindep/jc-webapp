@@ -13,7 +13,7 @@
           <v-expansion-panel-title>
             {{ item.faq_title_en }}
             <template v-slot:actions="{ expanded }">
-              <v-icon color="primary" :icon="expanded ? '$expand' : '$collapse'" />
+              <v-icon color="primary" :icon="!expanded ? '$expand' : '$collapse'" />
             </template>
           </v-expansion-panel-title>
         </v-expansion-panel>
