@@ -20,11 +20,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useTheme } from 'vuetify';
-const router = useRouter();
-const theme = useTheme();
 
-console.log(theme?.computedThemes);
+const router = useRouter();
 function goToEvent(id) {
   router.push({ name: 'event-details', params: { id } });
 }

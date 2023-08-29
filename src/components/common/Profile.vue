@@ -8,21 +8,27 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-text>
-        <div class="mx-auto text-center">
-          <h3>{{ user.fullName }}</h3>
-          <p class="text-caption mt-1">
-            {{ user.email }}
-          </p>
-        </div>
+      <v-card-text class="text-center">
+        <p class="text-body-1">{{ firstName }}</p>
+        <p class="text-body-1 mt-2">{{ lastName }}</p>
+        <v-card-subtitle class="text-caption mt-2">
+          {{ user.email }}
+        </v-card-subtitle>
       </v-card-text>
-      <v-divider class="my-3" />
+      <v-divider />
       <v-card-actions class="d-flex flex-column">
         <v-btn block variant="text" :rounded="false" color="inherit" to="/profile" class="ma-0">
           Profile
         </v-btn>
         <v-divider class="my-2" />
-        <v-btn block variant="text" :rounded="false" color="inherit" class="ma-0">
+        <v-btn
+          block
+          variant="text"
+          :rounded="false"
+          color="inherit"
+          class="ma-0"
+          prepend-icon="mdi-logout"
+        >
           Logout
           <ConfirmModal
             title="Are you sure you want to log out of the platform?"

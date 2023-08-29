@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="d-flex justify-center pa-4" rounded="lg">
-    <div class="d-flex flex-column align-center">
+    <div class="d-flex flex-column align-center text-center">
       <v-avatar
         class="mb-2"
         color="primary"

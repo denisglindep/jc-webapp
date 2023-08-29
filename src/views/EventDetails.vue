@@ -1,5 +1,8 @@
 <template>
-  <div class="d-flex flex-column">
+  <div v-if="loading" class="d-flex w-100 justify-center align-center h-screen">
+    <v-progress-circular color="primary" indeterminate="" />
+  </div>
+  <div v-else class="d-flex flex-column">
     <div
       class="fill-height"
       :style="{
@@ -9,36 +12,27 @@
         backgroundRepeat: 'no-repeat'
       }"
     >
-      <div class="backdrop-container">
-        <v-container class="d-flex">
-          <v-row align="center">
-            <v-col cols="12">
-              <div
-                v-if="loading"
-                class="d-flex w-100 justify-center align-center fill-height h-screen"
-              >
-                <v-progress-circular />
-              </div>
-              <div v-else class="d-flex flex-column-reverse flex-md-row align-center">
-                <v-card elevation="0" class="bg-transparent text-white w-100 w-md-50">
-                  <v-card-title>
-                    <h3>{{ eventDetails?.name_en }}</h3>
-                  </v-card-title>
-                  <v-card-text>
-                    <p class="text-body-1">{{ eventDetails?.short_description_en }}</p>
-                  </v-card-text>
-
-                  <v-card-item>
-                    <v-list class="bg-transparent">
-                      <v-list-item class="pa-0">
-                        <template v-slot:prepend>
-                          <v-icon class="date-icon" size="x-large" icon="mdi-calendar-month" />
-                        </template>
-                        <div class="d-flex flex-column flex-md-row">
-                          <div class="flex-grow-1 mb-2 mb-md-0">
-                            <v-list-item-title>{{ dates?.date }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ dates?.times }}</v-list-item-subtitle>
-                          </div>
+      <div class="backdrop-container py-16">
+        <v-container>
+          <v-row class="d-flex flex-column-reverse flex-md-row">
+            <v-col cols="12" sm="12" md="6" align-self="center">
+              <v-card elevation="0" class="bg-transparent text-white">
+                <v-card-title class="text-h4 text-wrap">{{ eventDetails?.name_en }}</v-card-title>
+                <v-card-text class="text-body-1">{{
+                  eventDetails?.short_description_en
+                }}</v-card-text>
+                <v-card-item class="pa-0">
+                  <v-list class="bg-transparent">
+                    <v-list-item>
+                      <template v-slot:prepend>
+                        <v-icon class="date-icon" size="x-large" icon="mdi-calendar-month" />
+                      </template>
+                      <v-row>
+                        <v-col>
+                          <v-list-item-title>{{ dates?.date }}</v-list-item-title>
+                          <v-list-item-subtitle>{{ dates?.times }}</v-list-item-subtitle>
+                        </v-col>
+                        <v-col>
                           <v-select
                             v-if="times?.length > 0"
                             clearable
@@ -72,42 +66,41 @@
                             size="x-large"
                             class="text-white"
                           />
-                        </div>
-                      </v-list-item>
-                      <v-divider color="white" class="mb-2" />
-                      <v-list-item class="pa-0">
-                        <template v-slot:prepend>
-                          <v-icon class="date-icon" size="x-large" icon="mdi-map-marker-outline" />
-                        </template>
-                        <v-list-item-title>Avenue</v-list-item-title>
-                        <v-list-item-subtitle>{{
-                          eventDetails?.venue?.name_en
-                        }}</v-list-item-subtitle>
-                      </v-list-item>
-                      <v-divider color="white" class="my-2" />
-                      <v-list-item class="pa-0">
-                        <template v-slot:prepend>
-                          <v-icon class="date-icon" size="x-large" icon="mdi-tag-outline" />
-                        </template>
-                        <v-list-item-title>Price</v-list-item-title>
-                        <v-list-item-subtitle
-                          >Startin from {{ eventDetails?.ga_price }}</v-list-item-subtitle
-                        >
-                      </v-list-item>
-                      <v-divider color="white" class="my-2" />
-                    </v-list>
-                  </v-card-item>
-
-                  <v-card-actions>
-                    <v-btn :disabled="isBookingUnavailable" block size="x-large" variant="elevated">
-                      Reserve
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-                <v-card class="w-100 w-md-50">
-                  <v-img :src="eventDetails?.cover_image" height="100%" cover />
-                </v-card>
-              </div>
+                        </v-col>
+                      </v-row>
+                    </v-list-item>
+                    <v-divider color="white" class="mb-2" />
+                    <v-list-item>
+                      <template v-slot:prepend>
+                        <v-icon class="date-icon" size="x-large" icon="mdi-map-marker-outline" />
+                      </template>
+                      <v-list-item-title>Avenue</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        eventDetails?.venue?.name_en
+                      }}</v-list-item-subtitle>
+                    </v-list-item>
+                    <v-divider color="white" class="my-2" />
+                    <v-list-item>
+                      <template v-slot:prepend>
+                        <v-icon class="date-icon" size="x-large" icon="mdi-tag-outline" />
+                      </template>
+                      <v-list-item-title>Price</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Startin from {{ eventDetails?.ga_price }}</v-list-item-subtitle
+                      >
+                    </v-list-item>
+                    <v-divider color="white" class="my-2" />
+                  </v-list>
+                </v-card-item>
+                <v-card-actions>
+                  <v-btn :disabled="isBookingUnavailable" block size="x-large" variant="elevated">
+                    Reserve
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
+              <v-img :src="eventDetails?.cover_image" cover class="rounded-lg h-100" />
             </v-col>
           </v-row>
         </v-container>
@@ -116,10 +109,12 @@
     <v-container class="d-flex flex-column my-10" :style="{ gap: '3rem' }">
       <v-row>
         <v-col>
-          <div class="d-flex flex-column" :style="{ gap: '3rem' }">
-            <h3 class="text-h3 font-weight-medium">{{ eventDetails?.name_en }}</h3>
-            <div v-html="eventDetails?.description_en" />
-          </div>
+          <v-card class="bg-transparent" elevation="0">
+            <v-card-title>{{ eventDetails?.name_en }}</v-card-title>
+            <v-card-text>
+              <div v-html="eventDetails?.description_en" />
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>

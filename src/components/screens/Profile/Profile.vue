@@ -20,8 +20,15 @@
           @click="$emit('selectedItem', item)"
         />
       </v-col>
-      <v-col cols="12" sm="6" offset="6">
-        <v-btn block size="large" variant="tonal" color="primary" rounded="lg">
+      <v-col cols="12" sm="6" class="ms-auto">
+        <v-btn
+          block
+          size="large"
+          variant="tonal"
+          color="primary"
+          rounded="lg"
+          prepend-icon="mdi-logout"
+        >
           Logout
           <ConfirmModal
             title="Are you sure you want to log out of the platform?"
