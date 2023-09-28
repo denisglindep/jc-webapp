@@ -84,6 +84,47 @@ const router = createRouter({
           },
           component: () => import('../views/ResetPassword.vue'),
           props: true
+        },
+        {
+          path: '/select-seats/:id',
+          name: 'select-seats',
+          beforeEnter: (_, from, next) => {
+            if (from.name && from.name !== 'event-details') {
+              return next('/');
+            }
+            return next();
+          },
+          meta: {
+            auth: true
+          },
+          component: () => import('../views/SelectSeats.vue'),
+          props: true
+        }
+      ]
+    },
+    {
+      name: 'booking',
+      path: '/booking/:id',
+      component: DefaultLayout,
+      props: true,
+      meta: {
+        auth: true
+      },
+      beforeEnter: (_, from, next) => {
+        if (from.name && from.name !== 'select-seats') {
+          return next('/');
+        }
+        return next();
+      },
+      children: [
+        {
+          name: 'booking-summary',
+          path: 'summary',
+          component: () => import('../views/Booking.vue'),
+          props: true,
+          meta: {
+            auth: true
+          }
         }
       ]
     },

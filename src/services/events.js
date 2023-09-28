@@ -1,4 +1,4 @@
-import { eventsApi } from './instances';
+import { defaultApi, eventsApi, seatsApi } from './instances';
 
 export async function getAllEventsByPage(page = 0) {
   try {
@@ -60,5 +60,104 @@ export async function getComingSoonEvents(page = 0) {
     return response.data;
   } catch (error) {
     console.log("Can't fetch coming soon events", error);
+  }
+}
+
+export async function getEventAvailableTimes(eventId) {
+  try {
+    const response = await eventsApi.get(`/app/date/timings/${eventId}`);
+    return response.data;
+  } catch (error) {
+    console.log("Can't fetch event available times", error);
+  }
+}
+
+export async function getEventAvailableTimesDetails(eventId) {
+  try {
+    const response = await eventsApi.get(`/timing/list/${eventId}`);
+    return response.data;
+  } catch (error) {
+    console.log("Can't fetch event available times", error);
+  }
+}
+
+export async function eventSelectSeats(eventId, dateID) {
+  try {
+    const response = await defaultApi.get(`/select-seats/event/${eventId}/date-time/${dateID}/`, {
+      headers: {
+        ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Can't fetch select seats", error);
+  }
+}
+
+export async function getSeatsPricingInfo(dateId) {
+  try {
+    const response = await eventsApi.get(`/seat-pricing/list/${dateId}`);
+    return response?.data;
+  } catch (error) {
+    console.log("Can't fetch seats pricing", error);
+  }
+}
+
+export async function setHoldTokenApi(token, time_id, eventKey) {
+  try {
+    const response = await defaultApi.get(
+      `api/set/hold-token?hold_token=${token}&event_date_time_id=${time_id}&chartkey=${eventKey}`,
+      {
+        headers: {
+          ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Can't set hold token", error);
+  }
+}
+
+export async function setBookingSeatsIo(user_id, options) {
+  try {
+    const response = defaultApi.put(`/api/bookings/set/seats-io?user_id=${user_id}`, options);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getSeatsAvaiability(holdToken) {
+  try {
+    const response = await seatsApi.get(`/seat-availability-api?token_id=${holdToken}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function lockBookedSeats(options) {
+  try {
+    const response = await defaultApi.put(`/api/bookings/lock`, options);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function callPaymentsApi(options) {
+  try {
+    const response = await defaultApi.post(`/api/payment/process/mobile`, options, {
+      headers: {
+        ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id,
+        ['X-PLATFORM']: 'WEB',
+        ['X-LOCAL']: 'en',
+        ['X-VERSION']: '4.8.0'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 }

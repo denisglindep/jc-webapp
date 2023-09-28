@@ -17,3 +17,8 @@ export const faqApi = axios.create({
   baseURL: `${import.meta.env.VITE_FAQ_API_URL_PROD}/api/faq`,
   withCredentials: true
 });
+
+export const seatsApi = axios.create({
+  baseURL: `${import.meta.env.VITE_SEATS_API_URL}`,
+  withCredentials: false
+});

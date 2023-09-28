@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",
+    "@seatsio/seatsio-vue": "^2.0.0",
     "@vueuse/core": "^10.2.0",
     "axios": "^1.4.0",
-    "mande": "^2.0.6",
     "pinia": "^2.0.36",
     "vee-validate": "^4.10.6",
     "vite-plugin-mkcert": "^1.16.0",

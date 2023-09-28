@@ -1,5 +1,13 @@
 <template>
-  <HeroSection />
+  <section class="section-container">
+    <div
+      v-if="events?.upcomings?.length === 0"
+      class="d-flex fill-height justify-center align-center"
+    >
+      <v-progress-circular indeterminate color="primary" />
+    </div>
+    <HeroSection :events="events?.upcomings" v-else />
+  </section>
   <v-container tag="section" class="my-10">
     <v-row>
       <v-col>
@@ -30,13 +38,28 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useEvents } from '@/stores';
 
 import HeroSection from '@/components/screens/Home/HeroSection.vue';
 import EventsListSection from '@/components/common/EventsListSection.vue';
 import ContactUsSection from '@/components/screens/Home/ContactUsSection.vue';
 
-import { useEvents } from '@/stores';
 const eventsStore = useEvents();
-const { firstUpcomings } = storeToRefs(eventsStore);
+const { events } = storeToRefs(eventsStore);
+const firstUpcomings = computed(() => events.value.upcomings.slice(0, 3));
+
+eventsStore.getUpcomingEvents();
+eventsStore.getAllEventsByPage();
+eventsStore.getTodayEvents();
 </script>
+
+<style scoped>
+.section-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+</style>

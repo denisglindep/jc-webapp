@@ -12,15 +12,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useTheme } from 'vuetify';
 import { useMediaQuery } from '@vueuse/core';
-import { useAuth, useEvents, useProfile } from '@/stores';
+import { useAuth, useProfile } from '@/stores';
 import Footer from '@/components/common/Footer.vue';
 import SubscribeToNewsSection from '@/components/screens/Home/SubscribeToNewsSection.vue';
 import NavBar from '@/components/common/NavBar.vue';
 
-const events = useEvents();
 const auth = useAuth();
 const profile = useProfile();
 const theme = useTheme();
@@ -32,13 +31,8 @@ watchEffect(() => {
   theme.global.name.value = isDarkMode.value ? 'dark' : 'light';
 });
 
-onMounted(() => {
-  const isLogged = auth?.user?.isAuthenticated;
-  if (isLogged) {
-    profile.getLoggedUserInfo();
-  }
-  events.getUpcomingEvents();
-  events.getAllEventsByPage();
-  events.getTodayEvents();
-});
+const isLogged = auth?.user?.isAuthenticated;
+if (isLogged) {
+  profile.getLoggedUserInfo();
+}
 </script>

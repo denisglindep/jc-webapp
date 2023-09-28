@@ -6,8 +6,8 @@
         <v-btn
           class="w-50"
           rounded="lg"
-          color="primary"
-          variant="plain"
+          :color="theme.global.name.value === 'dark' ? 'white' : 'primary'"
+          variant="tonal"
           text
           @click="showDialog = false"
         >
@@ -23,7 +23,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useTheme } from 'vuetify';
 const showDialog = ref(false);
+const theme = useTheme();
 
 defineProps({
   title: {

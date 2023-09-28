@@ -8,7 +8,7 @@ import vuetify from 'vite-plugin-vuetify';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: false,
+  // server: true,
   plugins: [
     vue(),
     vueJsx(),
