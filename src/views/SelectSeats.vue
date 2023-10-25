@@ -18,8 +18,8 @@
               session="continue"
               :event="selectedEventTimeInfo?.web_seatio_eventkey"
               :pricing="pricingInfo.price"
-              :maxSelectedObjects="pricingInfo.maxSelectedObjects"
-              :minSelectedObjects="pricingInfo.minSelectedObjects"
+              :maxSelectedObjects="10"
+              :minSelectedObjects="10"
               :priceFormatter="(price) => `${price} KWD`"
               :showSeatLabels="true"
               :holdOnSelectForGAs="true"
@@ -33,6 +33,7 @@
               @objectDeselected="deselectObject"
               @chartRendered="handleChartRendered"
               @selectedObjectBooked="handleSeatAlreadyBooked"
+              @holdTokenExpired="handleHoldSucceeded"
               :categoryFilter="{
                 enabled: true,
                 multiSelect: true,
@@ -63,13 +64,18 @@
                           @click="() => handleCategorySelected(item)"
                           :color="item.category.color"
                         >
-                          <span class="text-caption font-weight-medium text-white" />
+                          <span
+                            :class="`text-caption font-weight-medium ${
+                              isDarkMode ? 'text-white' : 'text-primary'
+                            }`"
+                            >{{ item.labels.parent }}-{{ item.labels.own }}</span
+                          >
                         </v-avatar>
                       </td>
                       <td>
                         <span class="ml-2">{{ item.category.label }}</span>
                       </td>
-                      <td>{{ item.pricing.formattedPrice }}</td>
+                      <td>{{ item?.pricing?.formattedPrice }}</td>
                       <td>
                         <v-icon icon="mdi-close" @click="() => deselectObject(item)" />
                       </td>
@@ -153,6 +159,8 @@ const handleSeatAlreadySelected = ref(false);
 const alreadySelectedSeats = ref([]);
 const apiHoldTokenInfo = ref(null);
 
+const isDarkMode = computed(() => theme.current.value.dark);
+
 async function handleCategorySelected(item) {
   await seatingChart.value.zoomToSection(item.labels.section);
 }
@@ -167,14 +175,21 @@ async function handleChartRendered(chartObj) {
   selectedObjects.value = await seatingChart.value.listSelectedObjects();
 }
 
+async function handleHoldSucceeded() {
+  resetSelection();
+  await seatingChart.value.startNewSession();
+}
+
 async function handleObjectSelected(selectedObject) {
+  console.log('selectedObject', selectedObject);
+  selectedObject.pulse();
   const token = JSON.parse(sessionStorage.getItem('seatsio')).holdToken;
   const holdTokenInfo = await eventsStore.setHoldToken(
     token,
     route.query?.date_id,
     selectedObject.chart.config.event
   );
-  if (!apiHoldTokenInfo.value && holdTokenInfo.id) {
+  if (!apiHoldTokenInfo.value && holdTokenInfo?.id) {
     apiHoldTokenInfo.value = holdTokenInfo;
   }
   selectedObjects.value.push(selectedObject);
@@ -207,19 +222,8 @@ async function handleContinue() {
     seats
   });
 
-  // const payment = await eventsStore.callPayments({
-  //   event_id: route.params.id,
-  //   date_time_id: route.query.date_id,
-  //   user_id,
-  //   // hold_token,
-  //   gateway: 'KNET',
-  //   lang: 'en',
-  //   voucher: '',
-  //   seats: selectedObjects.value.map((el) => el.id + '-' + el.category.key).join(),
-  //   platform: 'WEB'
-  // });
-
   // const seatAvaiability = await eventsStore.getSeatAvaiability(apiHoldTokenInfo.value?.id);
+  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
   router.push({
     name: 'booking-summary',
     params: { id: route.params.id },
@@ -253,15 +257,15 @@ const pricingInfo = computed(() => {
   return res;
 });
 
-const selectedEventTimeInfo = computed(() =>
-  eventsStore?.eventDetails?.data?.times?.find((el) => el.id == route.query?.date_id)
-);
+const selectedEventTimeInfo = computed(() => {
+  return eventsStore?.eventDetails?.data?.times?.find((el) => el.id == route.query?.date_id);
+});
 
 const totalPrice = computed(() =>
   selectedObjects.value.reduce((acc, el) => acc + el.pricing.price, 0)
 );
 
-if (eventsStore?.data) {
+if (!eventsStore?.eventDetails?.data) {
   eventsStore.getEventDetails(route.params.id);
 }
 eventsStore.getSeatsPricing(route.query?.date_id);

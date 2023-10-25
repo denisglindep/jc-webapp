@@ -2,9 +2,10 @@
   <section class="mt-20 d-flex flex-column align-center justify-items-center" style="gap: 2rem">
     <LogoIcon />
     <div class="text-center text-grey">
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt tenetur minus fuga ipsam
-      veritatis ad, rem beatae quaerat, aperiam ex numquam eius esse repudiandae? Magni doloremque
-      corporis voluptates harum natus.
+      JACC Kuwait (TAK) is a 5,000 + capacity indoor venue, that will stage all kinds of live
+      entertainment events. The venue, which is owned by the Tamdeen Group, is an integral part of
+      the 360 Mall entertainment, leisure and shopping complex and a key tourist destination in
+      Kuwait.
     </div>
     <v-btn to="/contact" size="x-large">Contact Us</v-btn>
   </section>

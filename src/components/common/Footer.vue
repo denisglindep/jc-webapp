@@ -13,10 +13,25 @@
             <v-btn :ripple="false" to="/contact" variant="plain" color="inherit" class="mx-2"
               >Contact Us</v-btn
             >
-            <v-btn :ripple="false" to="/signin" variant="plain" color="inherit" class="mx-2"
+            <v-btn
+              v-if="!isAuthenticated"
+              :ripple="false"
+              to="/signin"
+              variant="plain"
+              color="inherit"
+              class="mx-2"
               >Login</v-btn
             >
-            <v-btn :ripple="false" to="/signup" variant="plain" color="inherit" class="mx-2"
+            <v-btn v-else :ripple="false" to="/profile" variant="plain" color="inherit" class="mx-2"
+              >Profile</v-btn
+            >
+            <v-btn
+              v-if="!isAuthenticated"
+              :ripple="false"
+              to="/signup"
+              variant="plain"
+              color="inherit"
+              class="mx-2"
               >Sign Up</v-btn
             >
           </div>
@@ -101,11 +116,17 @@
 
 <script setup>
 import { computed } from 'vue';
-import LogoIcon from '../Icons/LogoIcon.vue';
 import { useTheme } from 'vuetify';
+import { storeToRefs } from 'pinia';
+import { useAuth } from '@/stores';
+import LogoIcon from '../Icons/LogoIcon.vue';
 const theme = useTheme();
+const auth = useAuth();
+const authState = storeToRefs(auth);
 const isDarkMode = computed(() => theme.current.value.dark);
 const currentYear = computed(() => new Date().getFullYear());
+
+const isAuthenticated = computed(() => authState?.user?.value?.isAuthenticated);
 </script>
 
 <style scoped>

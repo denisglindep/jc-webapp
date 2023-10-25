@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-100">
+  <v-container>
     <BookingSummary />
   </v-container>
 </template>

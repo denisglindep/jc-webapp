@@ -89,16 +89,48 @@ const router = createRouter({
           path: '/select-seats/:id',
           name: 'select-seats',
           beforeEnter: (_, from, next) => {
-            if (from.name && from.name !== 'event-details') {
-              return next('/');
+            if (from.name && from.name === 'event-details') {
+              return next();
             }
-            return next();
+            if (from.name && from.name === 'booking-summary') {
+              return next();
+            }
+            return next('/');
           },
           meta: {
             auth: true
           },
           component: () => import('../views/SelectSeats.vue'),
           props: true
+        },
+        {
+          path: 'bookings',
+          name: 'bookings',
+          component: () => import('../views/MyBookings.vue'),
+          meta: {
+            auth: true
+          },
+          props: true,
+          children: [
+            {
+              name: 'my-bookings',
+              path: '',
+              component: () => import('../components/screens/Booking/Bookings.vue'),
+              props: true,
+              meta: {
+                auth: true
+              }
+            },
+            {
+              name: 'booking-tickets',
+              path: 'tickets/:id/event/:event_id',
+              component: () => import('../components/screens/Booking/BookingTickets.vue'),
+              props: true,
+              meta: {
+                auth: true
+              }
+            }
+          ]
         }
       ]
     },
@@ -111,7 +143,7 @@ const router = createRouter({
         auth: true
       },
       beforeEnter: (_, from, next) => {
-        if (from.name && from.name !== 'select-seats') {
+        if (from?.name !== 'select-seats') {
           return next('/');
         }
         return next();
@@ -121,6 +153,15 @@ const router = createRouter({
           name: 'booking-summary',
           path: 'summary',
           component: () => import('../views/Booking.vue'),
+          props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          name: 'booking-success',
+          path: 'success',
+          component: () => import('../components/screens/Booking/BookingSuccess.vue'),
           props: true,
           meta: {
             auth: true

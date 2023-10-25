@@ -1,13 +1,11 @@
 <template>
-  <v-layout class="h-screen">
+  <v-layout class="h-screen d-block">
     <NavBar />
-    <v-main class="d-flex flex-column">
-      <section class="bg-background d-flex flex-column flex-grow-1">
-        <router-view />
-      </section>
-      <SubscribeToNewsSection />
-      <Footer />
+    <v-main class="d-flex flex-column bg-background">
+      <router-view />
     </v-main>
+    <SubscribeToNewsSection />
+    <Footer />
   </v-layout>
 </template>
 

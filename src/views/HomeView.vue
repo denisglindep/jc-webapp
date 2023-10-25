@@ -8,7 +8,7 @@
     </div>
     <HeroSection :events="events?.upcomings" v-else />
   </section>
-  <v-container tag="section" class="my-10">
+  <v-container tag="section">
     <v-row>
       <v-col>
         <EventsListSection

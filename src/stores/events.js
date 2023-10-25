@@ -13,7 +13,8 @@ import {
   setBookingSeatsIo,
   getSeatsAvaiability,
   callPaymentsApi,
-  lockBookedSeats
+  lockBookedSeats,
+  getEventAttributionInfo
 } from '../services/events';
 
 export default defineStore('events', {
@@ -28,7 +29,8 @@ export default defineStore('events', {
       data: null,
       pricing: [],
       selectedSeats: [],
-      selectedDateTime: null
+      selectedDateTime: null,
+      holdTokenInfo: null
     },
     loading: true
   }),
@@ -90,9 +92,11 @@ export default defineStore('events', {
     },
     getEventDetails: async function (id) {
       try {
+        this.loading = true;
         const eventDetails = await getEventDetails(id);
         const times = await this.getEventTimings(id);
-        this.eventDetails.data = { ...eventDetails, times };
+        const attireInfo = await getEventAttributionInfo(id);
+        this.eventDetails.data = { ...eventDetails, times, attireInfo };
       } catch (error) {
         console.log('Error during fetch event details', error);
       } finally {
@@ -158,6 +162,7 @@ export default defineStore('events', {
     setHoldToken: async function (token, time_id, eventKey) {
       try {
         const response = await setHoldTokenApi(token, time_id, eventKey);
+        this.eventDetails.holdTokenInfo = response;
         return response;
       } catch (error) {
         console.log(error);
@@ -233,6 +238,14 @@ export default defineStore('events', {
         const timeDate = new Date(el?.start_time);
         return timeDate.getDate() === date.getDate() && timeDate.getMonth() === date.getMonth();
       });
+    },
+    getSelectedSeats: (state) => {
+      if (state.eventDetails?.selectedSeats?.length) {
+        return state.eventDetails?.selectedSeats;
+      } else {
+        const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+        return selectedSeats;
+      }
     }
   }
 });

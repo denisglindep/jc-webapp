@@ -1,4 +1,4 @@
-import { defaultApi, eventsApi, seatsApi } from './instances';
+import { defaultApi, eventsApi, seatsApi, v1Api } from './instances';
 
 export async function getAllEventsByPage(page = 0) {
   try {
@@ -151,11 +151,20 @@ export async function callPaymentsApi(options) {
     const response = await defaultApi.post(`/api/payment/process/mobile`, options, {
       headers: {
         ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id,
-        ['X-PLATFORM']: 'WEB',
+        ['X-PLATFORM']: 'LOCALWEB',
         ['X-LOCAL']: 'en',
         ['X-VERSION']: '4.8.0'
       }
     });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getEventAttributionInfo(eventId) {
+  try {
+    const response = await v1Api.get(`events/getattire?eventId=${eventId}`);
     return response.data;
   } catch (error) {
     console.log(error);

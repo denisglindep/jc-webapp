@@ -20,9 +20,9 @@
                 <v-card-title class="text-h4 text-wrap">{{
                   eventDetails?.data?.name_en
                 }}</v-card-title>
-                <v-card-text class="text-body-1">{{
+                <!-- <v-card-text class="text-body-1">{{
                   eventDetails?.data?.short_description_en
-                }}</v-card-text>
+                }}</v-card-text> -->
                 <v-card-item class="pa-0">
                   <v-list class="bg-transparent">
                     <v-list-item class="date-icon" prepend-icon="mdi-calendar-month">
@@ -160,7 +160,7 @@
         <v-col cols="12">
           <v-card class="bg-transparent" elevation="0">
             <v-card-title class="text-h3 mb-2">{{ eventDetails?.data?.name_en }}</v-card-title>
-            <v-card-text>
+            <v-card-text class="text-body-1">
               <div v-html="eventDetails?.data?.description_en" />
             </v-card-text>
           </v-card>
@@ -172,33 +172,42 @@
             <v-card-title class="text-h3 font-weight-medium mb-2"
               >Additional Information</v-card-title
             >
-            <v-sheet
-              rounded
+            <v-card
               class="d-flex flex-column flex-md-row justify-space-between py-8 px-6 text-h6 text-lg-h5"
               :style="{ textOverflow: 'balanced' }"
             >
               <v-row>
-                <v-col cols="6" class="additional_info_cell d-flex flex-column">
-                  <span>Running Time:</span>
-                  <span>Age:</span>
+                <v-col cols="12" md="5">
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Running Time: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.run_time }} </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Age: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.age_limit }} </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Genre: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.genre.name_en }} </v-col>
+                  </v-row>
                 </v-col>
-                <v-col cols="6" class="d-flex flex-column font-weight-regular">
-                  <span class="ml-4">{{ eventDetails?.data?.run_time }}</span>
-                  <span class="ml-4">{{ eventDetails?.data?.age_limit }}</span>
+                <v-spacer />
+                <v-col cols="12" md="5">
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Intermission: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.intermission }} </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Dress Code: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.dress_code }} </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="font-weight-medium"> Special Note: </v-col>
+                    <v-col cols="6">{{ eventDetails?.data?.special_note }} </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
-              <v-spacer />
-              <div class="d-flex">
-                <div class="additional_info_cell d-flex flex-column">
-                  <span>Dress Code:</span>
-                  <span>Special Note:</span>
-                </div>
-                <div class="d-flex flex-column font-weight-regular">
-                  <span class="ml-4">{{ eventDetails?.data?.dress_code }}</span>
-                  <span class="ml-4">{{ eventDetails?.data?.special_note }}</span>
-                </div>
-              </div>
-            </v-sheet>
+            </v-card>
           </v-card>
         </v-col>
       </v-row>

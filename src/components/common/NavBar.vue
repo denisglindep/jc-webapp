@@ -1,6 +1,6 @@
 <template>
   <v-app-bar :class="[isDarkMode ? 'bg-surface' : 'bg-white']">
-    <v-container class="py-4">
+    <v-container>
       <v-row justify="space-between" align="center">
         <v-col cols="auto">
           <router-link to="/">
@@ -27,6 +27,9 @@
               >
             </template>
             <template v-else>
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/bookings"
+                >My Bookings</v-btn
+              >
               <Profile />
             </template>
           </nav>
@@ -89,6 +92,15 @@
         />
       </template>
       <template v-else>
+        <v-list-item
+          title="My Bookings"
+          variant="plain"
+          color="inherit"
+          :link="true"
+          :active="true"
+          to="/bookings"
+          prepend-icon="mdi-ticket-outline"
+        />
         <v-list-item
           title="Profile"
           variant="plain"

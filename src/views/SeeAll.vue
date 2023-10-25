@@ -1,6 +1,23 @@
 <template>
   <v-container class="py-16">
-    <h4 class="text-center text-h4 font-weight-bold">All {{ eventType }} events</h4>
+    <v-row>
+      <v-col>
+        <div class="d-flex fill-height justify-center align-center">
+          <h4
+            v-if="!events.loading && eventsList.length === 0"
+            class="text-center text-h4 font-weight-bold"
+          >
+            No {{ eventType }} events
+          </h4>
+          <h4
+            v-else-if="!events.loading && eventsList.length > 0"
+            class="text-center text-h4 font-weight-bold"
+          >
+            All {{ eventType }} events
+          </h4>
+        </div>
+      </v-col>
+    </v-row>
     <div v-if="events.loading" class="d-flex fill-height justify-center align-center">
       <v-progress-circular indeterminate color="primary" />
     </div>
@@ -14,29 +31,24 @@
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { useEvents } from '@/stores';
 import { useRouter } from 'vue-router';
-
+import { useEvents } from '@/stores';
 import EventsListCard from '@/components/common/EventsListCard.vue';
-import { storeToRefs } from 'pinia';
 
 const eventType = ref('');
 const eventsList = ref([]);
 
 const router = useRouter();
 const events = useEvents();
-const eventsStore = storeToRefs(events);
 
 onBeforeMount(async () => {
   if (router.currentRoute.value?.params?.eventType === 'coming-soon') {
     eventType.value = 'coming soon';
-    await events.getComingSoonEvents();
-    eventsList.value = eventsStore?.events?.comingSoon?.value;
+    eventsList.value = await events.getComingSoonEvents();
   }
   if (router.currentRoute.value?.params?.eventType === 'upcoming') {
     eventType.value = 'upcoming';
-    await events.getUpcomingEvents();
-    eventsList.value = eventsStore?.events?.upcomings?.value;
+    eventsList.value = await events.getUpcomingEvents();
   }
 });
 </script>

@@ -8,6 +8,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import { md3 } from 'vuetify/blueprints';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
 import colors from 'vuetify/lib/util/colors';
 
 import VueTelInput from 'vue-tel-input';
@@ -55,12 +56,15 @@ app.use(
         mdi
       }
     },
-    components,
+    components: {
+      ...components,
+      VSkeletonLoader
+    },
     directives
   })
 );
 app.use(router);
 
-app.use(VueTelInput)
+app.use(VueTelInput);
 
 app.mount('#app');
