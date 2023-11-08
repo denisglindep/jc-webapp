@@ -17,6 +17,7 @@ export default defineStore('profile', {
         const response = await getUserInfo(auth?.user?.data?.id);
         if (!response.session_active) {
           localStorage.removeItem('userobj');
+          auth.logOutUser();
         }
         this.profile.userData = response;
         return false;

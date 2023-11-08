@@ -1,7 +1,7 @@
 import 'vuetify/styles';
 import './main.scss';
 import '@mdi/font/css/materialdesignicons.css';
-import { createApp } from 'vue';
+import { createApp, watch } from 'vue';
 import { createPinia } from 'pinia';
 import { createVuetify } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
@@ -19,6 +19,9 @@ import { en as english, ar as arabic } from './i18n';
 import App from './App.vue';
 import router from './router';
 const app = createApp(App);
+const pinia = createPinia();
+
+// watch(pinia.state, (state) => localStorage.setItem('pinia', JSON.stringify(state)), { deep: true });
 
 const browserLocale = navigator.language.split('-')[0];
 const currentLocale = localStorage.getItem('locale');
@@ -47,10 +50,10 @@ app.config.globalProperties.filters = {
     return new Intl.DateTimeFormat(locale, options).format(date);
   }
 };
-app.use(createPinia());
+
+app.use(pinia);
 import { useProfile } from '@/stores';
 const profileStore = useProfile();
-
 app.use(
   createVuetify({
     locale: {

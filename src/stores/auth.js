@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useProfile } from '@/stores';
 import {
   signIn,
   signUp,
@@ -44,6 +45,7 @@ export default defineStore('auth', {
       }
     },
     signInUser: async function (data) {
+      const profile = useProfile();
       try {
         const userData = await signIn(data);
         this.user = {
@@ -61,6 +63,7 @@ export default defineStore('auth', {
           },
           isAuthenticated: true
         };
+        profile.getLoggedUserInfo();
         localStorage.setItem('userobj', JSON.stringify(this.user.data));
       } catch (error) {
         if (error?.response?.data?.message) {

@@ -21,7 +21,9 @@
           <v-card-item>
             <v-card-subtitle>
               All details have been sent to
-              <span class="font-weight-bold">{{ auth.user.data.email }}</span></v-card-subtitle
+              <span class="font-weight-bold">{{
+                profile.profile.userData.email
+              }}</span></v-card-subtitle
             >
           </v-card-item>
           <v-card-actions class="justify-center">
@@ -46,10 +48,10 @@
 import { onMounted, computed } from 'vue';
 import { useLocale } from 'vuetify';
 import { useRoute } from 'vue-router';
-import { useAuth } from '../../../stores';
+import { useProfile } from '../../../stores';
 
 const { t } = useLocale();
-const auth = useAuth();
+const profile = useProfile();
 const route = useRoute();
 
 const additionalInfo = computed(() => ({

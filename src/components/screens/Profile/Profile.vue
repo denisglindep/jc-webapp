@@ -47,9 +47,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useAuth } from '@/stores';
-import { storeToRefs } from 'pinia';
 import { useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import ProfileAvatar from './ProfileAvatar.vue';
@@ -77,14 +76,6 @@ const settings = ref([
 
 const router = useRouter();
 const auth = useAuth();
-const authStore = storeToRefs(auth);
-const userData = authStore?.getUserInfo?.value?.data;
-const { firstName, lastName, email } = userData;
-
-const user = computed(() => ({
-  initials: `${firstName[0]}${lastName[0]}`,
-  fullName: `${firstName} ${lastName}`
-}));
 
 async function logUserOut() {
   try {
