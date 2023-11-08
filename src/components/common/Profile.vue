@@ -55,6 +55,8 @@ const profileStore = useProfile();
 const userInfo = computed(() => {
   const { first_name, last_name, email } = profileStore.getUserInfo;
   return {
+    firstName: first_name,
+    lastName: last_name,
     initials: `${first_name?.[0]}${last_name?.[0]}`,
     fullName: `${first_name} ${last_name}`,
     email
