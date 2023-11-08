@@ -7,12 +7,12 @@
         </v-col>
         <v-col cols="auto" class="d-none d-md-flex">
           <div :class="[isDarkMode ? 'text-white' : 'text-black']">
-            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2"
-              >About Us</v-btn
-            >
-            <v-btn :ripple="false" to="/contact" variant="plain" color="inherit" class="mx-2"
-              >Contact Us</v-btn
-            >
+            <v-btn :ripple="false" to="/about" variant="plain" color="inherit" class="mx-2">{{
+              t('$vuetify.custom.btn.aboutUs')
+            }}</v-btn>
+            <v-btn :ripple="false" to="/contact" variant="plain" color="inherit" class="mx-2">{{
+              t('$vuetify.custom.btn.contactUs')
+            }}</v-btn>
             <v-btn
               v-if="!isAuthenticated"
               :ripple="false"
@@ -20,10 +20,16 @@
               variant="plain"
               color="inherit"
               class="mx-2"
-              >Login</v-btn
+              >{{ t('$vuetify.custom.btn.signIn') }}</v-btn
             >
-            <v-btn v-else :ripple="false" to="/profile" variant="plain" color="inherit" class="mx-2"
-              >Profile</v-btn
+            <v-btn
+              v-else
+              :ripple="false"
+              to="/profile"
+              variant="plain"
+              color="inherit"
+              class="mx-2"
+              >{{ t('$vuetify.custom.btn.profile') }}</v-btn
             >
             <v-btn
               v-if="!isAuthenticated"
@@ -32,13 +38,13 @@
               variant="plain"
               color="inherit"
               class="mx-2"
-              >Sign Up</v-btn
+              >{{ t('$vuetify.custom.btn.signUp') }}</v-btn
             >
           </div>
         </v-col>
         <v-col cols="auto">
           <div class="d-flex flex-column" style="gap: 0.5rem">
-            <h5 class="font-bold">Sheikh Jaber Al-Ahmed Cultural Centre</h5>
+            <h5 class="font-bold">{{ t('$vuetify.custom.texts.culturalCenter') }}</h5>
             <div>
               <v-btn
                 :ripple="false"
@@ -46,12 +52,17 @@
                 color="inherit"
                 size="x-small"
                 class="px-0"
-                prepend-icon="mdi-map-marker-outline"
                 tag="a"
-                href="https://www.google.com/maps?ll=29.360203,47.956159&z=16&t=m&hl=en-US&gl=US&mapclient=embed&daddr=Sheikh+Jaber+Al-Ahmed+Cultural+Center+Arabian+Gulf+St+Kuwait@29.3602031,47.9561591"
+                :href="`https://www.google.com/maps?ll=29.360203,47.956159&z=16&t=m&hl=${
+                  isRtl ? 'ar' : 'en'
+                }-US&gl=US&mapclient=embed&daddr=Sheikh+Jaber+Al-Ahmed+Cultural+Center+Arabian+Gulf+St+Kuwait@29.3602031,47.9561591`"
                 variant="text"
               >
-                Arabian Gulf St, Kuwait - Get Directions
+                <template v-slot:prepend>
+                  <v-icon size="16" icon="mdi-map-marker-outline" />
+                </template>
+                {{ t('$vuetify.custom.texts.address') }} -
+                {{ t('$vuetify.custom.texts.getDirecitons') }}
               </v-btn>
             </div>
             <div class="d-flex justify-center justify-md-start">
@@ -99,14 +110,36 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider class="my-8" />
+      <v-row dense>
+        <v-col>
+          <v-btn
+            :disabled="current === 'ar'"
+            variant="text"
+            :ripple="false"
+            @click="() => handleLanguageChange('ar')"
+            >Arabic</v-btn
+          >
+          <span>|</span>
+          <v-btn
+            :disabled="current === 'en'"
+            variant="text"
+            :ripple="false"
+            @click="() => handleLanguageChange('en')"
+            >English</v-btn
+          >
+        </v-col>
+      </v-row>
+      <v-divider class="my-4" />
       <v-row>
         <v-col cols="12" no-gutters>
           <div
             class="d-flex flex-column flex-md-row align-center justify-center justify-md-space-between text-center text-md-start"
           >
-            <h5 class="font-bold">Terms & Conditions</h5>
-            <h5>© {{ currentYear }} Sheikh Jaber Al-Ahmed Cultural Centre. All Rights Reserved.</h5>
+            <h5 class="font-bold">{{ t('$vuetify.custom.texts.termsAndConditions') }}</h5>
+            <h5>
+              {{ t('$vuetify.custom.texts.culturalCenter') }}. © {{ currentYear }}
+              {{ t('$vuetify.custom.texts.allRightsReserved') }}
+            </h5>
           </div>
         </v-col>
       </v-row>
@@ -116,17 +149,24 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { storeToRefs } from 'pinia';
-import { useAuth } from '@/stores';
+import { useAuth, useProfile } from '@/stores';
 import LogoIcon from '../Icons/LogoIcon.vue';
 const theme = useTheme();
 const auth = useAuth();
+const profileStore = useProfile();
+const { t, isRtl, current } = useLocale();
 const authState = storeToRefs(auth);
 const isDarkMode = computed(() => theme.current.value.dark);
 const currentYear = computed(() => new Date().getFullYear());
 
 const isAuthenticated = computed(() => authState?.user?.value?.isAuthenticated);
+
+function handleLanguageChange(locale) {
+  current.value = locale;
+  profileStore.changeLanguage(locale);
+}
 </script>
 
 <style scoped>

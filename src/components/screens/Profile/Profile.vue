@@ -1,9 +1,15 @@
 <template>
-  <v-container class="py-16">
-    <h4 class="text-h4 font-weight-bold">Profile</h4>
-    <v-row class="mt-10">
+  <v-container>
+    <v-row>
       <v-col>
-        <ProfileAvatar :initials="user.initials" :full-name="user.fullName" :email="email" />
+        <h4 class="text-h4 text-center font-weight-bold">
+          {{ t('$vuetify.custom.headings.profile') }}
+        </h4>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <ProfileAvatar />
       </v-col>
     </v-row>
     <v-row>
@@ -16,8 +22,8 @@
           color="inherit"
           rounded="lg"
           :prepend-icon="item.icon"
-          :text="item.name"
-          @click="$emit('selectedItem', item)"
+          :text="item.title"
+          :to="item.to"
         />
       </v-col>
       <v-col cols="12" sm="6" class="ms-auto">
@@ -29,9 +35,9 @@
           rounded="lg"
           prepend-icon="mdi-logout"
         >
-          Logout
+          {{ t('$vuetify.custom.btn.signOut') }}
           <ConfirmModal
-            title="Are you sure you want to log out of the platform?"
+            :title="t('$vuetify.custom.texts.logoutConfirmText')"
             @action-success="logUserOut"
           />
         </v-btn>
@@ -44,40 +50,28 @@
 import { ref, computed } from 'vue';
 import { useAuth } from '@/stores';
 import { storeToRefs } from 'pinia';
+import { useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import ProfileAvatar from './ProfileAvatar.vue';
 import ConfirmModal from '../../common/ConfirmModal.vue';
 
 defineEmits(['selectedItem']);
 
+const { t } = useLocale();
 const settings = ref([
   {
     id: 1,
-    icon: 'mdi-bell-outline',
-    title: 'Notifications',
-    to: '/notifications',
-    name: 'Notifications'
+    icon: 'mdi-pencil-outline',
+    title: t('$vuetify.custom.btn.editProfile'),
+    to: '/edit-profile',
+    name: 'EditProfile'
   },
   {
     id: 2,
     icon: 'mdi-comment-question-outline',
-    title: 'Frequently Asked Questions',
+    title: t('$vuetify.custom.btn.faq'),
     to: '/faq',
     name: 'FAQ'
-  },
-  {
-    id: 3,
-    icon: 'mdi-file-document-outline',
-    title: 'Terms and conditions',
-    to: '/terms-and-conditions',
-    name: 'TermsAndConditions'
-  },
-  {
-    id: 4,
-    icon: 'mdi-credit-card-outline',
-    title: 'Payment method',
-    to: '/payment-method',
-    name: 'PaymentMethod'
   }
 ]);
 

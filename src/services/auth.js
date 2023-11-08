@@ -69,3 +69,7 @@ export async function resetPassword(data) {
   const response = await authApi.post(`/updatepassword`, data);
   return response?.data;
 }
+export async function changeUserPassword(data) {
+  const response = await defaultApi.put(`/api/users/change-password`, data);
+  return response?.data;
+}

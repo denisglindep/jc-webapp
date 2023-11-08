@@ -9,12 +9,11 @@
       <v-row align="center">
         <v-col cols="12" md="6" lg="8">
           <div class="d-flex flex-column">
-            <p :class="[isDarkMode ? 'text-grey' : 'text-deepgrey']">
-              REGISTER YOUR INTEREST HERE <span class="line-after" />
+            <p :class="[isDarkMode ? 'text-grey' : 'text-deepgrey']" class="text-uppercase">
+              {{ t('$vuetify.custom.texts.registerYourInterestsHere') }} <span class="line-after" />
             </p>
             <h3 class="text-white">
-              To ensure you are kept up to date with our latest news, upcoming events and more,
-              please register your interest below
+              {{ t('$vuetify.custom.texts.latestNewsText') }}
             </h3>
           </div>
         </v-col>
@@ -26,15 +25,15 @@
                   v-bind="email"
                   placeholder="johndoe@gmail.com"
                   hide-details="true"
-                  label="Enter Email"
+                  :label="t('$vuetify.custom.inputTexts.enterEmail')"
                   clearable
                 >
                 </v-text-field>
               </v-col>
               <v-col cols="6">
-                <v-btn height="100%" block rounded="sm" type="submit" size="x-large"
-                  >Subscribe</v-btn
-                >
+                <v-btn height="100%" block rounded="sm" type="submit" size="x-large">{{
+                  t('$vuetify.custom.btn.subscribe')
+                }}</v-btn>
               </v-col>
             </v-row>
           </v-form>
@@ -46,11 +45,12 @@
 
 <script setup>
 import { useForm } from 'vee-validate';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { object, string } from 'yup';
 import { computed } from 'vue';
 
 const theme = useTheme();
+const { t } = useLocale();
 const isDarkMode = computed(() => theme.current.value.dark);
 
 const schema = object({

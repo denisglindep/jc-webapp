@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="h-screen d-block">
+  <v-layout class="h-screen d-flex flex-column">
     <NavBar />
     <v-main class="d-flex flex-column bg-background">
       <router-view />

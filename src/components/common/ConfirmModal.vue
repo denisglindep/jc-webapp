@@ -11,10 +11,10 @@
           text
           @click="showDialog = false"
         >
-          Cancel
+          {{ t('$vuetify.custom.btn.cancel') }}
         </v-btn>
         <v-btn class="w-50" rounded="lg" color="primary" variant="flat" @click="confirm">
-          OK
+          {{ t('$vuetify.custom.btn.ok') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -23,9 +23,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 const showDialog = ref(false);
 const theme = useTheme();
+const { t } = useLocale();
 
 defineProps({
   title: {

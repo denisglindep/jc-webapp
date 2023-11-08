@@ -21,15 +21,21 @@
         class="mb-2"
         clearable
         density="compact"
-        label="First name"
+        :label="t('$vuetify.custom.inputTexts.firstName')"
       />
-      <v-text-field v-bind="lastName" class="mb-2" clearable density="compact" label="Last name" />
+      <v-text-field
+        v-bind="lastName"
+        class="mb-2"
+        clearable
+        density="compact"
+        :label="t('$vuetify.custom.inputTexts.lastName')"
+      />
       <v-text-field
         v-bind="email"
         class="mb-2"
         clearable
         density="compact"
-        label="Email"
+        :label="t('$vuetify.custom.inputTexts.enterEmail')"
         prepend-inner-icon="mdi-email-outline"
       />
       <v-text-field
@@ -37,7 +43,7 @@
         v-bind="password"
         clearable
         density="compact"
-        label="Password"
+        :label="t('$vuetify.custom.inputTexts.password')"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         prepend-inner-icon="mdi-lock-outline"
         :type="visible ? 'text' : 'password'"
@@ -47,7 +53,7 @@
         v-bind="passwordConfirm"
         clearable
         density="compact"
-        label="Confirm password"
+        :label="t('$vuetify.custom.inputTexts.confirmPassword')"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         prepend-inner-icon="mdi-lock-outline"
         :type="visible ? 'text' : 'password'"
@@ -59,9 +65,14 @@
           class="custom-country-select"
           :items="allCountries"
           required
-          label="Select Country"
+          :label="t('$vuetify.custom.inputTexts.selectCountry')"
         />
-        <v-text-field v-bind="phone" class="w-75" clearable label="Phone number" />
+        <v-text-field
+          v-bind="phone"
+          class="w-75"
+          clearable
+          :label="t('$vuetify.custom.inputTexts.phoneNumber')"
+        />
       </div>
       <v-btn
         block
@@ -70,18 +81,19 @@
         type="submit"
         :loading="isSubmitting"
         :disabled="!isValid"
-        >Sign Up</v-btn
       >
+        {{ t('$vuetify.custom.btn.signUp') }}
+      </v-btn>
     </v-form>
     <v-card-text class="text-center">
-      Already have an account?
+      {{ t('$vuetify.custom.texts.alreadyHaveAccount') }}
       <span>
         <router-link
           class="text-decoration-underline"
           :class="[isDarkMode ? 'text-grey' : 'text-primary']"
           to="/signin"
         >
-          Log in
+          {{ t('$vuetify.custom.btn.signIn') }}
         </router-link>
       </span>
     </v-card-text>
@@ -90,7 +102,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { object, string, ref as yupRef } from 'yup';
 import { useDebounceFn } from '@vueuse/core';
 import { useAuth } from '@/stores';
@@ -101,36 +113,37 @@ import allCountries from '@/utils/allCountries.js';
 const visible = ref(false);
 
 const theme = useTheme();
+const { t } = useLocale();
 const authStore = useAuth();
 const router = useRouter();
 
 const isDarkMode = computed(() => theme.current.value.dark);
 
 const schema = object({
-  firstName: string().required().label('First name'),
-  lastName: string().required().label('Last name'),
+  firstName: string().required(t('$vuetify.custom.inputErrors.firstNameIsRequired')),
+  lastName: string().required(t('$vuetify.custom.inputErrors.firstNameIsRequired')),
   email: string()
     .email()
-    .required()
-    .label('E-mail')
-    .test('email', 'This Email is Already Registered', (value) => validateEmail(value)),
+    .required(t('$vuetify.custom.inputErrors.emailIsRequired'))
+    .test('email', t('$vuetify.custom.inputErrors.emailIsAlreadyTaken'), (value) =>
+      validateEmail(value)
+    ),
   password: string()
-    .min(8)
+    .min(8, t('$vuetify.custom.inputErrors.passwordAtLeast8Characters'))
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/,
-      'Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
+      t('$vuetify.custom.inputErrors.passwordRequirements')
     )
-    .required()
-    .label('Password'),
+    .required(t('$vuetify.custom.inputErrors.passwordIsRequired')),
   passwordConfirm: string()
-    .oneOf([yupRef('password')], 'Passwords must match')
-    .required()
-    .label('Password confirmation'),
+    .oneOf([yupRef('password')], t('$vuetify.custom.inputErrors.passwordsMustMatch'))
+    .required(t('$vuetify.custom.inputErrors.confirmPasswordIsRequired')),
   phone: string()
-    .matches(/^\d{6,15}$/, 'Invalid phone number format.')
-    .required('Phone number is required')
-    .label('Phone')
-    .test('phone', 'This Phone is Already Registered', (value) => validatePhone(value))
+    .matches(/^\d{6,15}$/, t('$vuetify.custom.inputErrors.phoneNumberIsInvalid'))
+    .required(t('$vuetify.custom.inputErrors.phoneNumberIsRequired'))
+    .test('phone', t('$vuetify.custom.inputErrors.phoneIsAlreadyTaken'), (value) =>
+      validatePhone(value)
+    )
 });
 
 const { defineComponentBinds, handleSubmit, errors, setFieldError, setErrors, isSubmitting, meta } =

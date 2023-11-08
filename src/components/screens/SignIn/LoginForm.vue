@@ -21,7 +21,7 @@
         class="mb-2"
         clearable
         density="compact"
-        label="Email"
+        :label="t('$vuetify.custom.inputTexts.enterEmail')"
         prepend-inner-icon="mdi-email-outline"
       />
 
@@ -29,7 +29,7 @@
         v-bind="password"
         clearable
         density="compact"
-        label="Password"
+        :label="t('$vuetify.custom.inputTexts.password')"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         prepend-inner-icon="mdi-lock-outline"
         :type="visible ? 'text' : 'password'"
@@ -43,22 +43,24 @@
           :ripple="false"
           class="ma-0 text-grey"
         >
-          Forgot Password?
+          {{ t('$vuetify.custom.btn.forgotPassword') }}
         </v-btn>
       </div>
 
-      <v-btn block size="x-large" class="my-2" type="submit" :disabled="!isValid">Login</v-btn>
+      <v-btn block size="x-large" class="my-2" type="submit" :disabled="!isValid">
+        {{ t('$vuetify.custom.btn.signIn') }}
+      </v-btn>
     </v-form>
 
     <v-card-text class="text-center">
-      Do not have an account?
+      {{ t('$vuetify.custom.texts.doNotHaveAccount') }}
       <span>
         <router-link
           class="text-decoration-underline"
           :class="[isDarkMode ? 'text-grey' : 'text-primary']"
           to="/signup"
         >
-          Sign Up
+          {{ t('$vuetify.custom.btn.signUp') }}
         </router-link>
       </span>
     </v-card-text>
@@ -67,7 +69,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { object, string } from 'yup';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores';
@@ -77,11 +79,14 @@ const visible = ref(false);
 const authStore = useAuth();
 const router = useRouter();
 const theme = useTheme();
+const { t } = useLocale();
 const isDarkMode = computed(() => theme.current.value.dark);
 
 const schema = object({
-  email: string().required().email(),
-  password: string().required()
+  email: string()
+    .email(t('$vuetify.custom.inputErrors.emailIsInvalid'))
+    .required(t('$vuetify.custom.inputErrors.emailIsRequired')),
+  password: string().required(t('$vuetify.custom.inputErrors.passwordIsRequired'))
 });
 
 const { defineComponentBinds, handleSubmit, setErrors, errors } = useForm({

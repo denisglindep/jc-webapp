@@ -12,24 +12,24 @@
             :class="[isDarkMode ? 'text-white' : 'text-black']"
             class="d-none d-md-flex align-center"
           >
-            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about"
-              >About Us</v-btn
-            >
-            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/contact"
-              >Contact Us</v-btn
-            >
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/about">{{
+              t('$vuetify.custom.btn.aboutUs')
+            }}</v-btn>
+            <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/contact">{{
+              t('$vuetify.custom.btn.contactUs')
+            }}</v-btn>
             <template v-if="!isAuthenticated">
-              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signin"
-                >Login</v-btn
-              >
-              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signup"
-                >Sign Up</v-btn
-              >
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signin">{{
+                t('$vuetify.custom.btn.signIn')
+              }}</v-btn>
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/signup">{{
+                t('$vuetify.custom.btn.signUp')
+              }}</v-btn>
             </template>
             <template v-else>
-              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/bookings"
-                >My Bookings</v-btn
-              >
+              <v-btn color="inherit" variant="plain" :ripple="false" class="mx-4" to="/bookings">{{
+                t('$vuetify.custom.btn.myBookings')
+              }}</v-btn>
               <Profile />
             </template>
           </nav>
@@ -52,86 +52,88 @@
     class="bg-background"
     style="height: max-content"
   >
-    <v-list class="nav-list" @click.stop="drawer = false">
-      <v-list-item
-        title="About Us"
-        variant="plain"
-        color="inherit"
-        :link="true"
-        :active="true"
-        to="/about"
-        prepend-icon="mdi-information-outline"
-      />
-      <v-list-item
-        title="Contact Us"
-        variant="plain"
-        color="inherit"
-        :link="true"
-        :active="true"
-        to="/contact"
-        prepend-icon="mdi-account-box-outline"
-      />
-      <template v-if="!isAuthenticated">
+    <v-locale-provider :rtl="isRtl">
+      <v-list @click.stop="drawer = false">
         <v-list-item
-          title="Login"
+          :title="t('$vuetify.custom.btn.aboutUs')"
           variant="plain"
           color="inherit"
           :link="true"
           :active="true"
-          to="/signin"
-          prepend-icon="mdi-login"
+          to="/about"
+          prepend-icon="mdi-information-outline"
         />
         <v-list-item
-          title="Sign Up"
+          :title="t('$vuetify.custom.btn.contactUs')"
           variant="plain"
           color="inherit"
           :link="true"
           :active="true"
-          to="/signup"
-          prepend-icon="mdi-account-plus-outline"
+          to="/contact"
+          prepend-icon="mdi-account-box-outline"
         />
-      </template>
-      <template v-else>
-        <v-list-item
-          title="My Bookings"
-          variant="plain"
-          color="inherit"
-          :link="true"
-          :active="true"
-          to="/bookings"
-          prepend-icon="mdi-ticket-outline"
-        />
-        <v-list-item
-          title="Profile"
-          variant="plain"
-          color="inherit"
-          :link="true"
-          :active="true"
-          to="/profile"
-          prepend-icon="mdi-account"
-        />
-        <v-list-item
-          title="Logout"
-          variant="plain"
-          color="inherit"
-          :link="true"
-          :active="true"
-          prepend-icon="mdi-logout"
-        >
-          <ConfirmModal
-            title="Are you sure you want to log out of the platform?"
-            @action-success="logUserOut"
-            :showDialog="true"
+        <template v-if="!isAuthenticated">
+          <v-list-item
+            :title="t('$vuetify.custom.btn.signIn')"
+            variant="plain"
+            color="inherit"
+            :link="true"
+            :active="true"
+            to="/signin"
+            prepend-icon="mdi-login"
           />
-        </v-list-item>
-      </template>
-    </v-list>
+          <v-list-item
+            :title="t('$vuetify.custom.btn.signUp')"
+            variant="plain"
+            color="inherit"
+            :link="true"
+            :active="true"
+            to="/signup"
+            prepend-icon="mdi-account-plus-outline"
+          />
+        </template>
+        <template v-else>
+          <v-list-item
+            :title="t('$vuetify.custom.btn.myBookings')"
+            variant="plain"
+            color="inherit"
+            :link="true"
+            :active="true"
+            to="/bookings"
+            prepend-icon="mdi-ticket-outline"
+          />
+          <v-list-item
+            title="Profile"
+            variant="plain"
+            color="inherit"
+            :link="true"
+            :active="true"
+            to="/profile"
+            prepend-icon="mdi-account"
+          />
+          <v-list-item
+            title="Logout"
+            variant="plain"
+            color="inherit"
+            :link="true"
+            :active="true"
+            prepend-icon="mdi-logout"
+          >
+            <ConfirmModal
+              title="Are you sure you want to log out of the platform?"
+              @action-success="logUserOut"
+              :showDialog="true"
+            />
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-locale-provider>
   </v-navigation-drawer>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useAuth } from '../../stores';
@@ -141,6 +143,7 @@ import LogoIcon from '../Icons/LogoIcon.vue';
 
 const drawer = ref(false);
 const auth = useAuth();
+const { t, isRtl } = useLocale();
 const authState = storeToRefs(auth);
 const router = useRouter();
 const theme = useTheme();

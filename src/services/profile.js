@@ -14,3 +14,8 @@ export async function getFaqList() {
   const response = await faqApi.get(`/list`);
   return response;
 }
+
+export async function updateUser(data) {
+  const response = await defaultApi.put(`api/users/update`, data);
+  return response;
+}

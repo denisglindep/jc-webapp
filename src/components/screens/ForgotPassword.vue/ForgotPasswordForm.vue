@@ -14,9 +14,9 @@
       <v-img>
         <v-icon icon="mdi-key-outline" size="x-large" />
       </v-img>
-      <v-card-title>Forgot password?</v-card-title>
       <v-card-text>
-        <v-card-subtitle>No worries, we'll send you reset instructions.</v-card-subtitle>
+        <v-card-title>{{ t('$vuetify.custom.texts.forgotPassword') }}</v-card-title>
+        <v-card-subtitle>{{ t('$vuetify.custom.texts.noWorries') }}</v-card-subtitle>
       </v-card-text>
 
       <v-card-item class="pa-0">
@@ -25,7 +25,7 @@
           class="mb-2 text-start"
           clearable
           density="compact"
-          label="Email"
+          :label="t('$vuetify.custom.inputTexts.enterEmail')"
           prepend-inner-icon="mdi-email-outline"
         />
       </v-card-item>
@@ -38,7 +38,7 @@
           :loading="isSubmitting"
           :disabled="!meta?.valid || isSubmitting"
         >
-          Reset password
+          {{ t('$vuetify.custom.btn.resetPassword') }}
         </v-btn>
       </v-card-actions>
 
@@ -50,17 +50,20 @@
           color="inherit"
           prepend-icon="mdi-chevron-left"
         >
-          Back to Log In
+          <template v-slot:prepend>
+            <v-icon :icon="isRtl ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
+          </template>
+          {{ t('$vuetify.custom.backBtns.backToSignIn') }}
         </v-btn>
       </v-card-text>
     </v-form>
     <v-dialog v-model="showEmailSentDialog" width="auto" max-width="50%">
       <v-card class="px-4 py-2 text-center">
         <v-card-title>
-          Link sent successfully!
+          {{ t('$vuetify.custom.texts.linkSentSuccessfully') }}
           <v-icon icon="mdi-check-circle-outline" size="sm" color="success" />
         </v-card-title>
-        <v-card-subtitle>We had sent reset password link to your email.</v-card-subtitle>
+        <v-card-subtitle>{{ t('$vuetify.custom.texts.weHaveSentYouAnEmail') }}</v-card-subtitle>
         <v-card-actions class="d-flex">
           <v-btn
             block
@@ -70,7 +73,7 @@
             variant="flat"
             @click="handleEmailSentDialog"
           >
-            OK
+            {{ t('$vuetify.custom.btn.ok') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -81,7 +84,7 @@
 import { computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
-import { useTheme } from 'vuetify';
+import { useTheme, useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/stores';
 
@@ -90,10 +93,11 @@ const showEmailSentDialog = ref(false);
 const router = useRouter();
 const authStore = useAuth();
 const theme = useTheme();
+const { t, isRtl } = useLocale();
 const isDarkMode = computed(() => theme.current.value.dark);
 
 const schema = object({
-  email: string().email().required().label('E-mail')
+  email: string().email().required(t('$vuetify.custom.inputErrors.emailIsRequired'))
 });
 
 const { handleSubmit, defineComponentBinds, errors, setErrors, meta, isSubmitting } = useForm({
@@ -110,9 +114,6 @@ const email = defineComponentBinds('email', vuetifyConfig);
 
 const resetPassword = handleSubmit(async (values) => {
   try {
-    const formData = new FormData();
-    formData.append('phone_number', values?.email);
-    formData.append('type', 'EMAIL');
     await authStore.sendForgotPassword({
       phone_number: values?.email,
       type: 'EMAIL'

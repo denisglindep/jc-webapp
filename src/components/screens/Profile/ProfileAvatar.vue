@@ -7,27 +7,30 @@
         size="large"
         :style="{ width: '80px', height: '80px' }"
       >
-        <span class="text-h3">{{ initials }}</span>
+        <v-img
+          cover
+          v-if="!!profileStore?.profile?.userData?.image"
+          :src="profileStore?.profile?.userData?.image"
+        />
+        <span v-else class="text-h3">{{ userInfo?.initials }}</span>
       </v-avatar>
-      <h3>{{ fullName }}</h3>
-      <p class="text-subtitle-1">{{ email }}</p>
+      <h3 v-if="!!userInfo?.fullName">{{ userInfo?.fullName }}</h3>
+      <p class="text-subtitle-1">{{ userInfo?.email }}</p>
     </div>
   </v-sheet>
 </template>
 
 <script setup>
-defineProps({
-  initials: {
-    type: String,
-    required: true
-  },
-  fullName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  }
+import { computed } from 'vue';
+import { useProfile } from '@/stores';
+const profileStore = useProfile();
+
+const userInfo = computed(() => {
+  const { first_name, last_name, email } = profileStore.getUserInfo;
+  return {
+    initials: `${first_name?.[0]}${last_name?.[0]}`,
+    fullName: `${first_name} ${last_name}`,
+    email
+  };
 });
 </script>

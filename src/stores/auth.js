@@ -6,7 +6,8 @@ import {
   forgotPassword,
   resetPassword,
   verifyEmail,
-  verifyMobile
+  verifyMobile,
+  changeUserPassword
 } from '../services/auth';
 
 export default defineStore('auth', {
@@ -108,6 +109,20 @@ export default defineStore('auth', {
     resetPassword: async function (data) {
       try {
         await resetPassword(data);
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
+      }
+    },
+    changePassword: async function (data) {
+      try {
+        await changeUserPassword({
+          old_password: data.oldPassword,
+          new_password: data.newPassword,
+          id: this.user.data.id
+        });
+        console.log('password changed');
       } catch (error) {
         if (error?.response?.data?.message) {
           throw new Error(error?.response?.data?.message);

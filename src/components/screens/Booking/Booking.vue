@@ -6,27 +6,36 @@
       </div>
       <div class="d-flex flex-column justify-space-between h-100">
         <v-card-item>
-          <p class="text-h6"><span class="text-primary">No.#: </span> {{ booking.ticket_no }}</p>
-          <p class="text-subtitle-1">
-            <span class="text-primary">Event: </span> {{ booking.event.name_en }}
+          <p class="text-h6">
+            <span class="text-primary">{{ t('$vuetify.custom.texts.number') }}: </span>
+            {{ booking.ticket_no }}
           </p>
+          <p class="text-subtitle-1">
+            <span class="text-primary">{{ t('$vuetify.custom.common.event') }}: </span>
+            {{ booking.event[`name_${currentLang}`] }}
+          </p>
+
           <p class="text-subtitle-1 font-weight-medium">
-            <span class="text-primary">Date: </span> {{ booking.timing_str }} -
-            {{ booking.start_str }}
+            <span class="text-primary">{{ t('$vuetify.custom.common.date') }}: </span>
+            {{ filters.formatDate(booking.event_date_time.start_time, $vuetify.locale.current) }}
           </p>
           <p class="text-subtitle-1">
-            <span class="text-primary">Venue: </span> {{ booking.event.venue.name_en }}
+            <span class="text-primary">{{ t('$vuetify.custom.common.venue') }}: </span>
+            {{ booking.event.venue[`name_${currentLang}`] }}
           </p>
           <p class="text-subtitle-1">
-            <span class="text-primary">Total amount: </span> {{ booking.total_price }} KWD
+            <span class="text-primary">{{ t('$vuetify.custom.common.totalAmount') }}: </span>
+            {{ filters.formatMoney(booking.total_price, $vuetify.locale.current) }}
           </p>
         </v-card-item>
-        <v-divider />
+        <!-- <v-divider />
         <v-card-item>
           <v-row no-gutters>
             <v-col>
               <p class="text-subtitle-1">
-                <span class="text-primary">Performance Time: </span>
+                <span class="text-primary"
+                  >{{ t('$vuetify.custom.common.performanceTime') }}:
+                </span>
                 {{ booking.runtime }}
               </p>
             </v-col>
@@ -34,7 +43,7 @@
           <v-row no-gutters>
             <v-col>
               <p class="text-subtitle-1">
-                <span class="text-primary">Doors Open: </span>
+                <span class="text-primary">{{ t('$vuetify.custom.common.doorsOpen') }}: </span>
                 {{ booking.door_open }}
               </p>
             </v-col>
@@ -42,12 +51,12 @@
           <v-row no-gutters>
             <v-col>
               <p class="text-subtitle-1">
-                <span class="text-primary">Intermission: </span>
+                <span class="text-primary">{{ t('$vuetify.custom.common.intermission') }}: </span>
                 {{ booking.event_date_time.intermission }}
               </p>
             </v-col>
           </v-row>
-        </v-card-item>
+        </v-card-item> -->
 
         <v-card-actions class="justify-md-end">
           <v-btn
@@ -58,7 +67,7 @@
               name: 'booking-tickets',
               params: { id: booking.id, event_id: booking.event.id }
             }"
-            >Show tickets ({{ booking.number_of_tickets }})</v-btn
+            >{{ t('$vuetify.custom.btn.showTickets') }} ({{ booking.number_of_tickets }})</v-btn
           >
         </v-card-actions>
       </div>
@@ -66,6 +75,11 @@
   </v-card>
 </template>
 <script setup>
+import { computed } from 'vue';
+import { useLocale } from 'vuetify';
+const { t, isRtl } = useLocale();
+const currentLang = computed(() => (isRtl.value ? 'ab' : 'en'));
+
 defineProps({
   booking: Object
 });

@@ -1,10 +1,17 @@
 <template>
+  <!-- <v-card>
+    <v-card-text>
+      {{ locale.t('$vuetify.noDataText') }}
+    </v-card-text>
+  </v-card> -->
   <section>
     <div class="d-flex align-center justify-space-between my-10">
       <h3 :class="titleStyles.classes" :style="titleStyles.styles">
         {{ sectionTitle }}
       </h3>
-      <v-btn tag="a" variant="plain" :ripple="false" :to="`/see-all${computedUrl}`">See all </v-btn>
+      <v-btn tag="a" variant="plain" :ripple="false" :to="`/see-all${computedUrl}`">{{
+        t('$vuetify.custom.btn.seeAll')
+      }}</v-btn>
     </div>
     <v-row>
       <v-col v-for="event in events" :key="event.id" cols="12" md="6" lg="4">
@@ -16,7 +23,9 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useLocale } from 'vuetify';
 import EventsListCard from '@/components/common/EventsListCard.vue';
+const { t } = useLocale();
 
 const computedUrl = computed(() => {
   let url = '/';

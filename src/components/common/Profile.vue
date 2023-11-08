@@ -2,23 +2,23 @@
   <v-menu min-width="200px" rounded>
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
-        <v-avatar color="primary">
-          <span>{{ user.initials }}</span>
+        <v-avatar color="primary text-center">
+          {{ userInfo?.initials }}
         </v-avatar>
       </v-btn>
     </template>
     <v-card>
       <v-card-text class="text-center">
-        <p class="text-body-1">{{ firstName }}</p>
-        <p class="text-body-1 mt-2">{{ lastName }}</p>
+        <p class="text-body-1">{{ userInfo?.firstName }}</p>
+        <p class="text-body-1 mt-2">{{ userInfo?.lastName }}</p>
         <v-card-subtitle class="text-caption mt-2">
-          {{ user.email }}
+          {{ userInfo?.email }}
         </v-card-subtitle>
       </v-card-text>
       <v-divider />
       <v-card-actions class="d-flex flex-column">
         <v-btn block variant="text" :rounded="false" color="inherit" to="/profile" class="ma-0">
-          Profile
+          {{ t('$vuetify.custom.btn.profile') }}
         </v-btn>
         <v-divider class="my-2" />
         <v-btn
@@ -29,7 +29,7 @@
           class="ma-0"
           prepend-icon="mdi-logout"
         >
-          Logout
+          {{ t('$vuetify.custom.btn.signOut') }}
           <ConfirmModal
             title="Are you sure you want to log out of the platform?"
             @action-success="logUserOut"
@@ -41,22 +41,24 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { computed } from 'vue';
+import { useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
-import { useAuth } from '@/stores';
-import { storeToRefs } from 'pinia';
+import { useAuth, useProfile } from '@/stores';
 import ConfirmModal from './ConfirmModal.vue';
 
 const router = useRouter();
 const auth = useAuth();
-const authStore = storeToRefs(auth);
-const userData = authStore?.getUserInfo?.value?.data;
-const { firstName, lastName, email } = userData;
+const { t } = useLocale();
+const profileStore = useProfile();
 
-const user = reactive({
-  initials: `${firstName[0]}${lastName[0]}`,
-  fullName: `${firstName} ${lastName}`,
-  email
+const userInfo = computed(() => {
+  const { first_name, last_name, email } = profileStore.getUserInfo;
+  return {
+    initials: `${first_name?.[0]}${last_name?.[0]}`,
+    fullName: `${first_name} ${last_name}`,
+    email
+  };
 });
 
 async function logUserOut() {

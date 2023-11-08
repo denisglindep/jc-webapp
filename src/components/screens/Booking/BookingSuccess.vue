@@ -34,7 +34,7 @@
               }"
               color="primary"
               large
-              >Go to My Bookings</v-btn
+              >{{ t('$vuetify.custom.btn.goToMyBookings') }}</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -44,8 +44,11 @@
 </template>
 <script setup>
 import { onMounted, computed } from 'vue';
+import { useLocale } from 'vuetify/';
 import { useRoute } from 'vue-router';
 import { useAuth } from '../../../stores';
+
+const { t } = useLocale();
 const auth = useAuth();
 const route = useRoute();
 

@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
-import { getUserInfo, getFaqList } from '../services/profile';
+import { getUserInfo, getFaqList, updateUser } from '../services/profile';
 import useAuth from './auth';
 
 export default defineStore('profile', {
   state: () => ({
     profile: {
-      userData: null,
+      locale: localStorage.getItem('locale'),
+      userData: {},
       faq: []
     }
   }),
@@ -30,6 +31,27 @@ export default defineStore('profile', {
       } catch (error) {
         console.log(error);
       }
+    },
+    updateUserInfo: async function (data) {
+      try {
+        const response = await updateUser({
+          ...data,
+          id: this.profile.userData.id
+        });
+        await this.getLoggedUserInfo();
+        return response;
+      } catch (error) {
+        if (error?.response?.data?.message) {
+          throw new Error(error?.response?.data?.message);
+        }
+      }
+    },
+    changeLanguage: function (lang) {
+      localStorage.setItem('locale', lang);
+      this.profile.locale = lang;
     }
+  },
+  getters: {
+    getUserInfo: (state) => state.profile.userData
   }
 });

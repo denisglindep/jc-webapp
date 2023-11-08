@@ -12,7 +12,7 @@
     <v-row>
       <v-col>
         <EventsListSection
-          sectionTitle="Upcoming Events"
+          :sectionTitle="t('$vuetify.custom.headings.upcomingEvents')"
           :events="firstUpcomings"
           eventType="upcoming"
           :titleStyles="{ classes: 'text-h4 text-md-h3' }"
@@ -22,7 +22,7 @@
     <v-row>
       <v-col>
         <EventsListSection
-          sectionTitle="Coming Soon Events"
+          :sectionTitle="t('$vuetify.custom.headings.comingSoonEvents')"
           :events="firstUpcomings"
           eventType="coming-soon"
           :titleStyles="{ classes: 'text-h4 text-md-h3' }"
@@ -40,6 +40,7 @@
 <script setup>
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useLocale } from 'vuetify';
 import { useEvents } from '@/stores';
 
 import HeroSection from '@/components/screens/Home/HeroSection.vue';
@@ -47,6 +48,7 @@ import EventsListSection from '@/components/common/EventsListSection.vue';
 import ContactUsSection from '@/components/screens/Home/ContactUsSection.vue';
 
 const eventsStore = useEvents();
+const { t } = useLocale();
 const { events } = storeToRefs(eventsStore);
 const firstUpcomings = computed(() => events.value.upcomings.slice(0, 3));
 

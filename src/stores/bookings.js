@@ -3,6 +3,7 @@ import { fetchBookings } from '../services/bookings';
 
 export default defineStore('bookings', {
   state: () => ({
+    loading: false,
     bookings: {
       upcoming: [],
       past: []
@@ -11,6 +12,7 @@ export default defineStore('bookings', {
   actions: {
     fetchUserBookings: async function (bookingsType, userId, limit = 0) {
       try {
+        this.loading = true;
         const bookings = await fetchBookings(bookingsType, userId, limit);
         this.bookings = {
           ...this.bookings,
@@ -18,6 +20,8 @@ export default defineStore('bookings', {
         };
       } catch (error) {
         console.log(error);
+      } finally {
+        this.loading = false;
       }
     }
   },

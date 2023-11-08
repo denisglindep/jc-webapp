@@ -60,14 +60,14 @@ const router = createRouter({
           name: 'signup',
           component: SignUp
         },
-        {
-          path: '/profile',
-          name: 'profile',
-          component: () => import('../views/Profile.vue'),
-          meta: {
-            auth: true
-          }
-        },
+        // {
+        //   path: '/profile',
+        //   name: 'profile',
+        //   component: () => import('../views/Profile.vue'),
+        //   meta: {
+        //     auth: true
+        //   }
+        // },
         {
           path: '/reset-password/:token',
           name: 'reset-password',
@@ -168,6 +168,31 @@ const router = createRouter({
           }
         }
       ]
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: DefaultLayout,
+      children: [
+        {
+          path: '',
+          name: 'profile',
+          component: () => import('../views/Profile.vue')
+        },
+        {
+          path: '/faq',
+          name: 'faq',
+          component: () => import('@/components/screens/Profile/Faq.vue')
+        },
+        {
+          path: '/edit-profile',
+          name: 'edit-profile',
+          component: () => import('@/components/screens/Profile/EditProfile.vue')
+        }
+      ],
+      meta: {
+        auth: true
+      }
     },
     // catch all routes that are not defined and redirect to the Not Found page
     { path: '/:pathMatch(.*)*', component: () => import('../views/404.vue') }
