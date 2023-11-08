@@ -44,7 +44,7 @@
 </template>
 <script setup>
 import { onMounted, computed } from 'vue';
-import { useLocale } from 'vuetify/';
+import { useLocale } from 'vuetify';
 import { useRoute } from 'vue-router';
 import { useAuth } from '../../../stores';
 

@@ -1,6 +1,8 @@
 @use 'vuetify' with (
   $utilities: false,
-  $color-pack: false
+  $color-pack: false,
+  $body-font-family: PF Din Text Universal,
+  $heading-font-family: PF Din Text Universal
 );
 
 @import url('./assets/font/stylesheet.css');
