@@ -71,7 +71,7 @@
                     Total :
                   </v-col>
                   <v-col class="text-end">
-                    <span class="font-weight-medium">{{ totalPrice }} KWD</span>
+                    <span class="font-weight-medium">{{ filters.formatMoney(totalPrice, $vuetify.locale.current) }}</span>
                   </v-col>
                 </v-row>
               </v-expansion-panel-text>

@@ -130,7 +130,7 @@
   </v-container>
 </template>
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useLocale } from 'vuetify';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
@@ -142,6 +142,15 @@ const { t, isRtl, current } = useLocale();
 const profileStore = useProfile();
 const authStore = useAuth();
 
+const userData = computed(() => ({
+  firstName: profileStore.getUserInfo?.first_name,
+  lastName: profileStore.getUserInfo?.last_name,
+  email: profileStore.getUserInfo?.email,
+  language: profileStore.profile?.locale
+}));
+
+console.log(userData);
+
 const schema = object({
   firstName: string().defined().notRequired().min(1).trim(),
   lastName: string().defined().notRequired().min(1).trim(),
@@ -149,24 +158,11 @@ const schema = object({
   newPassword: string().notRequired()
 });
 
-const {
-  defineComponentBinds,
-  resetField,
-  handleSubmit,
-  errors,
-  setValues,
-  setErrors,
-  isSubmitting,
-  meta
-} = useForm({
-  initialValues: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    language: localStorage.getItem('locale')
-  },
-  validationSchema: schema
-});
+const { defineComponentBinds, resetField, handleSubmit, errors, setErrors, isSubmitting, meta } =
+  useForm({
+    initialValues: userData.value,
+    validationSchema: schema
+  });
 
 const vuetifyConfig = (state) => ({
   props: {
@@ -205,14 +201,6 @@ const submitEditInfo = handleSubmit(async (values) => {
   } catch (error) {
     setErrors({ apiError: error?.message });
   }
-});
-
-watch(profileStore.profile, ({ userData }) => {
-  setValues({
-    firstName: userData?.first_name,
-    lastName: userData?.last_name,
-    email: userData?.email
-  });
 });
 
 function closeAlert() {

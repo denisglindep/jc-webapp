@@ -1,7 +1,7 @@
 <template>
   <v-layout class="h-screen d-flex flex-column">
     <NavBar />
-    <v-main class="d-flex flex-column bg-background">
+    <v-main class="flex-grow-1 bg-background">
       <router-view />
     </v-main>
     <SubscribeToNewsSection />

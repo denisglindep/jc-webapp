@@ -1,7 +1,7 @@
 <template>
   <router-view />
 </template>
-<script>
+<script setup>
 import { useBookings, useAuth } from '@/stores';
 import { onMounted } from 'vue';
 const bookingsStore = useBookings();

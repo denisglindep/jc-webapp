@@ -11,7 +11,7 @@
       </v-col>
     </v-row>
     <v-row v-if="tickets.length > 0">
-      <v-col v-for="ticket in tickets" :key="ticket.id" cols="12" md="6">
+      <v-col v-for="ticket in tickets" :key="ticket.id" cols="12" md="3">
         <Ticket :ticket="ticket" :eventName="currenntBooking?.event[`name_${currentLang}`]" />
       </v-col>
     </v-row>

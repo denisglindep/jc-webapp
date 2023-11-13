@@ -1,26 +1,38 @@
 <template>
   <v-container>
-    <v-row class="h-100" align="center">
-      <v-col cols="12" align="center">
+    <v-row align="center" justify="center">
+      <v-col cols="12" md="6" align="center">
         <v-card class="fill-height">
-          <v-card-title class="text-h54 text-center"> Thank you! </v-card-title>
+          <v-card-title class="text-h5 text-center">
+            {{ t('$vuetify.custom.texts.thankYou') }}
+          </v-card-title>
           <v-card-text class="text-center">
-            <h2 class="text-body-1">Your booking is confirmed.</h2>
-            <v-icon size="75" color="success" icon="mdi-check-circle" />
+            <h2 class="text-body-2">
+              {{ t('$vuetify.custom.texts.yourBookingHasBeenConfirmed') }}
+            </h2>
           </v-card-text>
+          <v-icon size="75" color="success" icon="mdi-check-circle" />
           <v-card-item class="w-auto text-center">
             <v-table>
               <tbody>
-                <tr v-for="(value, key) in additionalInfo" :key="key">
-                  <td>{{ key }}</td>
-                  <td>{{ value }}</td>
+                <tr>
+                  <td>{{ t('$vuetify.custom.common.amount') }}</td>
+                  <td>{{ filters.formatMoney(route?.query?.trans_amount) }}</td>
+                </tr>
+                <tr>
+                  <td>{{ t('$vuetify.custom.common.paymentMethod') }}</td>
+                  <td>{{ route?.query?.['payment-method'] }}</td>
+                </tr>
+                <tr>
+                  <td>{{ t('$vuetify.custom.common.reference_no') }}</td>
+                  <td>{{ route.query?.ref_no }}</td>
                 </tr>
               </tbody>
             </v-table>
           </v-card-item>
           <v-card-item>
             <v-card-subtitle>
-              All details have been sent to
+              {{ t('$vuetify.custom.texts.detailtshaveBeenSentToYourEmail') }} :
               <span class="font-weight-bold">{{
                 profile.profile.userData.email
               }}</span></v-card-subtitle
@@ -45,7 +57,7 @@
   </v-container>
 </template>
 <script setup>
-import { onMounted, computed } from 'vue';
+import { onMounted } from 'vue';
 import { useLocale } from 'vuetify';
 import { useRoute } from 'vue-router';
 import { useProfile } from '../../../stores';
@@ -53,13 +65,6 @@ import { useProfile } from '../../../stores';
 const { t } = useLocale();
 const profile = useProfile();
 const route = useRoute();
-
-const additionalInfo = computed(() => ({
-  Amount: `${route.query?.trans_amount} KWD`,
-  ['Payment method']: route.query?.['payment-method'],
-  Reference_no: route.query?.ref_no
-}));
-
 defineProps({
   id: {
     type: String,

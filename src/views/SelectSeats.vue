@@ -1,5 +1,15 @@
 <template>
   <v-container class="d-flex flex-column">
+    <v-row>
+      <v-col>
+        <v-btn class="mt-4" color="primary" variant="plain" :ripple="false" to="/bookings">
+          <template v-slot:prepend>
+            <v-icon :icon="isRtl ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
+          </template>
+          {{ t('$vuetify.custom.backBtns.backToMyBookings') }}
+        </v-btn>
+      </v-col>
+    </v-row>
     <h4 class="text-center text-h4 font-weight-bold mb-8">Select Seats</h4>
     <div
       v-if="!selectedEventTimeInfo?.web_seatio_eventkey"
@@ -17,10 +27,10 @@
               workspaceKey="2800ed02-e2bf-4144-9647-efd0930081c7"
               session="continue"
               :event="selectedEventTimeInfo?.web_seatio_eventkey"
-              :pricing="pricingInfo.price"
+              :pricing="pricingInfo?.price"
               :maxSelectedObjects="10"
               :minSelectedObjects="10"
-              :priceFormatter="(price) => `${price} KWD`"
+              :priceFormatter="(price) => filters.formatMoney(price, $vuetify.locale.current)"
               :showSeatLabels="true"
               :holdOnSelectForGAs="true"
               :showFullScreenButton="true"
@@ -66,7 +76,7 @@
                         >
                           <span
                             :class="`text-caption font-weight-medium ${
-                              isDarkMode ? 'text-white' : 'text-primary'
+                              isDarkMode ? 'text-white' : 'text-white'
                             }`"
                             >{{ item.labels.parent }}-{{ item.labels.own }}</span
                           >
@@ -75,7 +85,9 @@
                       <td>
                         <span class="ml-2">{{ item.category.label }}</span>
                       </td>
-                      <td>{{ item?.pricing?.formattedPrice }}</td>
+                      <td>
+                        {{ filters.formatMoney(item?.pricing?.price, $vuetify.locale.current) }}
+                      </td>
                       <td>
                         <v-icon icon="mdi-close" @click="() => deselectObject(item)" />
                       </td>
@@ -83,7 +95,9 @@
                     <tr v-if="selectedObjects.length > 0" class="font-weight-medium">
                       <td colspan="2">Total:</td>
                       <td colspan="2">
-                        <span> {{ totalPrice }} KWD </span>
+                        <span>
+                          {{ filters.formatMoney(totalPrice, $vuetify.locale.current) }}
+                        </span>
                       </td>
                     </tr>
                   </tbody>
@@ -142,13 +156,14 @@
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { SeatsioSeatingChart } from '@seatsio/seatsio-vue';
-import { useTheme } from 'vuetify';
+import { useLocale, useTheme } from 'vuetify';
 import { useEvents } from '@/stores';
 import ConfirmModal from '@/components/common/ConfirmModal.vue';
 
 const router = useRouter();
 const theme = useTheme();
 const route = useRoute();
+const { t } = useLocale();
 const eventsStore = useEvents();
 const seatingChart = ref(null);
 const colorScheme = ref(theme.name.value);
@@ -181,7 +196,6 @@ async function handleHoldSucceeded() {
 }
 
 async function handleObjectSelected(selectedObject) {
-  console.log('selectedObject', selectedObject);
   selectedObject.pulse();
   const token = JSON.parse(sessionStorage.getItem('seatsio')).holdToken;
   const holdTokenInfo = await eventsStore.setHoldToken(
@@ -193,7 +207,7 @@ async function handleObjectSelected(selectedObject) {
     apiHoldTokenInfo.value = holdTokenInfo;
   }
   selectedObjects.value.push(selectedObject);
-  eventsStore.setSelectedObjects(selectedObject);
+  eventsStore.setSelectedObjects(selectedObjects.value);
   openedPanel.value = [];
 }
 
@@ -233,15 +247,19 @@ async function handleContinue() {
 
 async function deselectObject({ id }) {
   await seatingChart.value.deselectObjects([{ id }]);
+  eventsStore.removeSelectedObjects(id);
   selectedObjects.value = selectedObjects.value.filter((el) => el.id !== id);
   if (selectedObjects.value?.length === 0) {
     openedPanel.value = [0];
   }
+  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
 }
 
 async function resetSelection() {
   await seatingChart.value.clearSelection();
   selectedObjects.value = [];
+  eventsStore.removeSelectedObjects();
+  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
 }
 
 const pricingInfo = computed(() => {
@@ -261,9 +279,9 @@ const selectedEventTimeInfo = computed(() => {
   return eventsStore?.eventDetails?.data?.times?.find((el) => el.id == route.query?.date_id);
 });
 
-const totalPrice = computed(() =>
-  selectedObjects.value.reduce((acc, el) => acc + el.pricing.price, 0)
-);
+const totalPrice = computed(() => {
+  return selectedObjects?.value?.reduce((acc, el) => acc + el?.pricing?.price, 0);
+});
 
 if (!eventsStore?.eventDetails?.data) {
   eventsStore.getEventDetails(route.params.id);

@@ -26,7 +26,8 @@ export default {
   backBtns: {
     backToMyBookings: 'العودة إلى حجوزاتي',
     backToProfile: 'العودة إلى الملف الشخصي',
-    backToSignIn: 'العودة إلى تسجيل الدخول'
+    backToSignIn: 'العودة إلى تسجيل الدخول',
+    backToHome: 'العودة إلى الصفحة الرئيسية'
   },
   tabs: {
     upcoming: 'القادمة',
@@ -100,7 +101,13 @@ export default {
     weHaveSentYouAnEmail: 'لقد أرسلنا لك بريدًا إلكترونيًا',
     linkSentSuccessfully: 'تم إرسال الرابط بنجاح',
     forgotPassword: 'هل نسيت كلمة المرور؟',
-    noWorries: 'لا داعي للقلق، سنرسل لك تعليمات إعادة التعيين.'
+    noWorries: 'لا داعي للقلق، سنرسل لك تعليمات إعادة التعيين.',
+    yourBookingHasBeenConfirmed: 'تم تأكيد حجزك',
+    thankYou: 'شكرا لك',
+    detailtshaveBeenSentToYourEmail: 'تم إرسال التفاصيل إلى بريدك الإلكتروني',
+    weAreSorry: 'نحن آسفون',
+    paymentFailed: 'فشل الدفع',
+    pleaseTryAgain: 'يرجى المحاولة مرة أخرى'
   },
   common: {
     event: 'حدث',
@@ -109,6 +116,9 @@ export default {
     totalAmount: 'المبلغ الإجمالي',
     performanceTime: 'وقت العرض',
     doorsOpen: 'فتح الأبواب',
-    intermission: 'فترة الراحة'
+    intermission: 'فترة الراحة',
+    amount: 'المبلغ',
+    paymentMethod: 'طريقة الدفع',
+    reference_no: 'رقم المرجع'
   }
 };

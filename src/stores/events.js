@@ -95,8 +95,8 @@ export default defineStore('events', {
         this.loading = true;
         const eventDetails = await getEventDetails(id);
         const times = await this.getEventTimings(id);
-        const attireInfo = await getEventAttributionInfo(id);
-        this.eventDetails.data = { ...eventDetails, times, attireInfo };
+        // const attireInfo = await getEventAttributionInfo(id);
+        this.eventDetails.data = { ...eventDetails, times };
       } catch (error) {
         console.log('Error during fetch event details', error);
       } finally {
@@ -198,8 +198,12 @@ export default defineStore('events', {
         console.log(error);
       }
     },
-    setSelectedObjects: function (obj) {
-      this.eventDetails.selectedSeats.push(obj);
+    setSelectedObjects: function (selectedObjectsArr) {
+      this.eventDetails.selectedSeats = selectedObjectsArr;
+    },
+    removeSelectedObjects: function (obj) {
+      const index = this.eventDetails.selectedSeats.findIndex((el) => el.id === obj.id);
+      this.eventDetails.selectedSeats.splice(index, 1);
     },
     lockSelectedSeats: async function (options) {
       await lockBookedSeats(options);

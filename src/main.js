@@ -31,7 +31,11 @@ if (!currentLocale) {
 
 app.config.globalProperties.filters = {
   formatMoney: (value, locale) => {
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: 'KWD' }).format(value);
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: 'KWD',
+      trailingZeroDisplay: 'stripIfInteger'
+    }).format(value);
   },
   formatDate: (
     value,

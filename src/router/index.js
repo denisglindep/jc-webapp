@@ -88,15 +88,18 @@ const router = createRouter({
         {
           path: '/select-seats/:id',
           name: 'select-seats',
-          beforeEnter: (_, from, next) => {
-            if (from.name && from.name === 'event-details') {
-              return next();
-            }
-            if (from.name && from.name === 'booking-summary') {
-              return next();
-            }
-            return next('/');
-          },
+          // beforeEnter: (_, from, next) => {
+          //   if (from.name && from.name === 'event-details') {
+          //     return next();
+          //   }
+          //   if (from.name && from.name === 'booking-summary') {
+          //     return next();
+          //   }
+          //   if (from?.name === 'select-seats') {
+          //     return next();
+          //   }
+          //   return next('/');
+          // },
           meta: {
             auth: true
           },
@@ -142,12 +145,12 @@ const router = createRouter({
       meta: {
         auth: true
       },
-      beforeEnter: (_, from, next) => {
-        if (from?.name !== 'select-seats') {
-          return next('/');
-        }
-        return next();
-      },
+      // beforeEnter: (_, from, next) => {
+      //   if (from?.name !== 'select-seats') {
+      //     return next('/');
+      //   }
+      //   return next();
+      // },
       children: [
         {
           name: 'booking-summary',
@@ -162,6 +165,15 @@ const router = createRouter({
           name: 'booking-success',
           path: 'success',
           component: () => import('../components/screens/Booking/BookingSuccess.vue'),
+          props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          name: 'booking-failure',
+          path: 'failed',
+          component: () => import('../components/screens/Booking/BookingFailed.vue'),
           props: true,
           meta: {
             auth: true

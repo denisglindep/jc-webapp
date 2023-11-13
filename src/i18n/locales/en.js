@@ -26,7 +26,8 @@ export default {
   backBtns: {
     backToMyBookings: 'Back to My Bookings',
     backToProfile: 'Back to Profile',
-    backToSignIn: 'Back to Sign In'
+    backToSignIn: 'Back to Sign In',
+    backToHome: 'Back to Home'
   },
   tabs: {
     upcoming: 'Upcoming',
@@ -102,7 +103,13 @@ export default {
     weHaveSentYouAnEmail: 'We have sent you an email',
     linkSentSuccessfully: 'Link sent successfully',
     forgotPassword: 'Forgot Password?',
-    noWorries: "No worries, we'll send you reset instructions."
+    noWorries: "No worries, we'll send you reset instructions.",
+    yourBookingHasBeenConfirmed: 'Your booking has been confirmed',
+    thankYou: 'Thank you',
+    detailtshaveBeenSentToYourEmail: 'Details have been sent to your email',
+    weAreSorry: 'We are sorry',
+    paymentFailed: 'Payment Failed',
+    pleaseTryAgain: 'Please try again'
   },
   common: {
     event: 'Event',
@@ -111,6 +118,9 @@ export default {
     totalAmount: 'Total Amount',
     performanceTime: 'Performance Time',
     doorsOpen: 'Doors Open',
-    intermission: 'Intermission'
+    intermission: 'Intermission',
+    amount: 'Amount',
+    paymentMethod: 'Payment Method',
+    reference_no: 'Reference No.'
   }
 };

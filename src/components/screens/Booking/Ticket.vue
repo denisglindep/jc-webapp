@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ maxWidth: '385px' }">
+  <div>
     <v-card min-height="200" class="py-6 px-4 bg-white">
       <div class="d-flex flex-column align-center">
         <LogoIcon />
