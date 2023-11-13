@@ -1,7 +1,7 @@
 import 'vuetify/styles';
 import './main.scss';
 import '@mdi/font/css/materialdesignicons.css';
-import { createApp, watch } from 'vue';
+import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { createVuetify } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
