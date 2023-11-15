@@ -219,8 +219,8 @@ router.beforeEach(async (to, _, next) => {
   const isUserAuthenticated = authStore.getUserInfo?.isAuthenticated;
   const isAuthRoute = to.name === 'signin' || to.name === 'signup' || to.name === 'forgot-password';
 
-  if (isUserAuthenticated && to.query.redirect && to.meta.auth) {
-    return next(to.query.redirect);
+  if (isUserAuthenticated && _?.query?.redirect && to.fullPath !== _?.query?.redirect) {
+    return next(_?.query?.redirect);
   }
 
   if (isUserAuthenticated && isAuthRoute) {

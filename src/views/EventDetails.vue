@@ -6,150 +6,150 @@
     <div
       class="fill-height"
       :style="{
-        background: `linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.7) 100%), url('${eventDetails?.data?.cover_image}')`,
+        background: `linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.7) 100%), url('${
+          eventDetails?.data?.[currentLang === 'en' ? 'cover_image' : 'cover_image_ab']
+        }')`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
       }"
     >
-      <div class="custom-full-height backdrop-container">
-        <v-container>
-          <v-row class="d-flex flex-column-reverse flex-md-row h-100" align="center">
-            <v-col cols="12">
-              <v-row>
-                <v-col cols="12" md="4" align-self="center">
-                  <v-card elevation="0" class="bg-transparent text-white">
-                    <v-card-title class="text-h4 text-wrap">{{
-                      eventDetails?.data?.name_en
-                    }}</v-card-title>
+      <div class="backdrop-container" :class="!mobile ? 'custom-full-height' : ''">
+        <v-container class="fill-height">
+          <v-row>
+            <v-col cols="12" md="6" lg="4" :class="mobile && 'order-last'" align-self="center">
+              <v-card elevation="0" class="bg-transparent text-white">
+                <v-card-title class="text-h4 text-wrap" :class="mobile && 'text-center'">{{
+                  eventDetails?.data?.name_en
+                }}</v-card-title>
 
-                    <v-card-item class="pa-0">
-                      <v-list class="bg-transparent">
-                        <v-list-item class="date-icon" prepend-icon="mdi-calendar-month">
-                          <v-row no-gutters v-if="!!eventStartDate">
-                            <template v-if="eventDetails?.data?.is_sold_out">
-                              <v-chip
-                                class="ms-auto"
-                                size="large"
-                                color="primary"
-                                variant="elevated"
-                                rounded="lg"
-                              >
-                                Sold out
-                              </v-chip>
-                            </template>
-                            <v-row v-else>
-                              <v-col cols="12" xs="12" md="6">
-                                <v-select
-                                  v-if="getEventDates?.length > 0"
-                                  :items="getEventDates"
-                                  @update:modelValue="setSelectedDate"
-                                  hide-details
-                                  label=" Choose date: "
-                                  class="text-truncate"
-                                  return-object
-                                />
-                                <v-chip
-                                  v-else
-                                  text="Booking is not available"
-                                  :rounded="true"
-                                  variant="tonal"
-                                  size="x-large"
-                                  class="text-white align-self-end"
-                                />
-                              </v-col>
-                              <v-col cols="12" xs="12" md="6">
-                                <v-select
-                                  :disabled="chosenTime?.length === 0"
-                                  clearable
-                                  :items="chosenTime"
-                                  item-title="time"
-                                  item-value="id"
-                                  hide-details
-                                  @update:modelValue="setSelectedTime"
-                                  return-object
-                                  label=" Choose time: "
-                                >
-                                  <template v-slot:item="{ item, props }">
-                                    <v-list-item
-                                      :disabled="item?.raw?.is_sold_out || !item.raw.isBookingOpen"
-                                      v-bind="props"
-                                    >
-                                      <template v-slot:title>
-                                        <v-row align="center">
-                                          <v-col cols="2">
-                                            <p>{{ item.title }}</p>
-                                          </v-col>
-                                          <v-spacer />
-                                          <v-col cols="10" align="end">
-                                            <template v-if="!item.raw.isBookingOpen">
-                                              <v-chip color="primary" small variant="elevated"
-                                                >Booking opens on
-                                                {{ item.raw.bookingOpenTime }}</v-chip
-                                              >
-                                            </template>
-                                            <template v-else-if="item.raw.status">
-                                              <v-chip
-                                                :color="
-                                                  item.raw.status === 'Available'
-                                                    ? 'success'
-                                                    : item.raw.status === 'Sold Out'
-                                                    ? 'primary'
-                                                    : item.raw.status ===
-                                                      'Limited Seats Available Hurry Up'
-                                                    ? 'warning'
-                                                    : 'primary'
-                                                "
-                                                variant="elevated"
-                                                small
-                                                >{{ item.raw.status }}</v-chip
-                                              >
-                                            </template>
-                                          </v-col>
-                                        </v-row>
-                                      </template>
-                                    </v-list-item>
-                                  </template>
-                                </v-select>
-                              </v-col>
-                            </v-row>
-                          </v-row>
-                        </v-list-item>
-                        <v-divider color="white" class="mb-2" />
-                        <v-list-item prepend-icon="mdi-map-marker-outline">
-                          <v-list-item-title>Avenue</v-list-item-title>
-                          <v-list-item-subtitle>{{
-                            eventDetails?.data?.venue?.name_en
-                          }}</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-divider color="white" class="my-2" />
-                        <v-list-item prepend-icon="mdi-tag-outline">
-                          <v-list-item-title>Price</v-list-item-title>
-                          <v-list-item-subtitle
-                            >Starts from: {{ selectedTimeObject?.ga_price }}</v-list-item-subtitle
+                <v-card-item class="pa-0">
+                  <v-list class="bg-transparent">
+                    <v-list-item class="date-icon" prepend-icon="mdi-calendar-month">
+                      <v-row no-gutters v-if="!!eventStartDate">
+                        <template v-if="eventDetails?.data?.is_sold_out">
+                          <v-chip
+                            class="ms-auto"
+                            size="large"
+                            color="primary"
+                            variant="elevated"
+                            rounded="lg"
                           >
-                        </v-list-item>
-                        <v-divider color="white" class="my-2" />
-                      </v-list>
-                    </v-card-item>
-                    <v-card-actions>
-                      <v-btn
-                        :disabled="isBookingUnavailable"
-                        block
-                        size="x-large"
-                        variant="elevated"
-                        @click.once="handleBookEvent"
+                            Sold out
+                          </v-chip>
+                        </template>
+                        <v-row v-else>
+                          <v-col cols="12" xs="12" md="6">
+                            <v-select
+                              v-if="getEventDates?.length > 0"
+                              :items="getEventDates"
+                              @update:modelValue="setSelectedDate"
+                              hide-details
+                              label=" Choose date: "
+                              class="text-truncate"
+                              return-object
+                            />
+                            <v-chip
+                              v-else
+                              text="Booking is not available"
+                              :rounded="true"
+                              variant="tonal"
+                              size="x-large"
+                              class="text-white align-self-end"
+                            />
+                          </v-col>
+                          <v-col cols="12" xs="12" md="6">
+                            <v-select
+                              :disabled="chosenTime?.length === 0"
+                              clearable
+                              :items="chosenTime"
+                              item-title="time"
+                              item-value="id"
+                              hide-details
+                              @update:modelValue="setSelectedTime"
+                              return-object
+                              label=" Choose time: "
+                            >
+                              <template v-slot:item="{ item, props }">
+                                <v-list-item
+                                  :disabled="item?.raw?.is_sold_out || !item.raw.isBookingOpen"
+                                  v-bind="props"
+                                >
+                                  <template v-slot:title>
+                                    <v-row align="center">
+                                      <v-col cols="2">
+                                        <p>{{ item.title }}</p>
+                                      </v-col>
+                                      <v-spacer />
+                                      <v-col cols="10" align="end">
+                                        <template v-if="!item.raw.isBookingOpen">
+                                          <v-chip color="primary" small variant="elevated"
+                                            >Booking opens on {{ item.raw.bookingOpenTime }}</v-chip
+                                          >
+                                        </template>
+                                        <template v-else-if="item.raw.status">
+                                          <v-chip
+                                            :color="
+                                              item.raw.status === 'Available'
+                                                ? 'success'
+                                                : item.raw.status === 'Sold Out'
+                                                ? 'primary'
+                                                : item.raw.status ===
+                                                  'Limited Seats Available Hurry Up'
+                                                ? 'warning'
+                                                : 'primary'
+                                            "
+                                            variant="elevated"
+                                            small
+                                            >{{ item.raw.status }}</v-chip
+                                          >
+                                        </template>
+                                      </v-col>
+                                    </v-row>
+                                  </template>
+                                </v-list-item>
+                              </template>
+                            </v-select>
+                          </v-col>
+                        </v-row>
+                      </v-row>
+                    </v-list-item>
+                    <v-divider color="white" class="mb-2" />
+                    <v-list-item prepend-icon="mdi-map-marker-outline">
+                      <v-list-item-title>Avenue</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        eventDetails?.data?.venue?.name_en
+                      }}</v-list-item-subtitle>
+                    </v-list-item>
+                    <v-divider color="white" class="my-2" />
+                    <v-list-item prepend-icon="mdi-tag-outline">
+                      <v-list-item-title>Price</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Starts from: {{ selectedTimeObject?.ga_price }}</v-list-item-subtitle
                       >
-                        Book now
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-col>
-
-                <v-col>
-                  <v-img :src="eventDetails?.data?.cover_image" cover class="rounded-lg h-100" />
-                </v-col>
-              </v-row>
+                    </v-list-item>
+                    <v-divider color="white" class="my-2" />
+                  </v-list>
+                </v-card-item>
+                <v-card-actions>
+                  <v-btn
+                    :disabled="isBookingUnavailable"
+                    block
+                    size="x-large"
+                    variant="elevated"
+                    @click.once="handleBookEvent"
+                  >
+                    Book now
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+            <v-col>
+              <v-img
+                :src="eventDetails?.data?.[currentLang === 'en' ? 'cover_image' : 'cover_image_ab']"
+                cover
+                class="rounded-lg h-100"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -242,10 +242,14 @@
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useDisplay, useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import EventsListSection from '@/components/common/EventsListSection.vue';
 import { useEvents } from '@/stores';
+
+const { mobile } = useDisplay();
+const { isRtl } = useLocale();
 
 const router = useRouter();
 const eventsStore = useEvents();
@@ -296,6 +300,8 @@ const handleBookEvent = () => {
     }
   });
 };
+
+const currentLang = computed(() => (isRtl.value ? 'ab' : 'en'));
 
 const suggestedEvents = getSuggestedEvents?.value(eventDetails?.value?.data?.genre?.id);
 

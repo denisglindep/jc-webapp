@@ -32,9 +32,9 @@ export default defineStore('bookings', {
     getCurrentBookingsEvents: (state) => (bookingsType) => {
       return state.bookings[bookingsType].map((booking) => booking.event);
     },
-    getBookingEventTickets: (state) => (eventId) =>
+    getBookingEventTickets: (state) => (eventId, bookingId) =>
       [...state.bookings.upcoming, ...state.bookings.past].find(
-        (booking) => booking?.event?.id == eventId
+        (booking) => booking?.event?.id == eventId && booking?.id == bookingId
       )?.tickets,
     getSelectedBooking: (state) => (bookingId) => {
       return [...state.bookings.upcoming, ...state.bookings.past].find(

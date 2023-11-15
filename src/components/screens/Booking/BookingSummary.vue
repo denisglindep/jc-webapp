@@ -3,12 +3,14 @@
     <v-btn
       class="mt-4"
       color="primary"
-      variant="text"
+      variant="plain"
       :ripple="false"
       @click="backToSeatsSelection"
     >
-      <v-icon icon="mdi-arrow-left" />
-      <span>Back to seats selection</span>
+      <template v-slot:prepend>
+        <v-icon :icon="isRtl ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
+      </template>
+      {{ t('$vuetify.custom.backBtns.backToSeatsSelection') }}
     </v-btn>
   </v-row>
 
@@ -16,29 +18,45 @@
     <v-col cols="8">
       <v-card class="w-100">
         <v-card-item>
-          <h3 class="text-center text-h5 my-2">{{ eventsStore?.eventDetails?.data?.name_en }}</h3>
-          <v-img :src="eventsStore?.eventDetails?.data?.banner_image" class="rounded-lg" />
+          <h3 class="text-center text-h5 my-2">
+            {{ eventsStore?.eventDetails?.data?.[`name_${currentLang}`] }}
+          </h3>
+          <v-img
+            :src="
+              eventsStore?.eventDetails?.data?.[
+                currentLang === 'en' ? 'banner_image' : 'banner_image_ab'
+              ]
+            "
+            class="rounded-lg"
+          />
         </v-card-item>
 
         <v-card-item>
-          <v-card-title>Your selection:</v-card-title>
+          <v-card-title>{{ t('$vuetify.custom.texts.yourSelection') }}:</v-card-title>
           <v-expansion-panels v-model="openedPanel">
-            <v-expansion-panel elevation="0" variant="accordion" value="true" title="General Info">
+            <v-expansion-panel
+              elevation="0"
+              variant="accordion"
+              value="true"
+              :title="t('$vuetify.custom.common.generalInfo')"
+            >
               <v-expansion-panel-text>
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-theater" />
-                    Place:
+                    {{ t('$vuetify.custom.common.place') }} :
                   </v-col>
                   <v-col class="text-end">
-                    <span>{{ eventsStore?.eventDetails?.data?.venue?.name_en }}</span>
+                    <span>{{
+                      eventsStore?.eventDetails?.data?.venue?.[`name_${currentLang}`]
+                    }}</span>
                   </v-col>
                 </v-row>
                 <v-divider class="my-1" />
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-calendar-range" />
-                    Date:
+                    {{ t('$vuetify.custom.common.date') }} :
                   </v-col>
                   <v-col class="text-end">
                     <span>{{ selectedEventTimeInfo?.startDate }}</span>
@@ -48,7 +66,7 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-clock-time-eleven-outline" />
-                    Start time:
+                    {{ t('$vuetify.custom.common.startTime') }}:
                   </v-col>
                   <v-col class="text-end">
                     <span>{{ selectedEventTimeInfo?.startTime }}</span>
@@ -58,7 +76,7 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-ticket-outline" />
-                    Tickets:
+                    {{ t('$vuetify.custom.common.tickets') }}:
                   </v-col>
                   <v-col class="text-end">
                     <span>{{ selectedSeats?.length }}</span>
@@ -68,30 +86,40 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-cash" />
-                    Total :
+                    {{ t('$vuetify.custom.texts.total') }}:
                   </v-col>
                   <v-col class="text-end">
-                    <span class="font-weight-medium">{{ filters.formatMoney(totalPrice, $vuetify.locale.current) }}</span>
+                    <span class="font-weight-medium">{{
+                      useFormatMoney(totalPrice, $vuetify.locale.current)
+                    }}</span>
                   </v-col>
                 </v-row>
               </v-expansion-panel-text>
             </v-expansion-panel>
-            <v-expansion-panel elevation="0" variant="accordion" title="Additional Info">
+            <v-expansion-panel
+              elevation="0"
+              variant="accordion"
+              :title="t('$vuetify.custom.common.additionalInfo')"
+            >
               <v-expansion-panel-text>
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-human-male-female" />
-                    Age Limit:
+                    {{ t('$vuetify.custom.common.ageLimit') }}:
                   </v-col>
                   <v-col class="text-end">
-                    <span>{{ eventsStore?.eventDetails?.data?.age_limit }}</span>
+                    <span>{{
+                      eventsStore?.eventDetails?.data?.[
+                        currentLang === 'en' ? 'age_limit' : 'age_limit_ab'
+                      ]
+                    }}</span>
                   </v-col>
                 </v-row>
                 <v-divider class="my-1" />
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-door-open" />
-                    Door opening time :
+                    {{ t('$vuetify.custom.common.doorOpeningTime') }} :
                   </v-col>
                   <v-col class="text-end">
                     <span>{{ selectedEventTimeInfo?.doorOpenTime }}</span>
@@ -101,7 +129,7 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-door-closed" />
-                    Door closing time :
+                    {{ t('$vuetify.custom.common.doorClosingTime') }} :
                   </v-col>
                   <v-col class="text-end">
                     <span>{{ selectedEventTimeInfo?.doorCloseTime }}</span>
@@ -111,10 +139,14 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-hanger" />
-                    Dress Code:
+                    {{ t('$vuetify.custom.common.dressCode') }} :
                   </v-col>
                   <v-col class="text-end">
-                    <span>{{ eventsStore?.eventDetails?.data?.dress_code }}</span>
+                    <span>{{
+                      eventsStore?.eventDetails?.data?.[
+                        currentLang === 'en' ? 'dress_code' : 'dress_code_ab'
+                      ]
+                    }}</span>
                     <v-icon
                       @click.prevent="isDressCodeDialogOpen = true"
                       tag="button"
@@ -127,7 +159,7 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-content-paste" />
-                    Terms & Conditions:
+                    {{ t('$vuetify.custom.texts.termsAndConditions') }} :
                   </v-col>
                   <v-col class="text-end">
                     <v-icon
@@ -142,10 +174,14 @@
                 <v-row>
                   <v-col>
                     <v-icon icon="mdi-timer-sand" />
-                    Duration:
+                    {{ t('$vuetify.custom.common.duration') }} :
                   </v-col>
                   <v-col class="text-end">
-                    <span>{{ eventsStore?.eventDetails?.data?.run_time }}</span>
+                    <span>{{
+                      eventsStore?.eventDetails?.data?.[
+                        currentLang === 'en' ? 'run_time' : 'run_time_ar'
+                      ]
+                    }}</span>
                   </v-col>
                 </v-row>
                 <v-divider class="my-1" />
@@ -156,25 +192,25 @@
 
         <v-card-item>
           <v-checkbox-btn
-            label="I agree to the dress code regulations for this show"
+            :label="t('$vuetify.custom.texts.agreeToDressCode')"
             v-model="dressCodeAccepted"
             @update:model-value="handleDressCodeCheckbox"
           />
           <v-checkbox-btn
-            label="I agree to the terms & conditions"
+            :label="t('$vuetify.custom.texts.agreeToTermsAndConditions')"
             v-model="termsAccepted"
             @update:model-value="handleTermsCheckbox"
           />
           <v-checkbox-btn
             v-model="finalAccepted"
-            label="I agree that this purchase is FINAL and cannot be refunded under any circumstances!"
+            :label="t('$vuetify.custom.texts.finalPurchaseAgree')"
           />
         </v-card-item>
       </v-card>
     </v-col>
     <v-col cols="4">
       <v-card>
-        <v-card-title>Select payment method:</v-card-title>
+        <v-card-title>{{ t('$vuetify.custom.texts.selectPayment') }}</v-card-title>
         <v-card-item>
           <v-radio-group v-model="selectedPaymentMethod">
             <v-radio label="KNET" value="KNET" />
@@ -189,7 +225,7 @@
             block
             @click.once="handlePurchase"
             :loading="isLoading"
-            >Purchase</v-btn
+            >{{ t('$vuetify.custom.common.purchase') }}</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -199,10 +235,10 @@
   <v-dialog v-model="isDressCodeDialogOpen" width="75%">
     <v-card v-click-outside="handleDressCodeOutside">
       <v-card-title class="text-center">{{
-        eventsStore?.eventDetails?.data?.attireInfo?.data?.attire_en
+        eventsStore?.eventDetails?.data?.attireInfo?.data?.[`attire_${currentLang}`]
       }}</v-card-title>
       <v-card-subtitle class="text-center">{{
-        eventsStore?.eventDetails?.data?.attireInfo?.data?.prompt_en
+        eventsStore?.eventDetails?.data?.attireInfo?.data?.[`prompt_${currentLang}`]
       }}</v-card-subtitle>
 
       <v-card-item>
@@ -228,7 +264,7 @@
           color="primary"
           block
           @click="isDressCodeDialogOpen = false"
-          >Agree</v-btn
+          >{{ t('$vuetify.custom.common.agree') }}</v-btn
         >
         <v-btn v-else variant="flat" color="primary" block @click="isDressCodeDialogOpen = false"
           >Close</v-btn
@@ -239,9 +275,14 @@
 
   <v-dialog v-model="isTermsDialogOpen" width="75%">
     <v-card v-click-outside="handleTermsOutside">
-      <v-card-title class="text-center">Terms & Conditions</v-card-title>
+      <v-card-title class="text-center">{{
+        t('$vuetify.custom.texts.termsAndConditions')
+      }}</v-card-title>
       <v-card-text>
-        <div class="text-body-1" v-html="eventsStore?.eventDetails?.data?.term_condition_en" />
+        <div
+          class="text-body-1"
+          v-html="eventsStore?.eventDetails?.data?.[`term_condition_${currentLang}`]"
+        />
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -250,7 +291,7 @@
           color="primary"
           block
           @click="isTermsDialogOpen = false"
-          >Agree</v-btn
+          >{{ t('$vuetify.custom.common.agree') }}</v-btn
         >
         <v-btn v-else variant="flat" color="primary" block @click="isTermsDialogOpen = false"
           >Close</v-btn
@@ -262,12 +303,16 @@
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useLocale } from 'vuetify';
 import { useRoute, useRouter } from 'vue-router';
 import { useEvents } from '@/stores';
+import { useFormatMoney, useFormatDate } from '@/composables';
 
 const eventsStore = useEvents();
 const route = useRoute();
 const router = useRouter();
+const { t, isRtl, current } = useLocale();
+
 const openedPanel = ref([0]);
 const isDressCodeDialogOpen = ref(false);
 const isTermsDialogOpen = ref(false);
@@ -276,6 +321,8 @@ const termsAccepted = ref(false);
 const finalAccepted = ref(false);
 const isLoading = ref(false);
 const selectedPaymentMethod = ref(null);
+
+const currentLang = computed(() => (isRtl.value ? 'ab' : 'en'));
 
 const selectedSeats = eventsStore.getSelectedSeats;
 
@@ -357,29 +404,31 @@ const selectedEventTimeInfo = computed(() => {
     (el) => el.id == route.query?.date_id
   );
   return {
-    startDate: new Date(timeObj?.start_time).toLocaleDateString('en-US', {
+    startDate: useFormatDate(timeObj?.start_time, current.value, {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     }),
-    startTime: new Date(timeObj?.start_time).toLocaleTimeString('en-US', {
+    startTime: useFormatDate(timeObj?.start_time, current.value, {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true
     }),
-    doorOpenTime: new Date(timeObj?.gate_opening_time).toLocaleTimeString('en-US', {
+    doorOpenTime: useFormatDate(timeObj?.gate_opening_time, current.value, {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true
     }),
-    doorCloseTime: new Date(timeObj?.closed_at).toLocaleTimeString('en-US', {
+    doorCloseTime: useFormatDate(timeObj?.closed_at, current.value, {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true
     })
   };
 });
+
+eventsStore.getAttireInfo(route.params.id);
 </script>
 <style scoped>
 .info:hover {

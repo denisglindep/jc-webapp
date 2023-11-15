@@ -1,69 +1,82 @@
 <template>
-  <v-container class="d-flex flex-column">
+  <v-container class="h-100">
     <v-row>
       <v-col>
-        <v-btn class="mt-4" color="primary" variant="plain" :ripple="false" to="/bookings">
+        <v-btn
+          class="mt-4"
+          color="primary"
+          variant="plain"
+          :ripple="false"
+          @click="backToEventDetails"
+        >
           <template v-slot:prepend>
             <v-icon :icon="isRtl ? 'mdi-chevron-right' : 'mdi-chevron-left'" />
           </template>
-          {{ t('$vuetify.custom.backBtns.backToMyBookings') }}
+          {{ t('$vuetify.custom.backBtns.backToEventDetails') }}
         </v-btn>
       </v-col>
     </v-row>
-    <h4 class="text-center text-h4 font-weight-bold mb-8">Select Seats</h4>
-    <div
-      v-if="!selectedEventTimeInfo?.web_seatio_eventkey"
-      class="d-flex w-100 justify-center align-center h-screen"
-    >
-      <v-progress-circular color="primary" indeterminate="" />
-    </div>
-    <div v-else class="flex-grow-1 custom-min-height">
-      <v-row class="custom-height">
-        <v-col cols="12" sm="12" md="8" :style="{ minHeight: '300px' }">
-          <v-sheet class="h-100 rounded-lg">
-            <SeatsioSeatingChart
-              class="h-100"
-              region="eu"
-              workspaceKey="2800ed02-e2bf-4144-9647-efd0930081c7"
-              session="continue"
-              :event="selectedEventTimeInfo?.web_seatio_eventkey"
-              :pricing="pricingInfo?.price"
-              :maxSelectedObjects="10"
-              :minSelectedObjects="10"
-              :priceFormatter="(price) => filters.formatMoney(price, $vuetify.locale.current)"
-              :showSeatLabels="true"
-              :holdOnSelectForGAs="true"
-              :showFullScreenButton="true"
-              :colorScheme="colorScheme"
-              :showSectionPricingOverlay="true"
-              :showLegend="false"
-              stylePreset="bubblegum"
-              @fullScreenClosed="handleClosedFullscreen"
-              @objectSelected="handleObjectSelected"
-              @objectDeselected="deselectObject"
-              @chartRendered="handleChartRendered"
-              @selectedObjectBooked="handleSeatAlreadyBooked"
-              @holdTokenExpired="handleHoldSucceeded"
-              :categoryFilter="{
-                enabled: true,
-                multiSelect: true,
-                zoomOnSelect: true
-              }"
-            />
-          </v-sheet>
-        </v-col>
-        <v-col class="flex-grow-1" cols="12" sm="12" md="4">
-          <v-card elevation="0" class="d-flex flex-column" min-height="50%">
-            <div class="flex-grow-1">
-              <v-card-title class="text-center">Selected seats</v-card-title>
-
+    <v-row>
+      <v-col>
+        <h4 class="text-center text-h4 font-weight-bold mb-8">
+          {{ t('$vuetify.custom.headings.selectSeats') }}
+        </h4>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <div
+          v-if="!selectedEventTimeInfo?.web_seatio_eventkey"
+          class="d-flex w-100 justify-center align-center h-screen"
+        >
+          <v-progress-circular color="primary" indeterminate="" />
+        </div>
+        <v-row v-else>
+          <v-col cols="12" md="8">
+            <v-sheet class="h-100 rounded-lg" :style="{ minHeight: '500px' }">
+              <SeatsioSeatingChart
+                region="eu"
+                workspaceKey="2800ed02-e2bf-4144-9647-efd0930081c7"
+                session="continue"
+                :language="$vuetify.locale.current"
+                :event="selectedEventTimeInfo?.web_seatio_eventkey"
+                :pricing="pricingInfo?.price"
+                :maxSelectedObjects="10"
+                :minSelectedObjects="10"
+                :priceFormatter="(price) => filters.formatMoney(price, $vuetify.locale.current)"
+                :showSeatLabels="true"
+                :holdOnSelectForGAs="true"
+                :showFullScreenButton="true"
+                :colorScheme="colorScheme"
+                :showSectionPricingOverlay="true"
+                :showLegend="false"
+                stylePreset="bubblegum"
+                @fullScreenClosed="handleClosedFullscreen"
+                @objectSelected="handleObjectSelected"
+                @objectDeselected="deselectObject"
+                @chartRendered="handleChartRendered"
+                @selectedObjectBooked="handleSeatAlreadyBooked"
+                @holdTokenExpired="handleHoldSucceeded"
+                :categoryFilter="{
+                  enabled: true,
+                  multiSelect: true,
+                  zoomOnSelect: true
+                }"
+              />
+            </v-sheet>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-card elevation="0">
+              <v-card-title class="text-center">{{
+                t('$vuetify.custom.texts.selectedSeats')
+              }}</v-card-title>
               <v-card-item>
                 <v-table fixed-header density="comfortable" hover>
                   <thead>
                     <tr>
                       <th class="text-left"></th>
-                      <th class="text-left">Category</th>
-                      <th class="text-left">Price</th>
+                      <th class="text-left">{{ t('$vuetify.custom.texts.category') }}</th>
+                      <th class="text-left">{{ t('$vuetify.custom.texts.price') }}</th>
                       <th class="text-left"></th>
                     </tr>
                   </thead>
@@ -93,45 +106,48 @@
                       </td>
                     </tr>
                     <tr v-if="selectedObjects.length > 0" class="font-weight-medium">
-                      <td colspan="2">Total:</td>
+                      <td colspan="2">{{ t('$vuetify.custom.texts.total') }}:</td>
                       <td colspan="2">
                         <span>
                           {{ filters.formatMoney(totalPrice, $vuetify.locale.current) }}
                         </span>
                       </td>
                     </tr>
+                    <tr v-else>
+                      <td colspan="4" class="text-center">No seats selected</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </v-card-item>
-            </div>
-            <v-card-item>
-              <v-btn
-                class="my-2"
-                size="large"
-                block
-                variant="tonal"
-                :color="theme.global.name.value === 'dark' ? 'white' : 'primary'"
-                :disabled="selectedObjects.length === 0"
-                >Reset selected seats
-                <ConfirmModal
-                  title="Are you sure you want to reset selected seats?"
-                  @action-success="resetSelection"
-                  :showDialog="true"
-              /></v-btn>
-              <v-btn
-                class="my-2"
-                size="large"
-                block
-                variant="flat"
-                :disabled="selectedObjects.length === 0"
-                @click="handleContinue"
-                >Continue</v-btn
-              >
-            </v-card-item>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+              <v-card-item>
+                <v-btn
+                  class="my-2"
+                  size="large"
+                  block
+                  variant="tonal"
+                  :color="theme.global.name.value === 'dark' ? 'white' : 'primary'"
+                  :disabled="selectedObjects.length === 0"
+                  >{{ t('$vuetify.custom.texts.resetSelectedSeats') }}
+                  <ConfirmModal
+                    title="Are you sure you want to reset selected seats?"
+                    @action-success="resetSelection"
+                    :showDialog="true"
+                /></v-btn>
+                <v-btn
+                  class="my-2"
+                  size="large"
+                  block
+                  variant="flat"
+                  :disabled="selectedObjects.length === 0"
+                  @click="handleContinue"
+                  >{{ t('$vuetify.custom.texts.continue') }}</v-btn
+                >
+              </v-card-item>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
     <v-dialog v-model="handleSeatAlreadySelected">
       <v-card>
         <v-card-title class="text-h6"
@@ -163,7 +179,7 @@ import ConfirmModal from '@/components/common/ConfirmModal.vue';
 const router = useRouter();
 const theme = useTheme();
 const route = useRoute();
-const { t } = useLocale();
+const { t, isRtl } = useLocale();
 const eventsStore = useEvents();
 const seatingChart = ref(null);
 const colorScheme = ref(theme.name.value);
@@ -216,6 +232,14 @@ function handleSeatAlreadyBooked(seatObj) {
   handleSeatAlreadySelected.value = true;
 }
 
+async function backToEventDetails() {
+  await resetSelection();
+  router.push({
+    name: 'event-details',
+    params: { id: route.params.id }
+  });
+}
+
 async function handleContinue() {
   const hold_token = JSON.parse(sessionStorage.getItem('seatsio')).holdToken;
   const auth = JSON.parse(localStorage.getItem('userobj'));
@@ -263,7 +287,7 @@ async function resetSelection() {
 }
 
 const pricingInfo = computed(() => {
-  const res = eventsStore.eventDetails.pricing.reduce(
+  const res = eventsStore?.eventDetails?.pricing?.reduce(
     (acc, el) => {
       acc.maxSelectedObjects.push({ category: el.key, quantity: el.max_ticket });
       acc.minSelectedObjects.push({ category: el.key, quantity: el.min_ticket });
@@ -290,9 +314,6 @@ eventsStore.getSeatsPricing(route.query?.date_id);
 </script>
 <style scoped>
 .custom-min-height {
-  min-height: calc(100vh - 64px);
-}
-.custom-height {
-  height: 85%;
+  min-height: calc(100dvh - 64px);
 }
 </style>

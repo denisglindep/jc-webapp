@@ -27,7 +27,9 @@ export default {
     backToMyBookings: 'العودة إلى حجوزاتي',
     backToProfile: 'العودة إلى الملف الشخصي',
     backToSignIn: 'العودة إلى تسجيل الدخول',
-    backToHome: 'العودة إلى الصفحة الرئيسية'
+    backToHome: 'العودة إلى الصفحة الرئيسية',
+    backToEventDetails: 'العودة إلى تفاصيل الحدث',
+    backToSeatsSelection: 'العودة إلى اختيار المقاعد'
   },
   tabs: {
     upcoming: 'القادمة',
@@ -44,7 +46,8 @@ export default {
     profile: 'الملف الشخصي',
     frequentlyAskedQuestions: 'الأسئلة الشائعة',
     frequentlyAskedQuestionsSubtitle:
-      'إذا كنت تتردد، لا تقلق - نحن هنا لنشرح كل ما قد ترغب في معرفته. دعنا نساعدك!'
+      'إذا كنت تتردد، لا تقلق - نحن هنا لنشرح كل ما قد ترغب في معرفته. دعنا نساعدك!',
+    selectSeats: 'اختر المقاعد'
   },
   inputTexts: {
     enterEmail: 'أدخل بريدك الإلكتروني',
@@ -80,6 +83,7 @@ export default {
       'يجب أن تحتوي كلمة المرور على ما لا يقل عن 8 أحرف، 1 حرف كبير، 1 حرف صغير، 1 رقم، و 1 حرف خاص.'
   },
   texts: {
+    selectPayment: 'اختر طريقة الدفع',
     registerYourInterestsHere: 'سجل اهتماماتك هنا',
     latestNewsText:
       'للتأكد من أنك على اطلاع دائم بآخر الأخبار، والفعاليات القادمة، والمزيد، يُرجى تسجيل اهتمامك أدناه.',
@@ -107,9 +111,21 @@ export default {
     detailtshaveBeenSentToYourEmail: 'تم إرسال التفاصيل إلى بريدك الإلكتروني',
     weAreSorry: 'نحن آسفون',
     paymentFailed: 'فشل الدفع',
-    pleaseTryAgain: 'يرجى المحاولة مرة أخرى'
+    pleaseTryAgain: 'يرجى المحاولة مرة أخرى',
+    selectedSeats: 'المقاعد المحددة',
+    noSeatsSelected: 'لم يتم تحديد مقاعد',
+    category: 'الفئة',
+    total: 'الإجمالي',
+    resetSelectedSeats: 'إعادة تعيين المقاعد المحددة',
+    continue: 'استمر',
+    yourSelection: 'اختيارك',
+    agreeToDressCode: 'أتفق على لوائح اللباس لهذا العرض',
+    agreeToTermsAndConditions: 'أوافق على الشروط والأحكام',
+    finalPurchaseAgree: 'أتفق على أن هذا الشراء نهائي ولا يمكن استرداده تحت أي ظرف من الظروف!'
   },
   common: {
+    agree: 'موافق',
+    place: 'مكان',
     event: 'حدث',
     date: 'تاريخ',
     venue: 'مكان',
@@ -119,6 +135,16 @@ export default {
     intermission: 'فترة الراحة',
     amount: 'المبلغ',
     paymentMethod: 'طريقة الدفع',
-    reference_no: 'رقم المرجع'
+    reference_no: 'رقم المرجع',
+    generalInfo: 'معلومات عامة',
+    additionalInfo: 'معلومات إضافية',
+    startTime: 'وقت البدء',
+    tickets: 'تذاكر',
+    ageLimit: 'الحد العمري',
+    doorOpeningTime: 'وقت فتح الأبواب',
+    doorClosingTime: 'وقت إغلاق الأبواب',
+    dressCode: 'الزي الموحد',
+    duration: 'المدة',
+    purchase: 'شراء'
   }
 };

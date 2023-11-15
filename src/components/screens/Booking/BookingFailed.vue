@@ -17,17 +17,9 @@
             >
           </v-card-item>
           <v-card-actions class="justify-center">
-            <v-btn
-              :to="{
-                path: '/my-bookings',
-                query: {
-                  bookingsType: 'upcoming'
-                }
-              }"
-              color="primary"
-              large
-              >{{ t('$vuetify.custom.backBtns.backToHome') }}</v-btn
-            >
+            <v-btn to="/" color="primary" large>{{
+              t('$vuetify.custom.backBtns.backToHome')
+            }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -37,12 +29,10 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useLocale } from 'vuetify';
-import { useRoute } from 'vue-router';
 import { useProfile } from '../../../stores';
 
 const { t } = useLocale();
 const profile = useProfile();
-const route = useRoute();
 defineProps({
   id: {
     type: String,
@@ -52,6 +42,7 @@ defineProps({
 
 onMounted(() => {
   sessionStorage.removeItem('seatsio');
+  sessionStorage.removeItem('selectedSeats');
 });
 </script>
 <style scoped>

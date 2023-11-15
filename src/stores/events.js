@@ -90,12 +90,22 @@ export default defineStore('events', {
         this.loading = false;
       }
     },
+    getAttireInfo: async function (id) {
+      try {
+        this.loading = true;
+        const attireInfo = await getEventAttributionInfo(id);
+        this.eventDetails.data = { ...this.eventDetails.data, attireInfo };
+      } catch (error) {
+        console.log('Error during fetch event attire info', error);
+      } finally {
+        this.loading = false;
+      }
+    },
     getEventDetails: async function (id) {
       try {
         this.loading = true;
         const eventDetails = await getEventDetails(id);
         const times = await this.getEventTimings(id);
-        // const attireInfo = await getEventAttributionInfo(id);
         this.eventDetails.data = { ...eventDetails, times };
       } catch (error) {
         console.log('Error during fetch event details', error);

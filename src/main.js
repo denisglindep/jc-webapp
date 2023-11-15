@@ -31,6 +31,7 @@ if (!currentLocale) {
 
 app.config.globalProperties.filters = {
   formatMoney: (value, locale) => {
+    if (!value) return '';
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: 'KWD',
@@ -50,6 +51,7 @@ app.config.globalProperties.filters = {
       hour12: true
     }
   ) => {
+    if (!value) return '';
     const date = new Date(value);
     return new Intl.DateTimeFormat(locale, options).format(date);
   }

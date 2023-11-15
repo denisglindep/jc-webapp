@@ -110,7 +110,7 @@ const submit = handleSubmit(async (values) => {
       type: 'USER'
     };
     await authStore.signInUser(data);
-    router.push('/');
+    router.push({ path: '/' });
   } catch (error) {
     setErrors({ apiError: error?.message });
     setTimeout(() => setErrors({ apiError: null }), 5000);

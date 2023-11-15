@@ -27,7 +27,9 @@ export default {
     backToMyBookings: 'Back to My Bookings',
     backToProfile: 'Back to Profile',
     backToSignIn: 'Back to Sign In',
-    backToHome: 'Back to Home'
+    backToHome: 'Back to Home',
+    backToEventDetails: 'Back to Event Details',
+    backToSeatsSelection: 'Back to Seats Selection'
   },
   tabs: {
     upcoming: 'Upcoming',
@@ -44,7 +46,8 @@ export default {
     profile: 'Profile',
     frequentlyAskedQuestions: 'Frequently Asked Questions',
     frequentlyAskedQuestionsSubtitle:
-      "If you hesitate, don't worry - we're here to explain everything you might want to know. Let us help you!"
+      "If you hesitate, don't worry - we're here to explain everything you might want to know. Let us help you!",
+    selectSeats: 'Select Seats'
   },
   inputTexts: {
     enterEmail: 'Enter your email',
@@ -80,6 +83,7 @@ export default {
       'Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character'
   },
   texts: {
+    selectPayment: 'Select Payment Method',
     registerYourInterestsHere: 'Register Your Interests Here',
     latestNewsText:
       'To ensure you are kept up to date with our latest news, upcoming events and more, please register your interest below.',
@@ -109,9 +113,22 @@ export default {
     detailtshaveBeenSentToYourEmail: 'Details have been sent to your email',
     weAreSorry: 'We are sorry',
     paymentFailed: 'Payment Failed',
-    pleaseTryAgain: 'Please try again'
+    pleaseTryAgain: 'Please try again',
+    selectedSeats: 'Selected Seats',
+    noSeatsSelected: 'No Seats Selected',
+    category: 'Category',
+    total: 'Total',
+    resetSelectedSeats: 'Reset Selected Seats',
+    continue: 'Continue',
+    yourSelection: 'Your Selection',
+    agreeToDressCode: 'I agree to the dress code regulations for this show',
+    agreeToTermsAndConditions: 'I agree to the terms and conditions',
+    finalPurchaseAgree:
+      'I agree that this purchase is FINAL and cannot be refunded under any circumstances!'
   },
   common: {
+    agree: 'Agree',
+    place: 'Place',
     event: 'Event',
     date: 'Date',
     venue: 'Venue',
@@ -121,6 +138,15 @@ export default {
     intermission: 'Intermission',
     amount: 'Amount',
     paymentMethod: 'Payment Method',
-    reference_no: 'Reference No.'
+    reference_no: 'Reference No.',
+    generalInfo: 'General Info',
+    additionalInfo: 'Additional Info',
+    startTime: 'Start Time',
+    tickets: 'Tickets',
+    ageLimit: 'Age Limit',
+    doorOpeningTime: 'Door Opening Time',
+    dressCode: 'Dress Code',
+    duration: 'Duration',
+    purchase: 'Purchase'
   }
 };
