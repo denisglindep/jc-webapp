@@ -20,7 +20,7 @@
             <v-col cols="12" md="6" lg="4" :class="mobile && 'order-last'" align-self="center">
               <v-card elevation="0" class="bg-transparent text-white">
                 <v-card-title class="text-h4 text-wrap" :class="mobile && 'text-center'">{{
-                  eventDetails?.data?.name_en
+                  eventDetails?.data?.[`name_${currentLang}`]
                 }}</v-card-title>
 
                 <v-card-item class="pa-0">
@@ -45,13 +45,14 @@
                               :items="getEventDates"
                               @update:modelValue="setSelectedDate"
                               hide-details
-                              label=" Choose date: "
+                              :label="t('$vuetify.custom.inputTexts.chooseDate')"
                               class="text-truncate"
+                              :item-title="[currentLang === 'en' ? 'date' : 'date_ar']"
                               return-object
                             />
                             <v-chip
                               v-else
-                              text="Booking is not available"
+                              :text="t('$vuetify.custom.texts.bookingIsNotAvailable')"
                               :rounded="true"
                               variant="tonal"
                               size="x-large"
@@ -63,12 +64,13 @@
                               :disabled="chosenTime?.length === 0"
                               clearable
                               :items="chosenTime"
-                              item-title="time"
+                              v-model="selectedTimeObject"
+                              :item-title="`time_${currentLang}`"
                               item-value="id"
                               hide-details
                               @update:modelValue="setSelectedTime"
                               return-object
-                              label=" Choose time: "
+                              :label="t('$vuetify.custom.inputTexts.chooseTime')"
                             >
                               <template v-slot:item="{ item, props }">
                                 <v-list-item
@@ -84,7 +86,10 @@
                                       <v-col cols="10" align="end">
                                         <template v-if="!item.raw.isBookingOpen">
                                           <v-chip color="primary" small variant="elevated"
-                                            >Booking opens on {{ item.raw.bookingOpenTime }}</v-chip
+                                            >{{ t('$vuetify.custom.texts.bookingOpensOn') }}
+                                            {{
+                                              item.raw?.[`bookingOpenTime_${currentLang}`]
+                                            }}</v-chip
                                           >
                                         </template>
                                         <template v-else-if="item.raw.status">
@@ -116,16 +121,21 @@
                     </v-list-item>
                     <v-divider color="white" class="mb-2" />
                     <v-list-item prepend-icon="mdi-map-marker-outline">
-                      <v-list-item-title>Avenue</v-list-item-title>
+                      <v-list-item-title>{{
+                        t('$vuetify.custom.common.avenue')
+                      }}</v-list-item-title>
                       <v-list-item-subtitle>{{
-                        eventDetails?.data?.venue?.name_en
+                        eventDetails?.data?.venue?.[`name_${currentLang}`]
                       }}</v-list-item-subtitle>
                     </v-list-item>
                     <v-divider color="white" class="my-2" />
                     <v-list-item prepend-icon="mdi-tag-outline">
-                      <v-list-item-title>Price</v-list-item-title>
+                      <v-list-item-title>{{ t('$vuetify.custom.texts.price') }}</v-list-item-title>
                       <v-list-item-subtitle
-                        >Starts from: {{ selectedTimeObject?.ga_price }}</v-list-item-subtitle
+                        >{{ t('$vuetify.custom.texts.startsFrom') }}:
+                        {{
+                          useFormatMoney(selectedTimeObject?.ga_price, $vuetify.locale.current)
+                        }}</v-list-item-subtitle
                       >
                     </v-list-item>
                     <v-divider color="white" class="my-2" />
@@ -139,7 +149,7 @@
                     variant="elevated"
                     @click.once="handleBookEvent"
                   >
-                    Book now
+                    {{ t('$vuetify.custom.btn.bookNow') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -162,11 +172,11 @@
             <v-col cols="12">
               <v-card class="bg-transparent" elevation="0">
                 <v-card-title>
-                  <h3 class="text-h3 mb-2">{{ eventDetails?.data?.name_en }}</h3>
+                  <h3 class="text-h3 mb-2">{{ eventDetails?.data?.[`name_${currentLang}`] }}</h3>
                 </v-card-title>
                 <v-card-text>
                   <div class="text-body-2">
-                    <div v-html="eventDetails?.data?.description_en" />
+                    <div v-html="eventDetails?.data?.[`description_${currentLang}`]" />
                   </div>
                 </v-card-text>
               </v-card>
@@ -175,9 +185,9 @@
           <v-row>
             <v-col>
               <v-card class="bg-transparent" elevation="0">
-                <v-card-title class="text-h3 font-weight-medium mb-2"
-                  >Additional Information</v-card-title
-                >
+                <v-card-title class="text-h3 font-weight-medium mb-2">{{
+                  t('$vuetify.custom.common.additionalInfo')
+                }}</v-card-title>
                 <v-sheet
                   class="d-flex flex-column flex-md-row justify-space-between py-8 px-6"
                   :style="{ textOverflow: 'balanced' }"
@@ -185,31 +195,67 @@
                   <v-row>
                     <v-col cols="12" md="4">
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Running Time: </v-col>
-                        <v-col cols="6">{{ eventDetails?.data?.run_time }} </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.runningTime') }}:
+                        </v-col>
+                        <v-col cols="6"
+                          >{{
+                            eventDetails?.data?.[currentLang === 'en' ? 'run_time' : 'run_time_ar']
+                          }}
+                        </v-col>
                       </v-row>
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Age: </v-col>
-                        <v-col cols="6">{{ eventDetails?.data?.age_limit }} </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.age') }}:
+                        </v-col>
+                        <v-col cols="6"
+                          >{{
+                            eventDetails?.data?.[
+                              currentLang === 'en' ? 'age_limit' : 'age_limit_ab'
+                            ]
+                          }}
+                        </v-col>
                       </v-row>
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Genre: </v-col>
-                        <v-col cols="6">{{ eventDetails?.data?.genre.name_en }} </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.genre') }}:
+                        </v-col>
+                        <v-col cols="6"
+                          >{{ eventDetails?.data?.genre?.[`name_${currentLang}`] }}
+                        </v-col>
                       </v-row>
                     </v-col>
                     <v-spacer />
                     <v-col cols="12" md="4">
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Intermission: </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.intermission') }}:
+                        </v-col>
                         <v-col cols="6">{{ eventDetails?.data?.intermission }} </v-col>
                       </v-row>
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Dress Code: </v-col>
-                        <v-col cols="6">{{ eventDetails?.data?.dress_code }} </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.dressCode') }}:
+                        </v-col>
+                        <v-col cols="6"
+                          >{{
+                            eventDetails?.data?.[
+                              currentLang === 'en' ? 'dress_code' : 'dress_code_ab'
+                            ]
+                          }}
+                        </v-col>
                       </v-row>
                       <v-row>
-                        <v-col cols="4" class="font-weight-medium"> Special Note: </v-col>
-                        <v-col cols="6">{{ eventDetails?.data?.special_note }} </v-col>
+                        <v-col cols="4" class="font-weight-medium">
+                          {{ t('$vuetify.custom.common.specialNote') }}:
+                        </v-col>
+                        <v-col cols="6"
+                          >{{
+                            eventDetails?.data?.[
+                              currentLang === 'en' ? 'special_note' : 'special_note_ab'
+                            ]
+                          }}
+                        </v-col>
                       </v-row>
                     </v-col>
                   </v-row>
@@ -245,11 +291,12 @@ import { computed, ref } from 'vue';
 import { useDisplay, useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import EventsListSection from '@/components/common/EventsListSection.vue';
 import { useEvents } from '@/stores';
+import { useFormatMoney } from '@/composables';
+import EventsListSection from '@/components/common/EventsListSection.vue';
 
 const { mobile } = useDisplay();
-const { isRtl } = useLocale();
+const { t, isRtl } = useLocale();
 
 const router = useRouter();
 const eventsStore = useEvents();
@@ -265,6 +312,7 @@ const setSelectedTime = (timeObj) => {
 };
 
 const setSelectedDate = (dataObject) => {
+  selectedTimeObject.value = null;
   const selectedDateTimes = getEventTime?.value(dataObject.value);
   selectedDateId.value = dataObject.id;
   chosenTime.value = selectedDateTimes;

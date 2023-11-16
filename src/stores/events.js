@@ -16,6 +16,8 @@ import {
   lockBookedSeats,
   getEventAttributionInfo
 } from '../services/events';
+import useProfile from './profile';
+import { useFormatDate } from '../composables';
 
 export default defineStore('events', {
   state: () => ({
@@ -115,17 +117,30 @@ export default defineStore('events', {
     },
     getEventTimings: async function (id) {
       try {
+        const profileStore = useProfile();
         const timesResponse = await getEventAvailableTimes(id);
         const timesDetails = await getEventAvailableTimesDetails(id);
         const res = timesDetails?.map((el) => {
           const details = timesResponse?.list?.find((item) => item.id === el.id);
-          const time = new Date(el?.start_time).toLocaleTimeString('en-US', {
+          const time = useFormatDate(el?.start_time, 'en', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+          });
+          const time_ab = useFormatDate(el?.start_time, 'ar', {
             hour: 'numeric',
             minute: 'numeric',
             hour12: true
           });
           const bookingOpenDate = new Date(el.booking_open);
-          const bookingOpenTime = bookingOpenDate.toLocaleString('en-US', {
+          const bookingOpenTime = useFormatDate(el.booking_open, profileStore.profile.locale, {
+            day: 'numeric',
+            month: 'short',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+          });
+          const bookingOpenTime_ab = useFormatDate(el.booking_open, 'ar', {
             day: 'numeric',
             month: 'short',
             hour: 'numeric',
@@ -137,9 +152,11 @@ export default defineStore('events', {
             ...el,
             is_general_admission: details?.is_general_admission,
             status: details?.status,
-            time,
+            time_en: time,
+            time_ab,
             isBookingOpen,
-            bookingOpenTime
+            bookingOpenTime_en: bookingOpenTime,
+            bookingOpenTime_ab
           };
         });
         return res;
@@ -237,7 +254,6 @@ export default defineStore('events', {
             };
           }
         });
-
         return {
           ...dateObj,
           title: dateObj.date,

@@ -373,12 +373,14 @@ async function handlePurchase() {
       date_time_id: route.query.date_id,
       hold_token,
       gateway: selectedPaymentMethod.value,
-      lang: 'en',
+      lang: current.value,
       voucher: '',
       seats: selectedSeats.map((el) => el.id + '-' + el.category.key).join(),
       platform: 'LOCALWEB'
     });
-    window.open(payment.url, '_self');
+    if (payment.url) {
+      window.open(payment?.url, '_self');
+    }
   } catch (error) {
     console.log(error);
     isLoading.value = false;

@@ -114,7 +114,9 @@
                       </td>
                     </tr>
                     <tr v-else>
-                      <td colspan="4" class="text-center">No seats selected</td>
+                      <td colspan="4" class="text-center">
+                        {{ t('$vuetify.custom.texts.noSeatsSelected') }}
+                      </td>
                     </tr>
                   </tbody>
                 </v-table>
@@ -129,7 +131,7 @@
                   :disabled="selectedObjects.length === 0"
                   >{{ t('$vuetify.custom.texts.resetSelectedSeats') }}
                   <ConfirmModal
-                    title="Are you sure you want to reset selected seats?"
+                    :title="t('$vuetify.custom.texts.resetSelectedSeatsQuestion')"
                     @action-success="resetSelection"
                     :showDialog="true"
                 /></v-btn>

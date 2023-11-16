@@ -21,7 +21,8 @@ export default {
     forgotPassword: 'هل نسيت كلمة المرور؟',
     resetPassword: 'إعادة تعيين كلمة المرور',
     goToMyBookings: 'الذهاب إلى حجوزاتي',
-    save: 'حفظ'
+    save: 'حفظ',
+    bookNow: 'احجز الآن'
   },
   backBtns: {
     backToMyBookings: 'العودة إلى حجوزاتي',
@@ -62,7 +63,9 @@ export default {
     forgotPassword: 'هل نسيت كلمة المرور؟',
     oldPassword: 'كلمة المرور القديمة',
     newPassword: 'كلمة المرور الجديدة',
-    changeLanguage: 'تغيير اللغة'
+    changeLanguage: 'تغيير اللغة',
+    chooseDate: 'اختر التاريخ',
+    chooseTime: 'اختر الوقت'
   },
   inputErrors: {
     nameIsRequired: 'الاسم مطلوب',
@@ -98,6 +101,7 @@ export default {
     ticketNumber: 'رقم التذكرة',
     price: 'السعر',
     status: 'الحالة',
+    startsFrom: 'يبدأ من',
     contactUsSectionText:
       'مركز الشيخ جابر الأحمد الثقافي في الكويت (تاك) هو مكان داخلي بسعة تزيد عن 5,000 شخص، والذي سيستضيف جميع أنواع فعاليات الترفيه الحية. المركز، الذي يمتلكه مجموعة التمدين، هو جزء أساسي من مجمع 360 مول الترفيهي والتسوق والترفيه، وهو وجهة سياحية رئيسية في الكويت.',
     doNotHaveAccount: 'ليس لديك حساب؟',
@@ -121,9 +125,20 @@ export default {
     yourSelection: 'اختيارك',
     agreeToDressCode: 'أتفق على لوائح اللباس لهذا العرض',
     agreeToTermsAndConditions: 'أوافق على الشروط والأحكام',
-    finalPurchaseAgree: 'أتفق على أن هذا الشراء نهائي ولا يمكن استرداده تحت أي ظرف من الظروف!'
+    finalPurchaseAgree: 'أتفق على أن هذا الشراء نهائي ولا يمكن استرداده تحت أي ظرف من الظروف!',
+    bookingOpensOn: 'تفتح الحجوزات في',
+    bookingIsNotAvailable: 'الحجوزات غير متاحة',
+    resetSelectedSeatsQuestion: 'هل أنت متأكد أنك تريد إعادة تعيين المقاعد المحددة؟'
   },
   common: {
+    available: 'متاح',
+    soldOut: 'نفذت الكمية',
+    limitedSeats: 'المقاعد محدودة',
+    age: 'العمر',
+    specialNote: 'ملاحظة خاصة',
+    runningTime: 'مدة التشغيل',
+    genre: 'النوع',
+    avenue: 'أفينيو',
     agree: 'موافق',
     place: 'مكان',
     event: 'حدث',

@@ -21,7 +21,8 @@ export default {
     forgotPassword: 'Forgot Password?',
     resetPassword: 'Reset Password',
     goToMyBookings: 'Go to My Bookings',
-    save: 'Save'
+    save: 'Save',
+    bookNow: 'Book Now'
   },
   backBtns: {
     backToMyBookings: 'Back to My Bookings',
@@ -62,7 +63,9 @@ export default {
     forgotPassword: 'Forgot Password?',
     oldPassword: 'Old Password',
     newPassword: 'New Password',
-    changeLanguage: 'Change Language'
+    changeLanguage: 'Change Language',
+    chooseDate: 'Choose Date',
+    chooseTime: 'Choose Time'
   },
   inputErrors: {
     nameIsRequired: 'Name is required',
@@ -98,6 +101,7 @@ export default {
     ticketNumber: 'Ticket Number',
     price: 'Price',
     status: 'Status',
+    startsFrom: 'Starts From',
     contactUsSectionText: `JACC Kuwait (TAK) is a 5,000 + capacity indoor venue, that will stage all kinds of live
     entertainment events. The venue, which is owned by the Tamdeen Group, is an integral part of
     the 360 Mall entertainment, leisure and shopping complex and a key tourist destination in
@@ -124,9 +128,20 @@ export default {
     agreeToDressCode: 'I agree to the dress code regulations for this show',
     agreeToTermsAndConditions: 'I agree to the terms and conditions',
     finalPurchaseAgree:
-      'I agree that this purchase is FINAL and cannot be refunded under any circumstances!'
+      'I agree that this purchase is FINAL and cannot be refunded under any circumstances!',
+    bookingOpensOn: 'Booking opens on',
+    bookingIsNotAvailable: 'Booking is not available',
+    resetSelectedSeatsQuestion: 'Are you sure you want to reset selected seats?'
   },
   common: {
+    available: 'Available',
+    soldOut: 'Sold Out',
+    limitedSeats: 'Limited Seats',
+    age: 'Age',
+    specialNote: 'Special Note',
+    runningTime: 'Running Time',
+    genre: 'Genre',
+    avenue: 'Avenue',
     agree: 'Agree',
     place: 'Place',
     event: 'Event',
@@ -145,6 +160,7 @@ export default {
     tickets: 'Tickets',
     ageLimit: 'Age Limit',
     doorOpeningTime: 'Door Opening Time',
+    doorClosingTime: 'Door Closing Time',
     dressCode: 'Dress Code',
     duration: 'Duration',
     purchase: 'Purchase'

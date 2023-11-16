@@ -152,7 +152,6 @@ export async function callPaymentsApi(options) {
       headers: {
         ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id,
         ['X-PLATFORM']: 'LOCALWEB',
-        ['X-LOCAL']: 'en',
         ['X-VERSION']: '4.8.0'
       }
     });
