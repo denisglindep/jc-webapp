@@ -169,3 +169,12 @@ export async function getEventAttributionInfo(eventId) {
     console.log(error);
   }
 }
+
+export async function unlockBookedSeats() {
+  try {
+    const response = await defaultApi.put(`/api/bookings/venue-seat/unlock`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

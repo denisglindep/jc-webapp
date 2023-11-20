@@ -185,7 +185,7 @@ const { t, isRtl } = useLocale();
 const eventsStore = useEvents();
 const seatingChart = ref(null);
 const colorScheme = ref(theme.name.value);
-const categoriesList = ref([]);
+// const categoriesList = ref([]);
 const selectedObjects = ref([]);
 const openedPanel = ref([0]);
 const handleSeatAlreadySelected = ref(false);
@@ -204,8 +204,8 @@ async function handleClosedFullscreen() {
 
 async function handleChartRendered(chartObj) {
   seatingChart.value = chartObj;
-  categoriesList.value = await seatingChart.value.listCategories();
-  selectedObjects.value = await seatingChart.value.listSelectedObjects();
+  // categoriesList.value = await seatingChart.value.listCategories();
+  // selectedObjects.value = await seatingChart.value.listSelectedObjects();
 }
 
 async function handleHoldSucceeded() {
@@ -263,7 +263,14 @@ async function handleContinue() {
   });
 
   // const seatAvaiability = await eventsStore.getSeatAvaiability(apiHoldTokenInfo.value?.id);
-  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
+  localStorage.setItem(
+    'selectedSeatsObj',
+    JSON.stringify({
+      selectedSeats: selectedObjects.value,
+      eventId: route.params.id,
+      dateId: route.query.date_id
+    })
+  );
   router.push({
     name: 'booking-summary',
     params: { id: route.params.id },
@@ -273,19 +280,33 @@ async function handleContinue() {
 
 async function deselectObject({ id }) {
   await seatingChart.value.deselectObjects([{ id }]);
-  eventsStore.removeSelectedObjects(id);
+  eventsStore.setSelectedObjects([]);
   selectedObjects.value = selectedObjects.value.filter((el) => el.id !== id);
   if (selectedObjects.value?.length === 0) {
     openedPanel.value = [0];
   }
-  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
+  localStorage.setItem(
+    'selectedSeatsObj',
+    JSON.stringify({
+      selectedSeats: selectedObjects.value,
+      eventId: route.params.id,
+      dateId: route.query.date_id
+    })
+  );
 }
 
 async function resetSelection() {
-  await seatingChart.value.clearSelection();
+  await seatingChart?.value?.clearSelection();
   selectedObjects.value = [];
   eventsStore.removeSelectedObjects();
-  localStorage.setItem('selectedSeats', JSON.stringify(selectedObjects.value));
+  localStorage.setItem(
+    'selectedSeatsObj',
+    JSON.stringify({
+      selectedSeats: selectedObjects.value,
+      eventId: route.params.id,
+      dateId: route.query.date_id
+    })
+  );
 }
 
 const pricingInfo = computed(() => {

@@ -29,10 +29,12 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useLocale } from 'vuetify';
-import { useProfile } from '../../../stores';
+import { useProfile, useEvents } from '../../../stores';
 
 const { t } = useLocale();
 const profile = useProfile();
+const eventsStore = useEvents();
+
 defineProps({
   id: {
     type: String,
@@ -41,8 +43,9 @@ defineProps({
 });
 
 onMounted(() => {
-  sessionStorage.removeItem('seatsio');
-  sessionStorage.removeItem('selectedSeats');
+  eventsStore.unlockSelectedSeats();
+  eventsStore.sessionStorage.removeItem('seatsio');
+  sessionStorage.removeItem('selectedSeatsObj');
 });
 </script>
 <style scoped>

@@ -5,6 +5,7 @@
       color="primary"
       variant="plain"
       :ripple="false"
+      :disabled="isLoading"
       @click="backToSeatsSelection"
     >
       <template v-slot:prepend>
@@ -223,7 +224,7 @@
             :disabled="!canPurchase"
             color="primary"
             block
-            @click.once="handlePurchase"
+            @click="handlePurchase"
             :loading="isLoading"
             >{{ t('$vuetify.custom.common.purchase') }}</v-btn
           >
@@ -378,11 +379,13 @@ async function handlePurchase() {
       seats: selectedSeats.map((el) => el.id + '-' + el.category.key).join(),
       platform: 'LOCALWEB'
     });
-    if (payment.url) {
+    if (payment?.is_url) {
       window.open(payment?.url, '_self');
     }
   } catch (error) {
     console.log(error);
+    isLoading.value = false;
+  } finally {
     isLoading.value = false;
   }
 }

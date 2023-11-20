@@ -106,7 +106,11 @@
                                             "
                                             variant="elevated"
                                             small
-                                            >{{ item.raw.status }}</v-chip
+                                            >{{
+                                              item.raw[
+                                                currentLang === 'en' ? 'status' : 'status_ab'
+                                              ]
+                                            }}</v-chip
                                           >
                                         </template>
                                       </v-col>

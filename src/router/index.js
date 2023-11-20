@@ -174,6 +174,11 @@ const router = createRouter({
           name: 'booking-failure',
           path: 'failed',
           component: () => import('../components/screens/Booking/BookingFailed.vue'),
+          beforeEnter: (to, _, next) => {
+            if (!_.redirectedFrom) {
+              return next('/');
+            }
+          },
           props: true,
           meta: {
             auth: true

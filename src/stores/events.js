@@ -14,6 +14,7 @@ import {
   getSeatsAvaiability,
   callPaymentsApi,
   lockBookedSeats,
+  unlockBookedSeats,
   getEventAttributionInfo
 } from '../services/events';
 import useProfile from './profile';
@@ -152,6 +153,7 @@ export default defineStore('events', {
             ...el,
             is_general_admission: details?.is_general_admission,
             status: details?.status,
+            status_ab: details?.status_ab,
             time_en: time,
             time_ab,
             isBookingOpen,
@@ -234,6 +236,17 @@ export default defineStore('events', {
     },
     lockSelectedSeats: async function (options) {
       await lockBookedSeats(options);
+    },
+    unlockSelectedSeats: async function () {
+      const selectedSeatsObj = JSON.parse(localStorage.getItem('selectedSeatsObj'));
+      const userId = JSON.parse(localStorage.getItem('userobj'))?.id;
+      const res = await unlockBookedSeats({
+        event_id: selectedSeatsObj?.eventId,
+        date_time_id: selectedSeatsObj?.dateId,
+        user_id: userId,
+        seats: selectedSeatsObj?.selectedSeats
+      });
+      console.log(res);
     }
   },
   getters: {
@@ -273,8 +286,8 @@ export default defineStore('events', {
       if (state.eventDetails?.selectedSeats?.length) {
         return state.eventDetails?.selectedSeats;
       } else {
-        const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
-        return selectedSeats;
+        const selectedSeatsObj = JSON.parse(localStorage.getItem('selectedSeatsObj'));
+        return selectedSeatsObj?.selectedSeats;
       }
     }
   }
