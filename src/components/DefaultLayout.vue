@@ -2,6 +2,7 @@
   <v-layout class="h-screen d-flex flex-column">
     <NavBar />
     <v-main class="flex-grow-1 bg-background">
+      <Notification />
       <router-view />
     </v-main>
     <SubscribeToNewsSection />
@@ -17,6 +18,7 @@ import { useAuth, useProfile } from '@/stores';
 import Footer from '@/components/common/Footer.vue';
 import SubscribeToNewsSection from '@/components/screens/Home/SubscribeToNewsSection.vue';
 import NavBar from '@/components/common/NavBar.vue';
+import Notification from '@/components/common/Notification.vue';
 
 const auth = useAuth();
 const profile = useProfile();
@@ -30,7 +32,17 @@ watchEffect(() => {
 });
 
 const isLogged = auth?.user?.isAuthenticated;
+console.log(isLogged)
 if (isLogged) {
   profile.getLoggedUserInfo();
 }
 </script>
+<style lang=scss>
+.notification {
+ z-index: 1000;
+ top: 64;
+ right: 0;
+ min-width: 250px;
+ max-width: 25%;
+}
+</style>

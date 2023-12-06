@@ -306,10 +306,11 @@
 import { computed, ref } from 'vue';
 import { useLocale } from 'vuetify';
 import { useRoute, useRouter } from 'vue-router';
-import { useEvents } from '@/stores';
+import { useEvents, useNotifications } from '@/stores';
 import { useFormatMoney, useFormatDate } from '@/composables';
 
 const eventsStore = useEvents();
+const notificationsStore = useNotifications();
 const route = useRoute();
 const router = useRouter();
 const { t, isRtl, current } = useLocale();
@@ -384,7 +385,6 @@ async function handlePurchase() {
     }
   } catch (error) {
     console.log(error);
-    isLoading.value = false;
   } finally {
     isLoading.value = false;
   }

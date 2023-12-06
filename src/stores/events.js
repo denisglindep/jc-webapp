@@ -19,6 +19,7 @@ import {
 } from '../services/events';
 import useProfile from './profile';
 import { useFormatDate } from '../composables';
+import useNotifications from './notifications';
 
 export default defineStore('events', {
   state: () => ({
@@ -215,6 +216,7 @@ export default defineStore('events', {
       }
     },
     callPayments: async function (options) {
+      const notificationsStore = useNotifications();
       const auth = JSON.parse(localStorage.getItem('userobj'));
       const user_id = auth?.id;
       try {
@@ -224,6 +226,11 @@ export default defineStore('events', {
         });
         return response;
       } catch (error) {
+        notificationsStore.addNotification({
+          type: 'error',
+          message: error?.response?.data?.message,
+          isClosed: false
+        });
         console.log(error);
       }
     },

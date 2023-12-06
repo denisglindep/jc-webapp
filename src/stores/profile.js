@@ -28,7 +28,7 @@ export default defineStore('profile', {
     getFaqInfoList: async function () {
       try {
         const response = await getFaqList();
-        this.profile.faq = response.filter((el) => el.status === 1);
+        this.profile.faq = response.data.filter((el) => el.status === 1);
       } catch (error) {
         console.log(error);
       }

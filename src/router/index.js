@@ -145,12 +145,6 @@ const router = createRouter({
       meta: {
         auth: true
       },
-      // beforeEnter: (_, from, next) => {
-      //   if (from?.name !== 'select-seats') {
-      //     return next('/');
-      //   }
-      //   return next();
-      // },
       children: [
         {
           name: 'booking-summary',
@@ -174,11 +168,11 @@ const router = createRouter({
           name: 'booking-failure',
           path: 'failed',
           component: () => import('../components/screens/Booking/BookingFailed.vue'),
-          beforeEnter: (to, _, next) => {
-            if (!_.redirectedFrom) {
-              return next('/');
-            }
-          },
+          // beforeEnter: (to, _, next) => {
+          //   if (!_.redirectedFrom) {
+          //     return next('/');
+          //   }
+          // },
           props: true,
           meta: {
             auth: true

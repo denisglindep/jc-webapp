@@ -147,18 +147,13 @@ export async function lockBookedSeats(options) {
 }
 
 export async function callPaymentsApi(options) {
-  try {
-    const response = await defaultApi.post(`/api/payment/process/mobile`, options, {
-      headers: {
-        ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id,
-        ['X-PLATFORM']: 'LOCALWEB',
-        ['X-VERSION']: '4.8.0'
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  return await defaultApi.post(`/api/payment/process/mobile`, options, {
+    headers: {
+      ['x-sessionid']: JSON.parse(localStorage.getItem('userobj'))?.session_id,
+      ['X-PLATFORM']: 'LOCALWEB',
+      ['X-VERSION']: '4.8.0'
+    }
+  });
 }
 
 export async function getEventAttributionInfo(eventId) {
