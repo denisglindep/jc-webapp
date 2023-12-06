@@ -31,7 +31,7 @@ watchEffect(() => {
     if (!notification.isClosed) {
       setTimeout(() => {
         removeNotification(index);
-      }, 3000);
+      }, 6000);
     }
   });
 });
