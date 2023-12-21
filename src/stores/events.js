@@ -257,8 +257,10 @@ export default defineStore('events', {
     }
   },
   getters: {
-    getSuggestedEvents: (state) => (eventId) =>
-      state?.events?.all?.filter((el) => el?.genre?.id === eventId),
+    getSuggestedEvents: (state) => (eventId) => {
+      const genreId = state?.events?.all?.find((el) => el?.id == eventId)?.genre?.id;
+      return state?.events?.all?.filter((el) => el?.genre?.id === genreId && el?.id != eventId);
+    },
     getEventDates: (state) => {
       const dateList = state.eventDetails?.data?.date_list.map((dateObj) => {
         const date = new Date(dateObj?.date);

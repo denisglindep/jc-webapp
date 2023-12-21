@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :class="[isDarkMode ? 'bg-surface' : 'bg-white']">
+  <v-app-bar height="75" :class="[isDarkMode ? 'bg-surface' : 'bg-white']">
     <v-container>
       <v-row justify="space-between" align="center">
         <v-col cols="auto">

@@ -17,7 +17,7 @@
       <div class="backdrop-container" :class="!mobile ? 'custom-full-height' : ''">
         <v-container class="fill-height">
           <v-row>
-            <v-col cols="12" md="6" lg="4" :class="mobile && 'order-last'" align-self="center">
+            <v-col cols="12" md="6" lg="5" align-self="center">
               <v-card elevation="0" class="bg-transparent text-white">
                 <v-card-title class="text-h4 text-wrap" :class="mobile && 'text-center'">{{
                   eventDetails?.data?.[`name_${currentLang}`]
@@ -39,7 +39,7 @@
                           </v-chip>
                         </template>
                         <v-row v-else>
-                          <v-col cols="12" xs="12" md="6">
+                          <v-col cols="12" xs="12" lg="6">
                             <v-select
                               v-if="getEventDates?.length > 0"
                               :items="getEventDates"
@@ -59,7 +59,7 @@
                               class="text-white align-self-end"
                             />
                           </v-col>
-                          <v-col cols="12" xs="12" md="6">
+                          <v-col cols="12" xs="12" lg="6">
                             <v-select
                               :disabled="chosenTime?.length === 0"
                               clearable
@@ -138,7 +138,7 @@
                       <v-list-item-subtitle
                         >{{ t('$vuetify.custom.texts.startsFrom') }}:
                         {{
-                          useFormatMoney(selectedTimeObject?.ga_price, $vuetify.locale.current)
+                          useFormatMoney(eventDetails?.data?.ga_price, $vuetify.locale.current)
                         }}</v-list-item-subtitle
                       >
                     </v-list-item>
@@ -269,7 +269,7 @@
           </v-row>
           <v-row v-if="suggestedEvents?.length > 0">
             <v-col>
-              <div class="d-flex flex-column" :style="{ gap: '3rem' }">
+              <div class="d-flex flex-column">
                 <EventsListSection
                   :titleStyles="{
                     classes: 'text-h3 font-weight-medium',
@@ -277,9 +277,11 @@
                       marginBottom: '2rem'
                     }
                   }"
-                  sectionTitle="You may also like"
+                  :sectionTitle="t('$vuetify.custom.common.youMayAlsoLike')"
                   eventType="suggested"
                   :events="suggestedEvents"
+                  :genreId="eventDetails?.data?.genre?.id"
+                  :eventId="eventDetails?.data?.id"
                 />
               </div>
             </v-col>
@@ -355,14 +357,16 @@ const handleBookEvent = () => {
 
 const currentLang = computed(() => (isRtl.value ? 'ab' : 'en'));
 
-const suggestedEvents = getSuggestedEvents?.value(eventDetails?.value?.data?.genre?.id);
+const suggestedEvents = computed(() =>
+  getSuggestedEvents?.value(router.currentRoute.value.params.id)
+);
 
 eventsStore.getEventDetails(router.currentRoute.value.params.id);
 </script>
 
 <style scoped>
 .custom-full-height {
-  height: calc(100dvh - 64px) !important;
+  height: calc(100dvh - 75px) !important;
 }
 
 .section-container {

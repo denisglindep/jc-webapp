@@ -2,7 +2,7 @@
   <v-container
     fluid
     :style="{
-      height: 'calc(100dvh - 64px)',
+      height: 'calc(100dvh - 75px)',
       background: `linear-gradient(0deg, rgba(255, 255, 255, 0.50) 0%, rgba(255, 255, 255, 0.50) 100%), url('${BackgroundImage}'), lightgray 50% / cover no-repeat`,
       backgroundSize: 'cover'
     }"

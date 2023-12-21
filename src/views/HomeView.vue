@@ -21,16 +21,6 @@
     </v-row>
     <v-row>
       <v-col>
-        <EventsListSection
-          :sectionTitle="t('$vuetify.custom.headings.comingSoonEvents')"
-          :events="firstUpcomings"
-          eventType="coming-soon"
-          :titleStyles="{ classes: 'text-h4 text-md-h3' }"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
         <ContactUsSection />
       </v-col>
     </v-row>
@@ -53,8 +43,6 @@ const { events } = storeToRefs(eventsStore);
 const firstUpcomings = computed(() => events.value.upcomings.slice(0, 3));
 
 eventsStore.getUpcomingEvents();
-eventsStore.getAllEventsByPage();
-eventsStore.getTodayEvents();
 </script>
 
 <style scoped>
@@ -62,6 +50,6 @@ eventsStore.getTodayEvents();
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 75px);
 }
 </style>

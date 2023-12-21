@@ -337,6 +337,6 @@ eventsStore.getSeatsPricing(route.query?.date_id);
 </script>
 <style scoped>
 .custom-min-height {
-  min-height: calc(100dvh - 64px);
+  min-height: calc(100dvh - 75px);
 }
 </style>

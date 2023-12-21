@@ -41,6 +41,10 @@ export default {
     comingSoonEvents: 'Coming Soon Events',
     allUpcomingEvents: 'All Upcoming Events',
     allComingSoonEvents: 'All Coming Soon Events',
+    allSuggestedEvents: 'All Suggested Events',
+    noUpcomingEvents: 'No Upcoming Events',
+    noComingSoonEvents: 'No Coming Soon Events',
+    noSuggestedEvents: 'No Suggested Events',
     aboutUs: 'About Us',
     contactUs: 'Contact Us',
     myBookings: 'My Bookings',
@@ -131,7 +135,8 @@ export default {
       'I agree that this purchase is FINAL and cannot be refunded under any circumstances!',
     bookingOpensOn: 'Booking opens on',
     bookingIsNotAvailable: 'Booking is not available',
-    resetSelectedSeatsQuestion: 'Are you sure you want to reset selected seats?'
+    resetSelectedSeatsQuestion: 'Are you sure you want to reset selected seats?',
+    profileUpdatedSuccessfully: 'Profile updated successfully'
   },
   common: {
     available: 'Available',
@@ -156,6 +161,7 @@ export default {
     reference_no: 'Reference No.',
     generalInfo: 'General Info',
     additionalInfo: 'Additional Info',
+    youMayAlsoLike: 'You May Also Like',
     startTime: 'Start Time',
     tickets: 'Tickets',
     ageLimit: 'Age Limit',

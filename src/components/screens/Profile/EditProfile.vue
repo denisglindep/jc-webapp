@@ -134,13 +134,14 @@ import { ref, computed } from 'vue';
 import { useLocale } from 'vuetify';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
-import { useProfile, useAuth } from '@/stores';
+import { useProfile, useAuth, useNotifications } from '@/stores';
 import ProfileAvatar from './ProfileAvatar.vue';
 
 const visible = ref(false);
 const { t, isRtl, current } = useLocale();
 const profileStore = useProfile();
 const authStore = useAuth();
+const notificationsStore = useNotifications();
 
 const userData = computed(() => ({
   firstName: profileStore.getUserInfo?.first_name,
@@ -148,8 +149,6 @@ const userData = computed(() => ({
   email: profileStore.getUserInfo?.email,
   language: profileStore.profile?.locale
 }));
-
-console.log(userData);
 
 const schema = object({
   firstName: string().defined().notRequired().min(1).trim(),
@@ -194,9 +193,17 @@ const submitEditInfo = handleSubmit(async (values) => {
       resetField('newPassword');
     }
 
-    await profileStore.updateUserInfo({
-      first_name: firstName,
-      last_name: lastName
+    if (firstName && lastName) {
+      await profileStore.updateUserInfo({
+        first_name: firstName,
+        last_name: lastName
+      });
+    }
+
+    notificationsStore.addNotification({
+      type: 'success',
+      message: 'Profile updated successfully',
+      isClosed: false
     });
   } catch (error) {
     setErrors({ apiError: error?.message });

@@ -14,12 +14,13 @@
 import { ref, watchEffect } from 'vue';
 import { useTheme } from 'vuetify';
 import { useMediaQuery } from '@vueuse/core';
-import { useAuth, useProfile } from '@/stores';
+import { useAuth, useProfile, useEvents } from '@/stores';
 import Footer from '@/components/common/Footer.vue';
 import SubscribeToNewsSection from '@/components/screens/Home/SubscribeToNewsSection.vue';
 import NavBar from '@/components/common/NavBar.vue';
 import Notification from '@/components/common/Notification.vue';
 
+const eventsStore = useEvents();
 const auth = useAuth();
 const profile = useProfile();
 const theme = useTheme();
@@ -32,10 +33,10 @@ watchEffect(() => {
 });
 
 const isLogged = auth?.user?.isAuthenticated;
-console.log(isLogged)
 if (isLogged) {
   profile.getLoggedUserInfo();
 }
+eventsStore.getAllEventsByPage();
 </script>
 <style lang=scss>
 .notification {

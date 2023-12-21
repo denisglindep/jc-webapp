@@ -41,6 +41,10 @@ export default {
     comingSoonEvents: 'الأحداث القادمة قريبًا',
     allUpcomingEvents: 'جميع الأحداث القادمة',
     allComingSoonEvents: 'جميع الأحداث القادمة قريبًا',
+    allSuggestedEvents: 'جميع الأحداث المقترحة',
+    noUpcomingEvents: 'لا توجد أحداث قادمة',
+    noComingSoonEvents: 'لا توجد أحداث قادمة قريبًا',
+    noSuggestedEvents: 'لا توجد أحداث مقترحة',
     aboutUs: 'معلومات عنا',
     contactUs: 'اتصل بنا',
     myBookings: 'حجوزاتي',
@@ -128,7 +132,8 @@ export default {
     finalPurchaseAgree: 'أتفق على أن هذا الشراء نهائي ولا يمكن استرداده تحت أي ظرف من الظروف!',
     bookingOpensOn: 'تفتح الحجوزات في',
     bookingIsNotAvailable: 'الحجوزات غير متاحة',
-    resetSelectedSeatsQuestion: 'هل أنت متأكد أنك تريد إعادة تعيين المقاعد المحددة؟'
+    resetSelectedSeatsQuestion: 'هل أنت متأكد أنك تريد إعادة تعيين المقاعد المحددة؟',
+    profileUpdatedSuccessfully: 'تم تحديث الملف الشخصي بنجاح'
   },
   common: {
     available: 'متاح',
@@ -153,6 +158,7 @@ export default {
     reference_no: 'رقم المرجع',
     generalInfo: 'معلومات عامة',
     additionalInfo: 'معلومات إضافية',
+    youMayAlsoLike: 'قد يعجبك أيضا',
     startTime: 'وقت البدء',
     tickets: 'تذاكر',
     ageLimit: 'الحد العمري',

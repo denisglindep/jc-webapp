@@ -306,11 +306,10 @@
 import { computed, ref } from 'vue';
 import { useLocale } from 'vuetify';
 import { useRoute, useRouter } from 'vue-router';
-import { useEvents, useNotifications } from '@/stores';
+import { useEvents } from '@/stores';
 import { useFormatMoney, useFormatDate } from '@/composables';
 
 const eventsStore = useEvents();
-const notificationsStore = useNotifications();
 const route = useRoute();
 const router = useRouter();
 const { t, isRtl, current } = useLocale();

@@ -7,13 +7,13 @@
             v-if="!events.loading && eventsList.length === 0"
             class="text-center text-h4 font-weight-bold"
           >
-            No {{ eventType }} events
+            {{ t(`$vuetify.custom.headings.no${eventType}Events`) }}
           </h4>
           <h4
             v-else-if="!events.loading && eventsList.length > 0"
             class="text-center text-h4 font-weight-bold"
           >
-            All {{ eventType }} events
+            {{ t(`$vuetify.custom.headings.all${eventType}Events`) }}
           </h4>
         </div>
       </v-col>
@@ -30,25 +30,41 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useLocale } from 'vuetify';
 import { useRouter } from 'vue-router';
 import { useEvents } from '@/stores';
 import EventsListCard from '@/components/common/EventsListCard.vue';
 
-const eventType = ref('');
-const eventsList = ref([]);
+const { t } = useLocale();
 
 const router = useRouter();
 const events = useEvents();
 
-onBeforeMount(async () => {
-  if (router.currentRoute.value?.params?.eventType === 'coming-soon') {
-    eventType.value = 'coming soon';
-    eventsList.value = await events.getComingSoonEvents();
-  }
+
+const eventType = computed(() => {
+  let eventType = '';
   if (router.currentRoute.value?.params?.eventType === 'upcoming') {
-    eventType.value = 'upcoming';
-    eventsList.value = await events.getUpcomingEvents();
+    eventType = 'Upcoming';
   }
+  if (router.currentRoute.value?.params?.eventType === 'suggested') {
+    eventType = 'Suggested';
+  }
+  return eventType;
 });
+
+const eventsList = computed(() => {
+  let list = [];
+  if (eventType.value === 'Upcoming') {
+    list = events.events.upcomings;
+  }
+  if (eventType.value === 'Suggested') {
+    list = events.getSuggestedEvents(router.currentRoute.value?.query?.eventId);
+  }
+  return list;
+});
+
+if (router.currentRoute.value?.params?.eventType === 'upcoming') {
+  events.getUpcomingEvents();
+}
 </script>

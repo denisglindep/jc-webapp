@@ -11,7 +11,7 @@
       <template v-slot:prepend>
         <v-icon size="small" icon="mdi-calendar-month-outline" color="grey" />
       </template>
-      <v-card-subtitle v-if="event.date_time" class="pa-0">
+      <v-card-subtitle class="pa-0">
         {{
           filters.formatDate(event.date_from, $vuetify.locale.current, {
             month: 'short',
